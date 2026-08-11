@@ -1,0 +1,732 @@
+/* ============================================================
+   Pepperlemon Web App — Shared Styles
+   Bold Flavor. Fresh Ideas.
+   ============================================================ */
+
+:root{
+  --pl-primary:      #0e6b57;   /* deep teal green — primary buttons / accents */
+  --pl-primary-dark: #094f40;
+  --pl-primary-light:#e6f3ee;   /* pale mint background */
+  --pl-red:          #e63946;   /* pepper */
+  --pl-yellow:       #ffc400;   /* lemon */
+  --pl-green:        #4caf50;   /* leaf */
+  --pl-ink:          #1c2321;
+  --pl-muted:        #6b7a76;
+  --pl-border:       #e1e9e5;
+  --pl-card-radius:  14px;
+  --pl-shadow:       0 2px 10px rgba(14,107,87,.08);
+  --pl-font-head:    'Poppins', sans-serif;
+  --pl-font-body:    'Inter', sans-serif;
+}
+
+*{box-sizing:border-box;}
+
+body {
+  font-family: var(--pl-font-body);
+  background: #f5faf7;
+  color: var(--pl-ink);
+  padding-bottom: 78px; /* space for mobile bottom nav */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, textarea, select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+@media (min-width:992px){
+  body{padding-bottom:0;}
+}
+
+h1,h2,h3,h4,h5,h6,.pl-heading{
+  font-family:var(--pl-font-head);
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+
+a{text-decoration:none;}
+
+/* ---------- Top bar (mobile welcome header) ---------- */
+.pl-welcome-bar {
+  background: #ffffff;
+  padding: 14px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  border-bottom: 1px solid var(--pl-border);
+  box-shadow: 0 2px 10px rgba(0,0,0,.03);
+}
+.pl-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:var(--pl-primary);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:20px;flex-shrink:0;
+}
+.pl-welcome-bar .pl-hi{font-size:.8rem;color:var(--pl-muted);}
+.pl-welcome-bar .pl-name{font-family:var(--pl-font-head);font-weight:600;font-size:1.02rem;}
+
+/* ---------- Desktop top navbar ---------- */
+.pl-navbar{
+  background:#fff;
+  border-bottom:1px solid var(--pl-border);
+  padding:.7rem 0;
+  position:sticky;top:0;z-index:1030;
+}
+.pl-navbar .pl-logo-img{height:44px;width:auto;border-radius:8px;}
+.pl-navbar .pl-brand-text{
+  font-family:var(--pl-font-head);font-weight:700;font-size:1.25rem;color:var(--pl-primary-dark);
+  line-height:1.1;
+}
+.pl-navbar .pl-brand-tag{font-size:.65rem;color:var(--pl-muted);letter-spacing:.06em;text-transform:uppercase;}
+.pl-navbar .nav-link{color:var(--pl-ink);font-weight:500;font-size:.92rem;}
+.pl-navbar .nav-link.active,
+.pl-navbar .nav-link:hover{color:var(--pl-primary);}
+.pl-search-input{
+  border-radius:24px;border:1px solid var(--pl-border);
+  background:#f5faf7;padding:.5rem 1rem;font-size:.88rem;
+}
+.pl-icon-btn{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--pl-primary-light);color:var(--pl-primary-dark);
+  position:relative;flex-shrink:0;
+}
+.pl-icon-btn:hover{background:var(--pl-primary);color:#fff;}
+.pl-badge-count{
+  position:absolute;top:-4px;right:-4px;
+  background:var(--pl-red);color:#fff;
+  font-size:.62rem;font-weight:700;
+  min-width:18px;height:18px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid #fff;
+}
+
+/* ---------- Section headings ---------- */
+.pl-section {
+  padding: 18px 16px;
+}
+.pl-section .pl-section {
+  padding-left: 0;
+  padding-right: 0;
+}
+@media (min-width: 992px) {
+  .pl-section {
+    padding: 18px 0;
+  }
+}
+.pl-section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.pl-section-head h2{font-size:1.05rem;margin:0;}
+.pl-view-all{font-size:.82rem;color:var(--pl-primary);font-weight:600;}
+.pl-scroll-arrows button{
+  width:30px;height:30px;border-radius:50%;border:1px solid var(--pl-border);
+  background:#fff;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--pl-primary-dark);
+}
+
+/* ---------- Category pills (Top Categories) ---------- */
+.pl-cat-pill{
+  text-align:center;width:96px;flex-shrink:0;
+}
+.pl-cat-pill .pl-cat-icon{
+  width:64px;height:64px;border-radius:18px;
+  background:var(--pl-primary-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;color:var(--pl-primary-dark);
+  margin:0 auto 6px;
+  transition:.15s;
+}
+.pl-cat-pill:hover .pl-cat-icon{background:var(--pl-primary);color:#fff;}
+.pl-cat-pill span{font-size:.72rem;font-weight:600;color:var(--pl-ink);line-height:1.15;display:block;}
+
+/* ---------- Product card ---------- */
+.pl-product-card{
+  background:#fff;border:1px solid var(--pl-border);
+  border-radius:var(--pl-card-radius);
+  overflow:hidden;height:100%;
+  display:flex;flex-direction:column;
+  transition:transform .15s, box-shadow .15s;
+}
+.pl-product-card:hover{transform:translateY(-3px);box-shadow:var(--pl-shadow);}
+.pl-product-img-wrap{
+  background:#f5faf7;aspect-ratio:1/1;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:14px;position:relative;
+}
+.pl-product-img-wrap img{max-width:100%;max-height:100%;object-fit:contain;}
+.pl-wishlist-btn{
+  position:absolute;top:8px;right:8px;
+  width:30px;height:30px;border-radius:50%;background:#fff;
+  border:1px solid var(--pl-border);
+  display:flex;align-items:center;justify-content:center;color:var(--pl-muted);
+}
+.pl-product-body{padding:10px 12px 12px;display:flex;flex-direction:column;flex:1;}
+.pl-product-title{
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--pl-ink);margin-bottom:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  min-height:2.4em;
+}
+.pl-product-price{font-family:var(--pl-font-head);font-weight:700;color:var(--pl-primary-dark);font-size:1.02rem;margin-bottom:8px;}
+.pl-old {
+  font-size: 0.7em;
+  color: var(--pl-muted);
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-left: 8px;
+}
+.pl-btn-cart{
+  background:var(--pl-primary);border:none;color:#fff;
+  font-size:.8rem;font-weight:600;padding:.5rem .6rem;border-radius:8px;
+  margin-top:auto;width:100%;transition:.15s;
+}
+.pl-btn-cart:hover{background:var(--pl-primary-dark);color:#fff;}
+.pl-btn-outline{
+  background:#fff;border:1.5px solid var(--pl-primary);color:var(--pl-primary-dark);
+  font-size:.8rem;font-weight:600;padding:.5rem .6rem;border-radius:8px;width:100%;
+}
+.pl-btn-outline:hover{background:var(--pl-primary);color:#fff;}
+
+/* horizontal snap-scroll row for mobile carousels */
+.pl-hscroll{
+  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding-bottom:4px; -ms-overflow-style:none; scrollbar-width:none;
+}
+.pl-hscroll::-webkit-scrollbar{display:none;}
+.pl-hscroll .pl-hscroll-item {
+  scroll-snap-align: start;
+  flex: 0 0 calc(50% - 6px);
+}
+@media (min-width: 576px) {
+  .pl-hscroll .pl-hscroll-item {
+    flex: 0 0 calc(33.333% - 8px);
+  }
+}
+@media (min-width: 992px) {
+  .pl-hscroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: visible;
+  }
+}
+@media (min-width: 1200px) {
+  .pl-hscroll.pl-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ---------- Mobile bottom navigation ---------- */
+.pl-bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:1040;
+  background:#fff;border-top:1px solid var(--pl-border);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:8px 0 10px;
+  box-shadow:0 -4px 14px rgba(0,0,0,.05);
+}
+.pl-bottom-nav a{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  color:var(--pl-muted);font-size:.66rem;font-weight:600;
+  position:relative;padding:2px 10px;
+}
+.pl-bottom-nav a i{font-size:1.15rem;}
+.pl-bottom-nav a.active{color:var(--pl-primary);}
+.pl-bottom-nav .pl-cart-dot{
+  position:absolute;top:-2px;right:2px;background:var(--pl-red);color:#fff;
+  font-size:.58rem;min-width:15px;height:15px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+@media (min-width:992px){.pl-bottom-nav{display:none;}}
+
+.pl-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--pl-border);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: 0 2px 10px rgba(0,0,0,.03);
+}
+.pl-back-btn{
+  width:34px;height:34px;border-radius:50%;background:var(--pl-primary-light);
+  display:flex;align-items:center;justify-content:center;color:var(--pl-primary-dark);flex-shrink:0;
+}
+.pl-page-header h1{font-size:1rem;margin:0;flex:1;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pl-page-header .pl-header-icons{display:flex;gap:8px;}
+
+/* ---------- Filter / sort bar (category listing) ---------- */
+.pl-filter-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;font-size:.85rem;color:var(--pl-muted);
+}
+.pl-sort-select{
+  border:1px solid var(--pl-border);border-radius:8px;padding:.4rem .7rem;
+  font-size:.82rem;background:#fff;font-weight:600;color:var(--pl-ink);
+}
+
+/* ---------- Product detail page ---------- */
+.pl-detail-gallery{
+  background:#fff;border-radius:var(--pl-card-radius);border:1px solid var(--pl-border);
+  padding:24px;display:flex;align-items:center;justify-content:center;
+}
+.pl-detail-gallery img{max-width:100%;max-height:340px;object-fit:contain;}
+.pl-qty-stepper{
+  display:flex;align-items:center;gap:14px;
+}
+.pl-qty-stepper button{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--pl-border);
+  background:var(--pl-primary-light);color:var(--pl-primary-dark);font-weight:700;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.pl-qty-stepper button.pl-plus{background:var(--pl-primary);color:#fff;border-color:var(--pl-primary);}
+.pl-qty-stepper .pl-qty-val{font-family:var(--pl-font-head);font-weight:700;font-size:1.1rem;min-width:24px;text-align:center;}
+.pl-accordion-item{border-top:1px solid var(--pl-border);}
+.pl-accordion-btn{
+  width:100%;background:none;border:none;text-align:left;
+  padding:14px 0;display:flex;justify-content:space-between;align-items:center;
+  font-weight:600;font-size:.92rem;color:var(--pl-ink);
+}
+.pl-accordion-btn i{transition:transform .2s;color:var(--pl-muted);}
+.pl-accordion-btn[aria-expanded="true"] i{transform:rotate(180deg);}
+
+/* ---------- Cart page ---------- */
+.pl-cart-item{
+  display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--pl-border);align-items:center;
+}
+.pl-cart-item img{width:64px;height:64px;object-fit:contain;background:#f5faf7;border-radius:10px;padding:6px;flex-shrink:0;}
+.pl-cart-summary{
+  background:#fff;border:1px solid var(--pl-border);border-radius:var(--pl-card-radius);
+  padding:18px;position:sticky;top:90px;
+}
+.pl-remove-btn{color:var(--pl-red);background:none;border:none;font-size:.9rem;}
+
+/* ---------- Buttons brand ---------- */
+.btn-pl-primary{
+  background:var(--pl-primary);border-color:var(--pl-primary);color:#fff;font-weight:600;
+}
+.btn-pl-primary:hover{background:var(--pl-primary-dark);border-color:var(--pl-primary-dark);color:#fff;}
+
+/* ---------- Footer (desktop) ---------- */
+.pl-footer{
+  background:var(--pl-primary-dark);color:#dff2ea;padding:38px 0 18px;margin-top:40px;font-size:.86rem;
+}
+.pl-footer a{color:#dff2ea;opacity:.85;}
+.pl-footer a:hover{opacity:1;color:#fff;}
+.pl-footer hr{border-color:rgba(255,255,255,.15);}
+.pl-footer .pl-footer-logo{height:34px;border-radius:6px;}
+
+/* Empty state */
+.pl-empty{
+  text-align:center;padding:60px 20px;color:var(--pl-muted);
+}
+.pl-empty i{font-size:2.4rem;color:var(--pl-border);margin-bottom:10px;}
+
+/* Toast */
+.pl-toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:var(--pl-ink);color:#fff;padding:10px 18px;border-radius:30px;
+  font-size:.84rem;font-weight:600;z-index:2000;opacity:0;pointer-events:none;
+  transition:opacity .25s, bottom .25s;
+}
+.pl-toast.show{opacity:1;bottom:100px;}
+@media (min-width:992px){
+  .pl-toast{bottom:30px;}
+  .pl-toast.show{bottom:40px;}
+}
+
+/* ============================================================
+   Pepperlemon Web App — Premium Additions & Mobile Responsiveness
+   ============================================================ */
+
+/* Hero Banner */
+.pl-hero-banner {
+  position: relative;
+  border-radius: var(--pl-card-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 280px;
+  border: 1px solid var(--pl-border);
+  box-shadow: var(--pl-shadow);
+  background: var(--pl-primary-dark);
+}
+.pl-hero-banner .pl-hero-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.pl-hero-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(9, 79, 64, 0.95) 0%, rgba(9, 79, 64, 0.8) 45%, rgba(9, 79, 64, 0.2) 100%);
+}
+.pl-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px;
+  max-width: 55%;
+  color: #ffffff;
+}
+.pl-hero-tag {
+  background: var(--pl-yellow);
+  color: var(--pl-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(255, 196, 0, 0.2);
+}
+.pl-hero-title {
+  font-family: var(--pl-font-head);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+.pl-hero-desc {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
+}
+.btn-pl-yellow {
+  background: var(--pl-yellow);
+  border-color: var(--pl-yellow);
+  color: var(--pl-ink);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn-pl-yellow:hover {
+  background: #e6b000;
+  border-color: #e6b000;
+  color: var(--pl-ink);
+}
+
+@media (max-width: 768px) {
+  .pl-hero-banner {
+    min-height: 250px;
+  }
+  .pl-hero-overlay {
+    background: linear-gradient(180deg, rgba(9, 79, 64, 0.85) 0%, rgba(9, 79, 64, 0.92) 100%);
+  }
+  .pl-hero-content {
+    max-width: 100%;
+    padding: 24px;
+  }
+  .pl-hero-title {
+    font-size: 1.7rem;
+  }
+  .pl-hero-desc {
+    font-size: 0.88rem;
+  }
+}
+
+/* Scroll Arrows for Horizontal Scroll */
+.pl-scroll-arrows button {
+  transition: all 0.2s ease;
+}
+.pl-scroll-arrows button:hover {
+  background: var(--pl-primary);
+  color: #fff;
+  border-color: var(--pl-primary);
+}
+
+/* Custom styles for desktop/mobile category filters list */
+#desktop-categories-list .form-check-input:checked,
+#mobile-categories-list .form-check-input:checked {
+  background-color: var(--pl-primary);
+  border-color: var(--pl-primary);
+}
+
+/* Mobile search styling adjustments */
+.pl-mobile-search {
+  border-radius: 20px;
+  background: #f5faf7;
+  font-size: 0.88rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Mobile Filter Drawer styling */
+.pl-filter-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1050;
+  visibility: hidden;
+  transition: visibility 0.3s;
+}
+.pl-filter-drawer.open {
+  visibility: visible;
+}
+.pl-drawer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 35, 33, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.pl-filter-drawer.open .pl-drawer-overlay {
+  opacity: 1;
+}
+.pl-drawer-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pl-filter-drawer.open .pl-drawer-content {
+  transform: translateY(0);
+}
+.pl-drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--pl-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pl-drawer-header h5 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pl-primary-dark);
+}
+.pl-close-drawer-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--pl-muted);
+}
+.pl-drawer-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+.pl-filter-section {
+  border-bottom: 1px solid var(--pl-border);
+  padding-bottom: 16px;
+}
+.pl-filter-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Mobile Sticky Bottom Add to Cart Bar */
+.pl-mobile-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-top: 1px solid var(--pl-border);
+  padding: 12px 18px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+  z-index: 1040;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pl-mobile-sticky-bar.visible {
+  transform: translateY(0);
+}
+/* When sticky bar is visible on mobile product page, add extra padding to bottom nav or body */
+@media (max-width: 991px) {
+  body:has(.pl-mobile-sticky-bar.visible) {
+    padding-bottom: 140px !important;
+  }
+}
+
+/* Hover effects and micro-animations */
+.pl-product-card {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pl-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(14, 107, 87, 0.12);
+  border-color: rgba(14, 107, 87, 0.2);
+}
+.pl-btn-cart, .pl-btn-outline, .btn-pl-primary {
+  transition: all 0.2s ease;
+}
+.pl-btn-cart:active, .pl-btn-outline:active, .btn-pl-primary:active {
+  transform: scale(0.97);
+}
+
+.pl-detail-thumbnail {
+  transition: all 0.2s ease;
+}
+.pl-detail-thumbnail.active {
+  border-color: var(--pl-primary) !important;
+  box-shadow: 0 0 0 2px var(--pl-primary-light);
+}
+
+/* Wishlist toggle state */
+.pl-wishlist-btn {
+  transition: all 0.2s ease;
+}
+.pl-wishlist-btn:hover {
+  color: var(--pl-red);
+  background: #fff5f5;
+  border-color: #ffd8d8;
+}
+
+/* Top Categories list scrollable on mobile, grid on desktop */
+.pl-cat-list {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px 4px;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+}
+.pl-cat-list::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Safari/Chrome */
+}
+.pl-cat-list .pl-cat-pill {
+  scroll-snap-align: start;
+}
+@media (min-width: 992px) {
+  .pl-cat-list {
+    overflow-x: visible;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    padding-bottom: 0;
+  }
+  .pl-cat-list .pl-cat-pill {
+    width: 100%;
+  }
+}
+
+/* Hide bottom nav on product detail page to prevent sticky bar overlap */
+body:has(#pl-product-detail-container) .pl-bottom-nav,
+.pl-product-page-body .pl-bottom-nav {
+  display: none !important;
+}
+
+/* Custom scroll padding for scroll containers on mobile to enable edge-to-edge bleeding */
+@media (max-width: 991px) {
+  .pl-hscroll, .pl-cat-list {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+  }
+}
+
+/* --- Native Mobile App Feel Enhancements --- */
+
+/* Drawer handle visual indicator */
+.pl-drawer-handle {
+  width: 36px;
+  height: 5px;
+  background: var(--pl-border);
+  border-radius: 3px;
+  margin: 10px auto 4px;
+}
+
+/* Elastic feeling for drawers */
+.pl-drawer-content {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* iOS/Android style native tap scaling feedbacks on interactable elements */
+.pl-cat-pill:active,
+.pl-product-card:active,
+.pl-wishlist-btn:active,
+.pl-icon-btn:active,
+.pl-back-btn:active,
+.pl-bottom-nav a:active,
+.btn-pl-primary:active,
+.btn-pl-yellow:active,
+.pl-btn-outline:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+/* Smooth transition for active states */
+.pl-cat-pill,
+.pl-product-card,
+.pl-wishlist-btn,
+.pl-icon-btn,
+.pl-back-btn,
+.pl-bottom-nav a,
+.btn-pl-primary,
+.btn-pl-yellow,
+.pl-btn-outline {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* iOS/Android Style Toast notifications */
+.pl-toast {
+  position: fixed;
+  bottom: 90px; /* Float above mobile bottom navigation or sticky checkout bars */
+  top: auto;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  background: rgba(28, 35, 33, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  z-index: 2050; /* Ensure toast sits on top of navigation, sheets, and header bars */
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
+}
+.pl-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (min-width: 992px) {
+  .pl-toast {
+    bottom: 24px;
+    transform: translate(-50%, 30px);
+  }
+}
+
+/* Force mobile inputs/selects to have at least 16px font-size to prevent iOS Safari auto-zooming on focus */
+@media (max-width: 991px) {
+  input, textarea, select, .pl-search-input, .pl-mobile-search {
+    font-size: 16px !important;
+  }
+}
