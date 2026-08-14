@@ -3,63 +3,122 @@
 @section('title', 'Order Success')
 
 @section('content')
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <!-- Success Animation/Icon -->
-        <div class="inline-flex items-center justify-center bg-green-55 p-6 rounded-full mb-8 text-green-500 border border-green-200 shadow-md">
-            <i class="fa-solid fa-circle-check text-7xl"></i>
+    @php
+        // Eager load items and products for the summary
+        $order->load('items.product');
+    @endphp
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+        <!-- Success Alert Header -->
+        <div class="text-center mb-10">
+            <!-- Animated Green Success Checkmark Badge -->
+            <div class="inline-flex items-center justify-center bg-green-50 p-5 rounded-full mb-6 text-emerald-600 border border-green-100 shadow-sm relative">
+                <span class="absolute inset-0 rounded-full bg-emerald-500/10 animate-ping opacity-75"></span>
+                <i class="fa-solid fa-circle-check text-6xl relative z-10"></i>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl font-serif font-black text-gray-900 mb-3 tracking-tight">Order Placed Successfully!</h1>
+            <p class="text-gray-500 max-w-lg mx-auto text-xs sm:text-sm leading-relaxed">
+                Thank you for your purchase. We have received your order and are processing it. 
+                An email confirmation has been sent to 
+                <span class="inline-block px-2 py-0.5 font-bold text-gray-900 bg-gray-100 rounded-md font-sans">{{ $order->shipping_email }}</span>.
+            </p>
         </div>
 
-        <h1 class="text-4xl font-serif font-bold text-gray-900 mb-4">Order Placed Successfully!</h1>
-        <p class="text-gray-500 mb-8 max-w-md mx-auto text-sm sm:text-base">Thank you for your purchase. We have received your order and are processing it. An email confirmation has been sent to <span class="font-semibold text-gray-900">{{ $order->shipping_email }}</span>.</p>
-
-        <!-- Order Summary Card -->
-        <div class="bg-[#fdfaf6] border border-gray-200 rounded-xl p-8 text-left mb-10 shadow-sm">
-            <h3 class="text-xl font-serif font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Order Information</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                    <span class="text-xs text-gray-400 uppercase tracking-wider block">Order Number</span>
-                    <span class="font-mono font-bold text-gray-950 text-base">{{ $order->order_number }}</span>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Order Details Card -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Order Info Grid -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-base font-serif font-bold text-gray-900 mb-4 pb-3 border-b border-gray-50 flex items-center justify-between">
+                        <span>Order Information</span>
+                        <span class="text-[10px] uppercase tracking-wider text-emerald-600 bg-emerald-50 font-bold px-2 py-0.5 rounded">Paid</span>
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-6">
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Order Number</span>
+                            <span class="font-mono font-bold text-gray-900 text-sm">{{ $order->order_number }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Date Placed</span>
+                            <span class="font-bold text-gray-700 text-xs sm:text-sm font-sans">{{ $order->created_at->format('M d, Y h:i A') }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Payment Method</span>
+                            <span class="font-bold text-gray-700 text-xs sm:text-sm uppercase">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : 'Online Payment' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Total Amount</span>
+                            <span class="font-extrabold text-primary text-sm sm:text-base">₹{{ number_format($order->total_amount, 2) }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xs text-gray-400 uppercase tracking-wider block">Date Placed</span>
-                    <span class="font-medium text-gray-900">{{ $order->created_at->format('M d, Y h:i A') }}</span>
+
+                <!-- Items Purchased List -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+                    <h3 class="text-base font-serif font-bold text-gray-900 mb-4 pb-3 border-b border-gray-50">Items Ordered</h3>
+                    <div class="divide-y divide-gray-50">
+                        @foreach($order->items as $item)
+                            @php
+                                $productImage = $item->product ? $item->product->primary_image_url : asset('images/logo.jpeg');
+                            @endphp
+                            <div class="py-3 flex items-center gap-3 first:pt-0 last:pb-0">
+                                <!-- Thumb -->
+                                <div class="w-12 h-12 flex-shrink-0 bg-[#f5faf7] border border-gray-100 rounded-xl p-1 flex items-center justify-center">
+                                    <img src="{{ $productImage }}" alt="{{ $item->product_name }}" class="max-w-full max-h-full object-contain">
+                                </div>
+                                <!-- Title/Qty -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm truncate leading-tight">{{ $item->product_name }}</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1">₹{{ number_format($item->unit_price, 2) }} × {{ $item->quantity }}</p>
+                                </div>
+                                <!-- Price Total -->
+                                <div class="text-right">
+                                    <span class="font-extrabold text-gray-900 text-xs sm:text-sm">₹{{ number_format($item->total_price, 2) }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div>
-                    <span class="text-xs text-gray-400 uppercase tracking-wider block">Total Amount</span>
-                    <span class="font-bold text-primary text-base">₹{{ number_format($order->total_amount, 2) }}</span>
+            <!-- Shipping Information Side Card -->
+            <div class="space-y-6">
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm h-full">
+                    <h3 class="text-base font-serif font-bold text-gray-900 mb-4 pb-3 border-b border-gray-50 flex items-center gap-2">
+                        <i class="fa-solid fa-truck-ramp-box text-gray-400"></i>
+                        <span>Shipping Address</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-[#f5faf7]/40 border border-gray-55/60 rounded-xl p-4">
+                            <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm leading-tight mb-2">{{ $order->shipping_name }}</h4>
+                            <p class="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-medium">
+                                {{ $order->shipping_address }}<br>
+                                {{ $order->shipping_city }}, {{ $order->shipping_state }}<br>
+                                Postal Code: {{ $order->shipping_zip }}
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2.5 px-1 py-0.5">
+                            <i class="fa-solid fa-phone text-xs text-gray-400"></i>
+                            <span class="text-[11px] sm:text-xs font-bold text-gray-700">{{ $order->shipping_phone }}</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xs text-gray-400 uppercase tracking-wider block">Payment Method</span>
-                    <span class="font-semibold text-gray-900 uppercase text-sm">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : 'Online Payment' }}</span>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-200 pt-4">
-                <span class="text-xs text-gray-400 uppercase tracking-wider block mb-1">Shipping Address</span>
-                <p class="text-sm text-gray-700 leading-relaxed font-medium">
-                    {{ $order->shipping_name }}<br>
-                    {{ $order->shipping_address }}, {{ $order->shipping_city }}<br>
-                    {{ $order->shipping_state }} - {{ $order->shipping_zip }}<br>
-                    Phone: {{ $order->shipping_phone }}
-                </p>
             </div>
         </div>
 
-        <!-- Call to Actions -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/shop" class="bg-primary hover:bg-primary-dark text-white font-bold px-8 py-4 rounded tracking-wider text-sm transition shadow" style="background-color: #C49A6C; color: white;">
+        <!-- Action Call Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-md mx-auto">
+            <a href="/shop" class="w-full sm:w-auto flex-grow bg-primary hover:bg-primary-dark text-white font-bold py-3 px-8 rounded-xl tracking-wider text-xs transition duration-200 text-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                 CONTINUE SHOPPING
             </a>
             @if(auth()->check())
-                <a href="/dashboard" class="bg-secondary hover:bg-black text-white font-bold px-8 py-4 rounded tracking-wider text-sm transition shadow">
+                <a href="/dashboard" class="w-full sm:w-auto flex-grow bg-white border border-gray-200 hover:border-gray-300 text-gray-700 hover:bg-gray-50 font-bold py-3 px-8 rounded-xl tracking-wider text-xs transition duration-200 text-center shadow-sm">
                     GO TO DASHBOARD
                 </a>
             @else
-                <a href="/login" class="bg-secondary hover:bg-black text-white font-bold px-8 py-4 rounded tracking-wider text-sm transition shadow">
+                <a href="/login" class="w-full sm:w-auto flex-grow bg-white border border-gray-200 hover:border-gray-300 text-gray-700 hover:bg-gray-50 font-bold py-3 px-8 rounded-xl tracking-wider text-xs transition duration-200 text-center shadow-sm">
                     LOGIN TO TRACK ORDER
                 </a>
             @endif

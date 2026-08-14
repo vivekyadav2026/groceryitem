@@ -45,6 +45,15 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
+        // Validate stock availability for all cart items
+        foreach ($cart as $productId => $item) {
+            $product = Product::find($productId);
+            if (!$product || $product->quantity < $item['quantity']) {
+                $available = $product ? $product->quantity : 0;
+                return redirect()->route('cart.index')->with('error', "Cannot complete order: '{$item['name']}' only has {$available} unit(s) left in stock.");
+            }
+        }
+
         // Validate shipping details
         $validated = $request->validate([
             'shipping_name' => 'required|string|max:255',
@@ -99,8 +108,12 @@ class CheckoutController extends Controller
             'shipping_zip' => $validated['shipping_zip'],
         ]);
 
-        // Create Order Items
+        // Create Order Items and decrement product stock
         foreach ($cart as $productId => $item) {
+            $product = Product::find($productId);
+            if ($product) {
+                $product->decrement('quantity', $item['quantity']);
+            }
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $productId,
@@ -165,7 +178,7 @@ class CheckoutController extends Controller
                         'name'     => $item->product_name,
                         'price'    => $item->unit_price,
                         'quantity' => $item->quantity,
-                        'image'    => $item->product ? (json_decode($item->product->images)[0] ?? asset('images/premium_dhoop_product.png')) : asset('images/premium_dhoop_product.png'),
+                        'image'    => $item->product ? $item->product->primary_image_url : asset('images/logo.jpeg'),
                     ];
                 }
                 session()->put('cart', $cart);

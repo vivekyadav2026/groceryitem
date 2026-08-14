@@ -49,9 +49,21 @@ class FrontendController extends Controller
             });
         }
 
-        // Filter by categories
+        // Selected categories resolver (supports both categories[] IDs and cat=slug)
+        $selectedCategories = [];
         if ($request->has('categories')) {
-            $query->whereIn('category_id', $request->input('categories'));
+            $selectedCategories = (array) $request->input('categories');
+        }
+        if ($request->has('cat') && $request->input('cat') != '') {
+            $cat = Category::where('slug', $request->input('cat'))->first();
+            if ($cat && !in_array($cat->id, $selectedCategories)) {
+                $selectedCategories[] = $cat->id;
+            }
+        }
+
+        // Filter by categories
+        if (!empty($selectedCategories)) {
+            $query->whereIn('category_id', $selectedCategories);
         }
 
         // Filter by highlights
@@ -81,9 +93,9 @@ class FrontendController extends Controller
         // Sort products
         if ($request->has('sort_by')) {
             $sort = $request->input('sort_by');
-            if ($sort == 'price_low') {
+            if ($sort == 'price_low' || $sort == 'price-asc') {
                 $query->orderByRaw('COALESCE(sale_price, price) asc');
-            } elseif ($sort == 'price_high') {
+            } elseif ($sort == 'price_high' || $sort == 'price-desc') {
                 $query->orderByRaw('COALESCE(sale_price, price) desc');
             } elseif ($sort == 'latest') {
                 $query->latest();
@@ -97,7 +109,7 @@ class FrontendController extends Controller
         $products = $query->paginate(12)->withQueryString();
         $categories = Category::where('is_active', true)->get();
 
-        return view('frontend.shop', compact('products', 'categories'));
+        return view('frontend.shop', compact('products', 'categories', 'selectedCategories'));
     }
 
     public function product($slug)
@@ -119,8 +131,7 @@ class FrontendController extends Controller
             return response()->json(['success' => false, 'message' => 'Product not found.'], 404);
         }
         
-        $images = json_decode($product->images);
-        $image = ($images && count($images) > 0) ? asset($images[0]) : 'https://images.unsplash.com/photo-1599643478524-fb5244098775?w=500&q=80';
+        $image = $product->primary_image_url;
         
         return response()->json([
             'success' => true,

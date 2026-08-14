@@ -38,7 +38,7 @@
         "key": "{{ $razorpayKey }}",
         "amount": "{{ $order->total_amount * 100 }}",
         "currency": "INR",
-        "name": "Vedicbotanica",
+        "name": "Pepperlemon",
         "description": "Order #{{ $order->order_number }}",
         "order_id": "{{ $order->razorpay_order_id }}",
         "handler": function (response) {

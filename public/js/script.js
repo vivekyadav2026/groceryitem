@@ -10,6 +10,48 @@ const PL = {
     });
   },
 
+  updateWishlistBadges(count){
+    document.querySelectorAll("[data-wishlist-badge]").forEach(el=>{
+      el.textContent = count;
+      el.style.display = count > 0 ? "flex" : "none";
+    });
+  },
+
+  async toggleWishlist(id) {
+    try {
+      const res = await fetch('/wishlist/toggle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': window.pl_csrf
+        },
+        body: JSON.stringify({ product_id: id })
+      });
+      const data = await res.json();
+      if (data.success) {
+        this.updateWishlistBadges(data.wishlist_count);
+        this.showToast(`<i class="bi bi-heart-fill me-2" style="color: #e63946; font-size: 1.05rem; vertical-align: middle;"></i> ${data.message}`);
+        
+        // Update all wishlist buttons in the current document for this product ID
+        document.querySelectorAll(`[data-wishlist-product-id="${id}"]`).forEach(btn => {
+          const icon = btn.querySelector('i');
+          if (icon) {
+            if (data.in_wishlist) {
+              icon.className = 'bi bi-heart-fill text-danger';
+            } else {
+              icon.className = 'bi bi-heart';
+            }
+          }
+        });
+      } else {
+        this.showToast(data.message || 'Something went wrong.');
+      }
+    } catch(e) {
+      console.error(e);
+      this.showToast("Failed to update wishlist");
+    }
+  },
+
   showToast(msg){
     let toast = document.querySelector(".pl-toast");
     if(!toast){
@@ -23,14 +65,17 @@ const PL = {
     this._toastTimer = setTimeout(()=> toast.classList.remove("show"), 1800);
   },
 
-  async addToCartById(id, qty = 1) {
+  async addToCartById(id, qty) {
     try {
-      // Find quantity from detail page if available and no override passed
-      if (qty === 1) {
-        const detailQty = document.getElementById("pl-detail-qty");
-        if (detailQty) qty = parseInt(detailQty.textContent, 10) || 1;
+      // Always read current qty from DOM if on product page
+      var detailQty = document.getElementById('pl-detail-qty');
+      var stickyQty = document.getElementById('pl-sticky-qty');
+      if (detailQty || stickyQty) {
+        qty = parseInt((detailQty || stickyQty).textContent, 10) || 1;
+      } else if (!qty || qty < 1) {
+        qty = 1;
       }
-      
+
       const res = await fetch('/cart/add', {
         method: 'POST',
         headers: {
@@ -49,6 +94,33 @@ const PL = {
     } catch(e) {
       console.error(e);
       this.showToast("Failed to add to cart");
+    }
+  },
+
+  async buyNow(id) {
+    try {
+      // Always read current qty from DOM
+      var detailQty = document.getElementById('pl-detail-qty');
+      var stickyQty = document.getElementById('pl-sticky-qty');
+      var qty = parseInt((detailQty || stickyQty || {textContent: '1'}).textContent, 10) || 1;
+
+      const res = await fetch('/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': window.pl_csrf
+        },
+        body: JSON.stringify({ product_id: id, quantity: qty })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = '/cart';
+      } else {
+        this.showToast(data.message);
+      }
+    } catch(e) {
+      console.error(e);
+      this.showToast("Failed to process. Try again.");
     }
   },
 
@@ -115,24 +187,50 @@ const PL = {
   /* Setup Global Search & Mobile Filters Event Listeners */
   initSearchAndFilters() {
     const handleSearchSubmit = (query) => {
-      const q = encodeURIComponent(query.trim());
-      // Preserve existing query params except search, or just start fresh
+      const q = query.trim();
+      if (!q) return; // ignore empty searches
       const url = new URL(window.location.href);
       url.searchParams.set('search', q);
+      // Remove page param so we always start from page 1
+      url.searchParams.delete('page');
       // If we are not on shop page, go to shop page
       if (!window.location.pathname.includes('/shop')) {
-        window.location.href = `/shop?search=${q}`;
+        window.location.href = `/shop?search=${encodeURIComponent(q)}`;
       } else {
         window.location.href = url.toString();
       }
     };
 
+    // Restore search value from URL on page load
+    const urlSearch = new URLSearchParams(window.location.search).get('search') || '';
     document.querySelectorAll(".pl-search-input").forEach(input => {
-      input.addEventListener("keypress", (e) => {
+      if (urlSearch) input.value = urlSearch;
+
+      // Enter key submits
+      input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
           handleSearchSubmit(input.value);
         }
+      });
+
+      // Clear search (x button on type=search)
+      input.addEventListener("search", (e) => {
+        if (!e.target.value) {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('search');
+          url.searchParams.delete('page');
+          window.location.href = url.toString();
+        }
+      });
+    });
+
+    // Search icon button click (for buttons next to the input)
+    document.querySelectorAll(".pl-search-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const input = btn.closest('.pl-search-wrap')?.querySelector('.pl-search-input')
+                     || document.querySelector('.pl-search-input');
+        if (input) handleSearchSubmit(input.value);
       });
     });
 
@@ -141,7 +239,7 @@ const PL = {
       const urlParams = new URLSearchParams(window.location.search);
       
       // Update price range value on load
-      const maxPrice = urlParams.get('max_price') || 200;
+      const maxPrice = urlParams.get('max_price') || 2000;
       const desktopRange = document.getElementById("desktop-price-range");
       const mobileRange = document.getElementById("mobile-price-range");
       
@@ -195,15 +293,7 @@ const PL = {
       if (overlay) overlay.addEventListener("click", closeDrawer);
       if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
 
-      if (applyBtn) {
-        applyBtn.addEventListener("click", () => {
-          const url = new URL(window.location.href);
-          if (mobileRange) {
-            url.searchParams.set('max_price', mobileRange.value);
-          }
-          window.location.href = url.toString();
-        });
-      }
+      // Form submit handles mobile filters natively now
     }
   },
 
@@ -252,7 +342,7 @@ const PL = {
         const panel = document.getElementById(newBtn.getAttribute("aria-controls"));
         const expanded = newBtn.getAttribute("aria-expanded") === "true";
         newBtn.setAttribute("aria-expanded", String(!expanded));
-        panel.style.maxHeight = expanded ? null : panel.scrollHeight + 50 + "px";
+        panel.style.maxHeight = expanded ? "0px" : panel.scrollHeight + "px";
         panel.classList.toggle("show", !expanded);
       });
     });
@@ -265,33 +355,8 @@ const PL = {
     this.initProductGallery();
     this.initAccordions();
     
-    // Wire up product detail steppers
-    const detailQty = document.getElementById("pl-detail-qty");
-    const detailStepper = document.getElementById("pl-detail-qty-stepper");
-    if (detailStepper && detailQty) {
-      detailStepper.querySelector(".pl-minus").addEventListener("click", () => {
-        let q = parseInt(detailQty.textContent) || 1;
-        detailQty.textContent = Math.max(1, q - 1);
-      });
-      detailStepper.querySelector(".pl-plus").addEventListener("click", () => {
-        let q = parseInt(detailQty.textContent) || 1;
-        detailQty.textContent = q + 1;
-      });
-    }
-    
-    // Wire up sticky detail steppers
-    const stickyQty = document.getElementById("pl-sticky-qty");
-    const stickyStepper = document.getElementById("pl-sticky-qty-stepper");
-    if (stickyStepper && stickyQty) {
-      stickyStepper.querySelector(".pl-minus").addEventListener("click", () => {
-        let q = parseInt(stickyQty.textContent) || 1;
-        stickyQty.textContent = Math.max(1, q - 1);
-      });
-      stickyStepper.querySelector(".pl-plus").addEventListener("click", () => {
-        let q = parseInt(stickyQty.textContent) || 1;
-        stickyQty.textContent = q + 1;
-      });
-    }
+    // Product page steppers are handled inline in product.blade.php
+    // to ensure synced behaviour between detail and sticky steppers
   }
 };
 

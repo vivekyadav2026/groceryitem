@@ -30,7 +30,7 @@
             <!-- Product Name -->
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Product Name *</label>
-                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. VEDIC JASMINE Gou Dhoop sticks"
+                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Premium Sparkling Beverage 355ml"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5">
             </div>
 
@@ -125,6 +125,12 @@
                 <input type="file" name="images[]" multiple accept="image/*"
                        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
             </div>
+
+            <!-- Image Preview Container -->
+            <div id="image-preview-container" class="hidden mt-4 bg-slate-50 p-4 border border-slate-100 rounded-2xl animate-fade-in">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-3">New Images Preview</label>
+                <div id="image-preview-grid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            </div>
         </div>
 
         <!-- Shipping / Dimensions for Shiprocket -->
@@ -175,25 +181,29 @@
                 </div>
             </div>
 
-            <!-- Quick presets for dhoop products -->
+            <!-- Quick presets for grocery/beverage/chocolate products -->
             <div class="pt-2">
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Quick Presets:</span>
                 <div class="flex flex-wrap gap-2 mt-2">
-                    <button type="button" onclick="setDimensions(0.165, 14, 5, 5)"
+                    <button type="button" onclick="setDimensions(0.380, 8, 8, 16)"
                             class="text-xs px-3 py-1.5 rounded-lg bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 transition cursor-pointer font-medium">
-                        PET Box Cones (165g)
+                        Beverage Can (355ml)
                     </button>
-                    <button type="button" onclick="setDimensions(0.161, 14, 5, 5)"
+                    <button type="button" onclick="setDimensions(1.050, 10, 10, 28)"
                             class="text-xs px-3 py-1.5 rounded-lg bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 transition cursor-pointer font-medium">
-                        PET Box Sticks (161g)
+                        Beverage PET (1L)
                     </button>
-                    <button type="button" onclick="setDimensions(0.141, 16, 8, 6)"
+                    <button type="button" onclick="setDimensions(0.220, 18, 9, 3)"
                             class="text-xs px-3 py-1.5 rounded-lg bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 transition cursor-pointer font-medium">
-                        Corrugated Cones (141g)
+                        Chocolate Bar (200g)
                     </button>
-                    <button type="button" onclick="setDimensions(0.147, 16, 8, 6)"
+                    <button type="button" onclick="setDimensions(0.160, 20, 15, 6)"
                             class="text-xs px-3 py-1.5 rounded-lg bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 transition cursor-pointer font-medium">
-                        Corrugated Sticks (147g)
+                        Snack/Chips Bag (150g)
+                    </button>
+                    <button type="button" onclick="setDimensions(0.450, 9, 9, 12)"
+                            class="text-xs px-3 py-1.5 rounded-lg bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 transition cursor-pointer font-medium">
+                        Gourmet Jar (400g)
                     </button>
                 </div>
             </div>
@@ -211,6 +221,18 @@
     </form>
 
 </div>
+
+<!-- Image Review Modal -->
+<div id="image-review-modal" class="fixed inset-0 z-[9999] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="closeImageReview()">
+    <div class="relative max-w-4xl max-h-[85vh] w-full flex items-center justify-center" onclick="event.stopPropagation()">
+        <!-- Close Button -->
+        <button onclick="closeImageReview()" class="absolute -top-12 right-0 text-white/85 hover:text-white transition-colors h-10 w-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        <!-- Modal Image -->
+        <img id="ir-modal-image" src="" alt="Product Review" class="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/10">
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -221,5 +243,108 @@ function setDimensions(weight, length, width, height) {
     document.querySelector('input[name="width"]').value = width;
     document.querySelector('input[name="height"]').value = height;
 }
+
+function openImageReview(src) {
+    const modal = document.getElementById('image-review-modal');
+    const modalImg = document.getElementById('ir-modal-image');
+    if (modal && modalImg) {
+        modalImg.src = src;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Lock body scroll
+    }
+}
+
+function closeImageReview() {
+    const modal = document.getElementById('image-review-modal');
+    if (modal) {
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+        document.body.style.overflow = ''; // Restore body scroll
+    }
+}
+
+let selectedFiles = [];
+
+function renderImagePreviews() {
+    const previewContainer = document.getElementById('image-preview-container');
+    const previewGrid = document.getElementById('image-preview-grid');
+    
+    if (!previewGrid || !previewContainer) return;
+    
+    previewGrid.innerHTML = '';
+    
+    if (selectedFiles.length > 0) {
+        previewContainer.classList.remove('hidden');
+        
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewCard = document.createElement('div');
+                previewCard.className = 'relative bg-white border border-slate-200 rounded-xl p-2.5 flex flex-col items-center justify-center shadow-xs';
+                
+                // Delete button (inside card)
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'absolute top-1.5 right-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-full h-5 w-5 flex items-center justify-center shadow-md transition hover:scale-110 cursor-pointer z-10 text-[10px] font-extrabold';
+                deleteBtn.textContent = '✕';
+                deleteBtn.onclick = function() {
+                    removeSelectedFile(index);
+                };
+                
+                // Image tag
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'h-20 w-full object-contain rounded-lg cursor-zoom-in hover:scale-105 transition-transform duration-250';
+                img.onclick = function() { openImageReview(e.target.result); };
+                
+                // Filename
+                const name = document.createElement('span');
+                name.className = 'text-[10px] text-slate-400 truncate max-w-full mt-1.5 font-medium';
+                name.textContent = file.name;
+                
+                previewCard.appendChild(deleteBtn);
+                previewCard.appendChild(img);
+                previewCard.appendChild(name);
+                previewGrid.appendChild(previewCard);
+            };
+            reader.readAsDataURL(file);
+        });
+    } else {
+        previewContainer.classList.add('hidden');
+    }
+}
+
+function removeSelectedFile(index) {
+    selectedFiles.splice(index, 1);
+    const imageInput = document.querySelector('input[name="images[]"]');
+    if (imageInput) {
+        try {
+            const dt = new DataTransfer();
+            selectedFiles.forEach(file => dt.items.add(file));
+            imageInput.files = dt.files;
+        } catch(e) {
+            console.error('DataTransfer error', e);
+        }
+        if (selectedFiles.length === 0) {
+            imageInput.value = '';
+        }
+    }
+    renderImagePreviews();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.querySelector('input[name="images[]"]');
+    if (imageInput) {
+        imageInput.addEventListener('change', function() {
+            selectedFiles = Array.from(this.files);
+            renderImagePreviews();
+        });
+    }
+});
 </script>
 @endpush

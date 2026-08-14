@@ -31,7 +31,7 @@
             <!-- Code -->
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Coupon Code *</label>
-                <input type="text" name="code" value="{{ old('code', $coupon->code) }}" required placeholder="e.g. VEDIC10"
+                <input type="text" name="code" value="{{ old('code', $coupon->code) }}" required placeholder="e.g. PEPPER10"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 font-mono uppercase">
             </div>
 

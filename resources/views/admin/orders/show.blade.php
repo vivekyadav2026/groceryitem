@@ -30,8 +30,7 @@
                             <div class="flex items-center space-x-4">
                                 @php
                                     $product = $item->product;
-                                    $images = $product ? json_decode($product->images) : null;
-                                    $image = ($images && count($images) > 0) ? asset($images[0]) : asset('images/premium_dhoop_product.png');
+                                    $image = $product ? $product->primary_image_url : asset('images/logo.jpeg');
                                 @endphp
                                 <img src="{{ $image }}" alt="{{ $item->product_name }}" class="h-14 w-14 rounded-xl object-contain bg-slate-50 border border-slate-100 p-1 flex-shrink-0">
                                 <div>

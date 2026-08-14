@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Admin Dashboard - {{ config('app.name', 'Vedic Botanica') }}</title>
+    <title>Admin Dashboard - {{ config('app.name', 'Pepperlemon') }}</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,9 +32,9 @@
             <!-- Logo Header -->
             <div class="flex items-center justify-between px-6 py-5 bg-slate-950 border-b border-slate-800/70">
                 <div class="flex items-center space-x-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="Vedic Botanica Logo" class="h-10 w-auto object-contain bg-white rounded-md p-1 shadow-sm">
+                    <img src="{{ asset('images/logo.jpeg') }}" alt="Pepperlemon Logo" class="h-10 w-auto object-contain bg-white rounded-md p-1 shadow-sm">
                     <div>
-                        <h1 class="text-sm font-bold font-serif text-white uppercase tracking-wider leading-none">Vedic Botanica</h1>
+                        <h1 class="text-sm font-bold font-serif text-white uppercase tracking-wider leading-none">Pepperlemon</h1>
                         <span class="text-[9px] text-[#C49A6C] uppercase font-bold tracking-widest block mt-1">Admin Portal</span>
                     </div>
                 </div>
@@ -87,11 +87,13 @@
                     <span>Testimonials</span>
                 </a>
 
+                {{-- 
                 <a href="{{ route('admin.coupons.index') }}" 
                    class="flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('admin.coupons.*') ? 'bg-[#C49A6C] text-white shadow-lg shadow-[#C49A6C]/25' : 'hover:bg-slate-800 hover:text-white' }}">
                     <i class="fa-solid fa-tag w-5 text-center"></i>
                     <span>Coupons</span>
                 </a>
+                --}}
 
                 <a href="{{ route('admin.settings.edit') }}" 
                    class="flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('admin.settings.*') ? 'bg-[#C49A6C] text-white shadow-lg shadow-[#C49A6C]/25' : 'hover:bg-slate-800 hover:text-white' }}">
@@ -191,5 +193,6 @@
 
     </div>
 
+    @stack('scripts')
 </body>
 </html>

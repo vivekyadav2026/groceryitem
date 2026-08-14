@@ -20,7 +20,7 @@
             <p class="text-xs text-gray-400">Last updated: July 8, 2026</p>
             
             <p>
-                Welcome to <strong>Vedic Botanica</strong>. This website (www.vedicbotanica.com) is owned and operated by <strong>NAMAJ KREATION</strong>. By accessing or using our website, ordering our products, or utilizing any of our services, you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
+                Welcome to <strong>Pepperlemon LLC</strong>. By accessing or using our website, ordering our products, or utilizing any of our services, you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">1. General Conditions</h2>
@@ -35,7 +35,7 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">3. Products and Pricing</h2>
             <p>
-                Prices for our products (including Gaudhoopam, Sambrani cups, Hawan products, natural fragrances, herbal wellness products, and Ayurvedic personal care essentials) are subject to change without notice. We reserve the right at any time to modify or discontinue any product or service without notice. We shall not be liable to you or to any third party for any modification, price change, suspension, or discontinuance of products.
+                Prices for our products (including fresh produce, snacks, beverages, chocolates, and household grocery items) are subject to change without notice. We reserve the right at any time to modify or discontinue any product or service without notice. We shall not be liable to you or to any third party for any modification, price change, suspension, or discontinuance of products.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">4. Billing and Payment Information</h2>
@@ -43,7 +43,7 @@
                 We reserve the right to refuse any order you place with us. In the event that we make a change to or cancel an order, we may attempt to notify you by contacting the email and/or billing address/phone number provided at the time the order was made. 
             </p>
             <p>
-                All online payments on our website are processed securely. We utilize <strong>Razorpay</strong> as our primary payment gateway provider. By choosing to pay online, you agree to abide by Razorpay's terms of service and authorization protocols. We do not store your credit/debit card credentials on our servers.
+                All online payments on our website are processed securely. We utilize <strong>Stripe</strong> as our primary payment gateway provider. By choosing to pay online, you agree to abide by Stripe's terms of service and authorization protocols. We do not store your credit/debit card credentials on our servers.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">5. Accuracy of Account Information</h2>
@@ -58,7 +58,7 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">7. Intellectual Property</h2>
             <p>
-                All content included on this site, such as text, graphics, logos, button icons, images, audio clips, digital downloads, and data compilations, is the property of <strong>NAMAJ KREATION</strong> or its content suppliers and is protected by international copyright laws.
+                All content included on this site, such as text, graphics, logos, button icons, images, audio clips, digital downloads, and data compilations, is the property of <strong>Pepperlemon LLC</strong> or its content suppliers and is protected by international copyright laws.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">8. Governing Law and Jurisdiction</h2>
@@ -71,11 +71,9 @@
                 Questions about the Terms and Conditions should be sent to us at:
             </p>
             <ul class="list-disc pl-6 space-y-2 mt-2">
-                <li><strong>Entity Name:</strong> NAMAJ KREATION</li>
-                <li><strong>Brand Name:</strong> Vedic Botanica</li>
-                <li><strong>Email:</strong> info@vedicbotanica.com / contact@vedicbotanica.com</li>
-                <li><strong>Phone:</strong> +91 96670 91050</li>
-                <li><strong>Office Address:</strong> B8/ 44, Sector-15, Rohini, New Delhi - 110089</li>
+                <li><strong>Brand Name:</strong> {{ \App\Models\Setting::get('site_name', 'Pepperlemon LLC') }}</li>
+                <li><strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</li>
+                <li><strong>Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</li>
             </ul>
         </div>
     </div>

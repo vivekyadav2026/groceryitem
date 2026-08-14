@@ -50,7 +50,7 @@ class ProductController extends Controller
             'length' => 'required|integer|min:1',
             'width' => 'required|integer|min:1',
             'height' => 'required|integer|min:1',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
 
         $imagePaths = [];
@@ -61,9 +61,12 @@ class ProductController extends Controller
             }
 
             foreach ($request->file('images') as $file) {
-                $name = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move($path, $name);
-                $imagePaths[] = 'uploads/products/' . $name;
+                if ($file->isValid()) {
+                    $ext = $file->getClientOriginalExtension() ?: 'jpg';
+                    $name = time() . '_' . uniqid() . '.' . $ext;
+                    $file->move($path, $name);
+                    $imagePaths[] = 'uploads/products/' . $name;
+                }
             }
         }
 
@@ -116,13 +119,21 @@ class ProductController extends Controller
             'length' => 'required|integer|min:1',
             'width' => 'required|integer|min:1',
             'height' => 'required|integer|min:1',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
 
         $existingImages = json_decode($product->images, true) ?? [];
 
         // Handle removing checked images
         if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $removeImg) {
+                if (str_starts_with($removeImg, 'uploads/products/')) {
+                    $fullPath = public_path($removeImg);
+                    if (file_exists($fullPath)) {
+                        @unlink($fullPath);
+                    }
+                }
+            }
             $existingImages = array_filter($existingImages, function($img) use ($request) {
                 return !in_array($img, $request->remove_images);
             });
@@ -135,11 +146,17 @@ class ProductController extends Controller
                 mkdir($path, 0755, true);
             }
 
+            $newImages = [];
             foreach ($request->file('images') as $file) {
-                $name = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move($path, $name);
-                $existingImages[] = 'uploads/products/' . $name;
+                if ($file->isValid()) {
+                    $ext = $file->getClientOriginalExtension() ?: 'jpg';
+                    $name = time() . '_' . uniqid() . '.' . $ext;
+                    $file->move($path, $name);
+                    $newImages[] = 'uploads/products/' . $name;
+                }
             }
+            // Put newly uploaded images first so the new image reflects as primary immediately!
+            $existingImages = array_merge($newImages, $existingImages);
         }
 
         // If all images removed, add the default fallback

@@ -20,7 +20,7 @@
             <p class="text-xs text-gray-400">Last updated: July 8, 2026</p>
             
             <p>
-                Welcome to <strong>Vedic Botanica</strong> (operated by <strong>NAMAJ KREATION</strong>). We are committed to delivering our natural, eco-friendly wellness products (Gaudhoopam, Sambrani cups, Hawan products, and Ayurvedic essentials) safely and efficiently right to your doorstep.
+                Welcome to <strong>Pepperlemon LLC</strong>. We are committed to delivering our fresh, high-quality groceries, beverages, and daily essentials safely and efficiently right to your doorstep.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">1. Shipping Coverage & Locations</h2>
@@ -58,7 +58,7 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">6. Lost or Damaged Shipments</h2>
             <p>
-                In the rare event that a package is lost in transit or is delivered in a heavily damaged state, please contact us immediately at <strong>info@vedicbotanica.com</strong> or call us at <strong>+91 96670 91050</strong>. We will work with the logistics partner to resolve the issue or dispatch a replacement order to you as soon as possible.
+                In the rare event that a package is lost in transit or is delivered in a heavily damaged state, please contact us immediately at <strong>{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</strong>. We will work with the logistics partner to resolve the issue or dispatch a replacement order to you as soon as possible.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">7. Contact Information</h2>
@@ -66,11 +66,9 @@
                 If you have any questions or queries regarding the shipping of your products, please reach out to us:
             </p>
             <ul class="list-disc pl-6 space-y-2 mt-2">
-                <li><strong>Entity Name:</strong> NAMAJ KREATION</li>
-                <li><strong>Brand Name:</strong> Vedic Botanica</li>
-                <li><strong>Email:</strong> info@vedicbotanica.com / contact@vedicbotanica.com</li>
-                <li><strong>Phone:</strong> +91 96670 91050</li>
-                <li><strong>Office Address:</strong> B8/ 44, Sector-15, Rohini, New Delhi - 110089</li>
+                <li><strong>Brand Name:</strong> {{ \App\Models\Setting::get('site_name', 'Pepperlemon LLC') }}</li>
+                <li><strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</li>
+                <li><strong>Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</li>
             </ul>
         </div>
     </div>

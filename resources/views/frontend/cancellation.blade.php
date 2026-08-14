@@ -20,7 +20,7 @@
             <p class="text-xs text-gray-400">Last updated: July 8, 2026</p>
             
             <p>
-                At <strong>Vedic Botanica</strong> (operated by <strong>NAMAJ KREATION</strong>), we understand that you may sometimes need to cancel an order. We have a simple cancellation process designed to be as fair and convenient as possible.
+                At <strong>Pepperlemon LLC</strong>, we understand that you may sometimes need to cancel an order. We have a simple cancellation process designed to be as fair and convenient as possible.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">1. Cancellation Timeline</h2>
@@ -36,7 +36,7 @@
                 To cancel your order:
             </p>
             <ul class="list-disc pl-6 space-y-2">
-                <li>Send an urgent email to <strong>info@vedicbotanica.com</strong> OR call/WhatsApp our support team at <strong>+91 96670 91050</strong>.</li>
+                <li>Send an urgent email to <strong>{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</strong> OR call our support team.</li>
                 <li>Provide your **Order Number** and the reason for cancellation in your message.</li>
             </ul>
 
@@ -65,11 +65,9 @@
                 For immediate help with order cancellation, please reach out to us:
             </p>
             <ul class="list-disc pl-6 space-y-2 mt-2">
-                <li><strong>Entity Name:</strong> NAMAJ KREATION</li>
-                <li><strong>Brand Name:</strong> Vedic Botanica</li>
-                <li><strong>Email:</strong> info@vedicbotanica.com / contact@vedicbotanica.com</li>
-                <li><strong>Phone:</strong> +91 96670 91050</li>
-                <li><strong>Office Address:</strong> B8/ 44, Sector-15, Rohini, New Delhi - 110089</li>
+                <li><strong>Brand Name:</strong> {{ \App\Models\Setting::get('site_name', 'Pepperlemon LLC') }}</li>
+                <li><strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</li>
+                <li><strong>Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</li>
             </ul>
         </div>
     </div>

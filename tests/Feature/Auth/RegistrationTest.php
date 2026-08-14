@@ -21,8 +21,14 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'phone' => '1234567890',
+            'address' => '123 Test St',
+            'address2' => 'Suite 100',
+            'city' => 'Test City',
+            'state' => 'Test State',
+            'zip' => '12345',
         ]);
 
         $this->assertAuthenticated();

@@ -53,6 +53,23 @@ class DummyDataSeeder extends Seeder
             ["clamato-12", "Clamato - Mexican Tomato Cocktail", 38.49, 42.99, "mexican", "images/clamato_juice.jpg"],
             ["sabroso-mango", "Sabroso - Mango Nectar", 9.99, 11.99, "mexican", "images/mango_nectar.jpg"],
             ["coca-cola-24", "COCA COLA - SODA", 32.49, 36.00, "beverage", "images/coca_cola_24pk.jpg"],
+            
+            // 15 extra items for infinite scroll testing (30 total)
+            ["spring-water-lg", "Spring Water - Large Size", 24.49, 27.99, "water", "images/spring_water.jpg"],
+            ["sparkly-seltzer", "Sparkly Seltzer - Lime", 12.99, 14.99, "beverage", "images/citrus_twist.jpg"],
+            ["hazelnut-spread", "Premium Hazelnut Spread", 45.00, 49.99, "candy", "images/chocolate_bar.jpg"],
+            ["natural-oats", "Natural Oats - Instant Cup", 8.49, 9.99, "snacks", "images/trail_mix.jpg"],
+            ["dark-roast", "Dark Roast Coffee Beans", 89.99, 99.99, "beverage", "images/citrus_twist.jpg"],
+            ["golden-honey", "Golden Honey Pure Jar", 59.99, 65.00, "candy", "images/chocolate_bar.jpg"],
+            ["crispy-rice", "Crispy Rice Cakes", 14.29, 15.99, "snacks", "images/cracker_treats.jpg"],
+            ["pretzel-sticks", "Gourmet Pretzel Sticks", 18.99, 21.00, "snacks", "images/trail_mix.jpg"],
+            ["fruit-bars", "Organic Fruit Bars (6pk)", 34.49, 38.99, "snacks", "images/trail_mix.jpg"],
+            ["potato-wedges", "Spicy Potato Wedges Pack", 22.99, 25.99, "snacks", "images/cracker_treats.jpg"],
+            ["cheddar-crackers", "Cheddar Cheese Crackers", 11.99, 13.49, "snacks", "images/cracker_treats.jpg"],
+            ["tropical-juice", "Tropical Juice Box (1L)", 28.49, 32.00, "beverage", "images/mango_nectar.jpg"],
+            ["roasted-almonds", "Roasted Almonds - Salted", 42.49, 45.99, "snacks", "images/trail_mix.jpg"],
+            ["fruit-muesli", "Fruit and Nut Muesli Pack", 64.99, 69.99, "snacks", "images/trail_mix.jpg"],
+            ["vanilla-yogurt", "Vanilla Yogurt Multipack", 36.49, 39.99, "candy", "images/chocolate_bar.jpg"],
         ];
 
         foreach ($productsToSeed as $index => $p) {

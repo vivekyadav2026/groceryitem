@@ -20,7 +20,7 @@
             <p class="text-xs text-gray-400">Last updated: July 8, 2026</p>
             
             <p>
-                At <strong>Vedic Botanica</strong> (operated by <strong>NAMAJ KREATION</strong>), one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by Vedic Botanica and how we use it.
+                At <strong>Pepperlemon LLC</strong>, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that are collected and recorded by Pepperlemon LLC and how we use it.
             </p>
             <p>
                 If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
@@ -64,17 +64,17 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">4. Log Files</h2>
             <p>
-                Vedic Botanica follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
+                Pepperlemon LLC follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">5. Cookies and Web Beacons</h2>
             <p>
-                Like any other website, Vedic Botanica uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+                Like any other website, Pepperlemon LLC uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">6. Third-Party Privacy Policies</h2>
             <p>
-                Vedic Botanica's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options. 
+                Pepperlemon LLC's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options. 
             </p>
             <p>
                 Our payment gateway partner, <strong>Razorpay</strong>, acts as an independent controller of your payment data. You can read their privacy policy on their official website (www.razorpay.com) to understand how they handle transaction data.
@@ -96,11 +96,9 @@
                 If you have any questions about this Privacy Policy, or if you would like to exercise any of your data protection rights, please contact us at:
             </p>
             <ul class="list-disc pl-6 space-y-2 mt-2">
-                <li><strong>Entity Name:</strong> NAMAJ KREATION</li>
-                <li><strong>Brand Name:</strong> Vedic Botanica</li>
-                <li><strong>Email:</strong> info@vedicbotanica.com / contact@vedicbotanica.com</li>
-                <li><strong>Phone:</strong> +91 96670 91050</li>
-                <li><strong>Office Address:</strong> B8/ 44, Sector-15, Rohini, New Delhi - 110089</li>
+                <li><strong>Brand Name:</strong> {{ \App\Models\Setting::get('site_name', 'Pepperlemon LLC') }}</li>
+                <li><strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</li>
+                <li><strong>Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</li>
             </ul>
         </div>
     </div>

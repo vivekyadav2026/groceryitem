@@ -3,95 +3,226 @@
 @section('title', 'Contact Us')
 
 @section('content')
-    <!-- Page Header -->
-    <div class="bg-[#fdfaf6] py-5 md:py-12 text-center border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-[10px] md:text-sm text-gray-500 uppercase tracking-widest leading-relaxed">
-                <a href="/" class="hover:text-primary transition">Home</a> / 
-                <span class="text-gray-900 font-medium">Contact Us</span>
-            </p>
-            <h1 class="text-2xl sm:text-4xl font-serif font-bold text-gray-900 mt-1 md:mt-2">Contact Us</h1>
-        </div>
-    </div>
-
-    <!-- Contact Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
-            
-            <!-- Contact Info -->
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-4 md:py-6">
+        <!-- Breadcrumb & Title Inline -->
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-2">
             <div>
-                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-gray-900 mb-6">Get In Touch</h2>
-                <p class="text-sm text-gray-600 mb-8 leading-relaxed">
-                    We'd love to hear from you. Whether you have a question about products, shipping, or need spiritual guidance regarding which item is right for you, our team is ready to answer all your questions.
+                <h1 class="text-xl md:text-2xl font-bold text-gray-900 leading-tight" style="font-family: 'Outfit', sans-serif;">Support & Help</h1>
+                <p class="text-[10px] md:text-[11px] text-gray-400 mt-0.5">
+                    <a href="/" class="hover:text-primary transition">Home</a> / 
+                    @auth
+                        <a href="/dashboard" class="hover:text-primary transition">Dashboard</a> /
+                    @endauth
+                    <span class="text-gray-900 font-medium">Contact Us</span>
                 </p>
-                
-                <div class="space-y-6">
-                    <div class="flex items-start">
-                        <div class="bg-primary/10 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                            <i class="fa-solid fa-location-dot text-xl w-5 text-center" style="color: #C49A6C;"></i>
+            </div>
+            <span class="text-[9px] text-primary font-bold bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wider">Contact</span>
+        </div>
+
+        @auth
+        <div class="flex flex-col lg:flex-row gap-5 lg:gap-8">
+            <!-- Sidebar Navigation (Desktop only) -->
+            <div class="hidden lg:block w-full lg:w-1/4">
+                <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm space-y-1">
+                    <div class="flex items-center space-x-3 mb-4 pb-3.5 border-b border-gray-100">
+                        <div class="bg-primary/10 text-primary h-10 w-10 rounded-full flex items-center justify-center font-bold text-sm">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-900 font-serif">Address</h4>
-                            <p class="text-sm text-gray-600 mt-1">123 Spiritual Avenue, New Delhi, India 110001</p>
+                            <h4 class="font-bold text-gray-900 text-xs leading-tight">{{ Auth::user()->name }}</h4>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5 block">Customer Portal</span>
                         </div>
                     </div>
                     
-                    <div class="flex items-start">
-                        <div class="bg-primary/10 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                            <i class="fa-solid fa-phone text-xl w-5 text-center" style="color: #C49A6C;"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900 font-serif">Phone</h4>
-                            <p class="text-sm text-gray-600 mt-1">+91 9915978757</p>
-                        </div>
-                    </div>
+                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-55 hover:text-gray-900' }}">
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-chart-line mr-2.5 text-sm {{ request()->is('dashboard') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            Dashboard Overview
+                        </span>
+                        @if(request()->is('dashboard'))
+                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        @endif
+                    </a>
                     
-                    <div class="flex items-start">
-                        <div class="bg-primary/10 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                            <i class="fa-solid fa-envelope text-xl w-5 text-center" style="color: #C49A6C;"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-gray-900 font-serif">Email</h4>
-                            <p class="text-sm text-gray-600 mt-1">info@vedicbotanica.com</p>
-                        </div>
-                    </div>
+                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-heart mr-2.5 text-sm {{ request()->is('wishlist') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            My Wishlist
+                        </span>
+                        @if(request()->is('wishlist'))
+                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        @endif
+                    </a>
+                    
+                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm {{ request()->is('cart') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            My Shopping Cart
+                        </span>
+                        @if(request()->is('cart'))
+                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        @endif
+                    </a>
+                    
+                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-user-gear mr-2.5 text-sm {{ request()->is('profile') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            Account Settings
+                        </span>
+                        @if(request()->is('profile'))
+                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        @endif
+                    </a>
+                    
+                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-55 hover:text-gray-900' }}">
+                        <span class="flex items-center">
+                            <i class="fa-solid fa-headset mr-2.5 text-sm {{ request()->is('contact') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            Support & Help
+                        </span>
+                        @if(request()->is('contact'))
+                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        @endif
+                    </a>
+                    
+                    <form method="POST" action="{{ route('logout') }}" class="pt-2.5 border-t border-gray-100 mt-2">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50/60 transition-all duration-150 flex items-center cursor-pointer">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2.5 text-sm text-red-400"></i> Log Out
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Contact Form -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                <h3 class="text-xl sm:text-2xl font-serif font-bold text-gray-900 mb-6">Send us a message</h3>
-                <form action="#" method="POST">
-                    @csrf
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">First Name *</label>
-                            <input type="text" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-[#C49A6C] focus:ring-1 focus:ring-[#C49A6C]/20 transition duration-200" required>
+            <!-- Mobile Account Shortcuts Grid (Mobile only) -->
+            <div class="block lg:hidden w-full mb-4">
+                <!-- User welcome panel -->
+                <div class="bg-[#f5faf7]/40 border border-gray-100 rounded-xl p-3.5 mb-3 flex items-center space-x-3 shadow-sm">
+                    <div class="bg-primary text-white h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm shadow-sm">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 text-sm leading-tight">{{ Auth::user()->name }}</h4>
+                        <p class="text-[10px] text-gray-400 font-sans mt-0.5">{{ Auth::user()->email }}</p>
+                    </div>
+                </div>
+
+                <!-- 2x3 Grid of Actions -->
+                <div class="grid grid-cols-3 gap-2">
+                    <a href="{{ url('/dashboard') }}" class="flex flex-col items-center justify-center p-2 border border-gray-150 bg-white rounded-lg text-center shadow-xs text-gray-600 transition">
+                        <i class="fa-solid fa-chart-line text-xs mb-1"></i>
+                        <span class="text-[9px] font-bold">Overview</span>
+                    </a>
+
+                    <a href="{{ url('/wishlist') }}" class="flex flex-col items-center justify-center p-2 border border-gray-150 bg-white rounded-lg text-center shadow-xs text-gray-600 transition">
+                        <i class="fa-solid fa-heart text-xs mb-1"></i>
+                        <span class="text-[9px] font-bold">Wishlist</span>
+                    </a>
+
+                    <a href="{{ url('/cart') }}" class="flex flex-col items-center justify-center p-2 border border-gray-150 bg-white rounded-lg text-center shadow-xs text-gray-600 transition">
+                        <i class="fa-solid fa-cart-shopping text-xs mb-1"></i>
+                        <span class="text-[9px] font-bold">Cart</span>
+                    </a>
+
+                    <a href="{{ route('profile.edit') }}" class="flex flex-col items-center justify-center p-2 border border-gray-150 bg-white rounded-lg text-center shadow-xs text-gray-600 transition">
+                        <i class="fa-solid fa-user-gear text-xs mb-1"></i>
+                        <span class="text-[9px] font-bold">Profile</span>
+                    </a>
+
+                    <a href="{{ url('/contact') }}" class="flex flex-col items-center justify-center p-2 border rounded-lg text-center shadow-xs transition border-primary bg-primary/5 text-primary">
+                        <i class="fa-solid fa-headset text-xs mb-1"></i>
+                        <span class="text-[9px] font-bold">Support</span>
+                    </a>
+
+                    <form method="POST" action="{{ route('logout') }}" class="m-0">
+                        @csrf
+                        <button type="submit" class="w-full h-full flex flex-col items-center justify-center p-2 border border-gray-150 bg-white rounded-lg text-center shadow-xs text-red-500 cursor-pointer">
+                            <i class="fa-solid fa-arrow-right-from-bracket text-xs mb-1"></i>
+                            <span class="text-[9px] font-bold">Log Out</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-3/4">
+        @else
+            <div class="w-full">
+        @endauth
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
+                <!-- Contact Info -->
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900 mb-3" style="font-family: 'Outfit', sans-serif;">Get In Touch</h2>
+                    <p class="text-xs text-gray-500 mb-6 leading-relaxed">
+                        We'd love to hear from you. Whether you have a question about products, shipping, or need product recommendations, our team is ready to answer all your questions.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-2.5 rounded-full text-primary mr-3.5 flex-shrink-0">
+                                <i class="fa-solid fa-location-dot text-base w-4 text-center"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider">Address</h4>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</p>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Last Name *</label>
-                            <input type="text" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-[#C49A6C] focus:ring-1 focus:ring-[#C49A6C]/20 transition duration-200" required>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-2.5 rounded-full text-primary mr-3.5 flex-shrink-0">
+                                <i class="fa-solid fa-phone text-base w-4 text-center"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider">Phone</h4>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ \App\Models\Setting::get('site_phone', '+91 9915978757') }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-2.5 rounded-full text-primary mr-3.5 flex-shrink-0">
+                                <i class="fa-solid fa-envelope text-base w-4 text-center"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-xs uppercase tracking-wider">Email</h4>
+                                <p class="text-xs text-gray-600 mt-0.5">{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-4 sm:mb-6">
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address *</label>
-                        <input type="email" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-[#C49A6C] focus:ring-1 focus:ring-[#C49A6C]/20 transition duration-200" required>
-                    </div>
-                    <div class="mb-4 sm:mb-6">
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Message *</label>
-                        <textarea rows="4" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-[#C49A6C] focus:ring-1 focus:ring-[#C49A6C]/20 transition duration-200" required></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl tracking-wider text-xs uppercase transition shadow cursor-pointer" style="background-color: #C49A6C; color: white;">
-                        Send Message
-                    </button>
-                </form>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-white rounded-xl border border-gray-100 p-4 sm:p-5 shadow-sm">
+                    <h3 class="text-base font-bold text-gray-900 mb-4" style="font-family: 'Outfit', sans-serif;">Send us a message</h3>
+                    <form action="#" method="POST">
+                        @csrf
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-3.5">
+                            <div>
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">First Name *</label>
+                                <input type="text" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" required>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Last Name *</label>
+                                <input type="text" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" required>
+                            </div>
+                        </div>
+                        <div class="mb-3.5">
+                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Email Address *</label>
+                            <input type="email" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Message *</label>
+                            <textarea rows="3" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 rounded-lg tracking-wider text-[11px] transition duration-200 cursor-pointer shadow-sm">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <!-- Map -->
-        <div class="mt-12 sm:mt-16 bg-gray-200 rounded-2xl overflow-hidden h-64 sm:h-96 shadow-sm border border-gray-100">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83923192776!2d77.06889754725782!3d28.52758200617607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        @auth
         </div>
+        </div>
+        @endauth
     </div>
 @endsection
-

@@ -19,21 +19,21 @@
             <!-- Site Name -->
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Shop Name</label>
-                <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'Vedic Botanica' }}" placeholder="Vedic Botanica"
+                <input type="text" name="site_name" value="{{ $settings['site_name'] ?? 'Pepperlemon' }}" placeholder="Pepperlemon"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
             <!-- Site Email -->
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Support Email</label>
-                <input type="email" name="site_email" value="{{ $settings['site_email'] ?? 'support@vedicbotanica.com' }}" placeholder="support@vedicbotanica.com"
+                <input type="email" name="site_email" value="{{ $settings['site_email'] ?? 'Papperlemon1@gmail.com' }}" placeholder="Papperlemon1@gmail.com"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
             <!-- Site Phone -->
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Support Phone</label>
-                <input type="text" name="site_phone" value="{{ $settings['site_phone'] ?? '+91-9876543210' }}" placeholder="+91-9876543210"
+                <input type="text" name="site_phone" value="{{ $settings['site_phone'] ?? '+1-800-555-0199' }}" placeholder="+1-800-555-0199"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
@@ -41,7 +41,7 @@
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Physical Address</label>
                 <textarea name="site_address" rows="3" placeholder="Shop Address..."
-                          class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">{{ $settings['site_address'] ?? 'Haridwar, Uttarakhand, India' }}</textarea>
+                          class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">{{ $settings['site_address'] ?? '12800 Northborough Dr, Houston, TX 77067' }}</textarea>
             </div>
         </div>
 

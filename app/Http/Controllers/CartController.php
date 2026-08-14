@@ -32,9 +32,33 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
+        // Check stock availability
+        if ($product->quantity <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, this product is currently out of stock.'
+            ], 400);
+        }
+
+        $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+        $newQty = $currentQty + $quantity;
+
+        if ($newQty > $product->quantity) {
+            $available = max(0, $product->quantity - $currentQty);
+            if ($available <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You already have the maximum available stock (' . $product->quantity . ') in your cart.'
+                ], 400);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot add ' . $quantity . ' items. Only ' . $available . ' more unit(s) available in stock.'
+            ], 400);
+        }
+
         // Prepare image
-        $images = json_decode($product->images);
-        $image = ($images && count($images) > 0) ? asset($images[0]) : 'https://images.unsplash.com/photo-1599643478524-fb5244098775?w=500&q=80';
+        $image = $product->primary_image_url;
 
         $price = $product->sale_price ?? $product->price;
 
@@ -71,6 +95,14 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$productId])) {
+            $product = Product::find($productId);
+            if ($quantity > 0 && $product && $quantity > $product->quantity) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot update quantity. Only ' . $product->quantity . ' unit(s) available in stock for ' . $product->name . '.'
+                ], 400);
+            }
+
             if ($quantity <= 0) {
                 unset($cart[$productId]);
             } else {

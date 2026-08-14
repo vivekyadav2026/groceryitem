@@ -20,7 +20,7 @@
             <p class="text-xs text-gray-400">Last updated: July 8, 2026</p>
             
             <p>
-                At <strong>Vedic Botanica</strong> (operated by <strong>NAMAJ KREATION</strong>), customer satisfaction is our top priority. Since our products are nature-inspired wellness items (Gaudhoopam, Sambrani cups, Hawan products, essential oils, and wellness essentials), we take great care in ensuring the highest quality. Please read our policy on returns and refunds below.
+                At <strong>Pepperlemon LLC</strong>, customer satisfaction is our top priority. Since our products are fresh groceries, beverages, and organic daily essentials, we take great care in ensuring the highest quality. Please read our policy on returns and refunds below.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">1. Eligibility for Returns & Exchanges</h2>
@@ -41,7 +41,7 @@
                 If you receive a damaged or wrong product, please follow these steps to request a return or refund:
             </p>
             <ol class="list-decimal pl-6 space-y-2">
-                <li>Send an email to <strong>info@vedicbotanica.com</strong> or call us at <strong>+91 96670 91050</strong> within 48 hours of delivery.</li>
+                <li>Send an email to <strong>{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</strong> within 48 hours of delivery.</li>
                 <li>In your request, please provide your **Order Number**, the **Name of the product**, and clear **photographs/videos** of the damaged or incorrect item.</li>
                 <li>Our support team will review your submission. Once approved, we will arrange a reverse pickup or guide you on the return shipping process.</li>
             </ol>
@@ -74,11 +74,9 @@
                 For any questions or support regarding refunds, returns, or exchanges, please contact us:
             </p>
             <ul class="list-disc pl-6 space-y-2 mt-2">
-                <li><strong>Entity Name:</strong> NAMAJ KREATION</li>
-                <li><strong>Brand Name:</strong> Vedic Botanica</li>
-                <li><strong>Email:</strong> info@vedicbotanica.com / contact@vedicbotanica.com</li>
-                <li><strong>Phone:</strong> +91 96670 91050</li>
-                <li><strong>Office Address:</strong> B8/ 44, Sector-15, Rohini, New Delhi - 110089</li>
+                <li><strong>Brand Name:</strong> {{ \App\Models\Setting::get('site_name', 'Pepperlemon LLC') }}</li>
+                <li><strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</li>
+                <li><strong>Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</li>
             </ul>
         </div>
     </div>

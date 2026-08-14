@@ -83,7 +83,7 @@ class CheckoutAndProductTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertDontSee('COMPARE');
-        $response->assertSee('WISHLIST');
+        $response->assertSee('bi-heart');
     }
 
     /**
@@ -107,6 +107,7 @@ class CheckoutAndProductTest extends TestCase
                 'shipping_email' => 'admin@admin.com',
                 'shipping_phone' => '1234567890',
                 'shipping_address' => 'Admin HQ',
+                'shipping_address2' => 'Apt B',
                 'shipping_city' => 'Admin City',
                 'shipping_state' => 'Admin State',
                 'shipping_zip' => '12345',
@@ -160,6 +161,7 @@ class CheckoutAndProductTest extends TestCase
                 'shipping_email' => 'john@example.com',
                 'shipping_phone' => '9876543210',
                 'shipping_address' => '123 Spiritual Lane',
+                'shipping_address2' => 'Near Temple',
                 'shipping_city' => 'Varanasi',
                 'shipping_state' => 'Uttar Pradesh',
                 'shipping_zip' => '221001',
@@ -171,7 +173,7 @@ class CheckoutAndProductTest extends TestCase
         // Assert address details were saved to user profile
         $user->refresh();
         $this->assertEquals('9876543210', $user->phone);
-        $this->assertEquals('123 Spiritual Lane', $user->address);
+        $this->assertEquals('123 Spiritual Lane, Near Temple', $user->address);
         $this->assertEquals('Varanasi', $user->city);
         $this->assertEquals('Uttar Pradesh', $user->state);
         $this->assertEquals('221001', $user->zip);

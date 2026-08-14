@@ -55,11 +55,7 @@
                     @forelse($products as $product)
                         <tr class="hover:bg-slate-50/50 transition">
                             <td class="px-6 py-4">
-                                @php
-                                    $images = json_decode($product->images);
-                                    $image = ($images && count($images) > 0) ? asset($images[0]) : asset('images/premium_dhoop_product.png');
-                                @endphp
-                                <img src="{{ $image }}" alt="{{ $product->name }}" class="h-12 w-12 rounded-xl object-contain bg-slate-50 border border-slate-100 p-1">
+                                <img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" class="h-12 w-12 rounded-xl object-contain bg-slate-50 border border-slate-100 p-1 cursor-zoom-in hover:scale-110 transition-transform duration-200" onclick="openImageReview('{{ $product->primary_image_url }}')">
                             </td>
                             <td class="px-6 py-4">
                                 <span class="block font-semibold text-slate-800 max-w-xs truncate" title="{{ $product->name }}">{{ $product->name }}</span>
@@ -131,4 +127,44 @@
     </div>
 
 </div>
+
+<!-- Image Review Modal -->
+<div id="image-review-modal" class="fixed inset-0 z-[9999] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="closeImageReview()">
+    <div class="relative max-w-4xl max-h-[85vh] w-full flex items-center justify-center" onclick="event.stopPropagation()">
+        <!-- Close Button -->
+        <button onclick="closeImageReview()" class="absolute -top-12 right-0 text-white/85 hover:text-white transition-colors h-10 w-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 cursor-pointer">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        <!-- Modal Image -->
+        <img id="ir-modal-image" src="" alt="Product Review" class="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/10">
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+function openImageReview(src) {
+    const modal = document.getElementById('image-review-modal');
+    const modalImg = document.getElementById('ir-modal-image');
+    if (modal && modalImg) {
+        modalImg.src = src;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Lock body scroll
+    }
+}
+
+function closeImageReview() {
+    const modal = document.getElementById('image-review-modal');
+    if (modal) {
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+        document.body.style.overflow = ''; // Restore body scroll
+    }
+}
+</script>
+@endpush
