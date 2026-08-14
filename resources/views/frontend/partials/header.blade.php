@@ -8,20 +8,17 @@
         <div class="pl-brand-tag">Bold Flavor. Fresh Ideas.</div>
       </div>
     </a>
-    <nav class="d-flex gap-4 flex-grow-1 justify-content-center">
+    <nav class="d-flex gap-2 gap-xl-4 flex-grow-1 justify-content-center" style="white-space: nowrap;">
       <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
       <a href="{{ route('shop') }}" class="nav-link {{ request()->routeIs('shop') ? 'active' : '' }}">Shop</a>
-      <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About Us</a>
-      <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
-      <a href="{{ route('wishlist.index') }}" class="nav-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}">Wishlist</a>
       @auth
         <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
       @endauth
     </nav>
-    <div class="d-flex align-items-center gap-3" style="max-width:520px;width:100%;">
-      <form action="{{ route('shop') }}" method="GET" class="pl-search-wrap position-relative d-flex" style="max-width:520px;width:100%;flex:1;">
+    <div class="d-flex align-items-center gap-3 flex-shrink-0">
+      <form action="{{ route('shop') }}" method="GET" class="pl-search-wrap position-relative d-flex" style="width: 260px;">
         <span class="pl-search-icon"><i class="bi bi-search"></i></span>
-        <input type="search" name="search" class="form-control pl-search-input" placeholder="Search products, brands, categories..." value="{{ request('search') }}" autocomplete="off">
+        <input type="search" name="search" class="form-control pl-search-input" placeholder="Search..." value="{{ request('search') }}" autocomplete="off">
         <button class="pl-search-btn" type="submit" title="Search">
           <i class="bi bi-arrow-right"></i>
         </button>

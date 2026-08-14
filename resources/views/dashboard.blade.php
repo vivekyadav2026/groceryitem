@@ -32,9 +32,9 @@
                         </div>
                     </div>
                     
-                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-chart-line mr-2.5 text-sm {{ request()->is('dashboard') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            <i class="fa-solid fa-chart-line mr-2.5 text-sm {{ request()->is('dashboard') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Dashboard Overview
                         </span>
                         @if(request()->is('dashboard'))
@@ -42,9 +42,9 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-heart mr-2.5 text-sm {{ request()->is('wishlist') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            <i class="fa-solid fa-heart mr-2.5 text-sm {{ request()->is('wishlist') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             My Wishlist
                         </span>
                         @if(request()->is('wishlist'))
@@ -52,9 +52,9 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm {{ request()->is('cart') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm {{ request()->is('cart') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             My Shopping Cart
                         </span>
                         @if(request()->is('cart'))
@@ -62,9 +62,9 @@
                         @endif
                     </a>
                     
-                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-user-gear mr-2.5 text-sm {{ request()->is('profile') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            <i class="fa-solid fa-user-gear mr-2.5 text-sm {{ request()->is('profile') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Account Settings
                         </span>
                         @if(request()->is('profile'))
@@ -72,9 +72,9 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-headset mr-2.5 text-sm {{ request()->is('contact') ? 'text-primary' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                            <i class="fa-solid fa-headset mr-2.5 text-sm {{ request()->is('contact') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Support & Help
                         </span>
                         @if(request()->is('contact'))
@@ -174,7 +174,7 @@
                         </div>
                     </div>
                     <div class="bg-white border border-gray-100 rounded-xl p-3 shadow-xs flex items-center space-x-2.5">
-                        <div class="p-2 bg-blue-50 text-blue-500 rounded-lg text-xs flex-shrink-0">
+                        <div class="p-2 bg-primary/5 text-primary rounded-lg text-xs flex-shrink-0">
                             <i class="fa-solid fa-calendar-check text-base"></i>
                         </div>
                         <div class="min-w-0">
