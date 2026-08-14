@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     
-                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
+                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-gray-900' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
                             <i class="fa-solid fa-chart-line mr-2.5 text-sm {{ request()->is('dashboard') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Dashboard Overview
@@ -42,7 +42,7 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
+                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-gray-900' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
                             <i class="fa-solid fa-heart mr-2.5 text-sm {{ request()->is('wishlist') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             My Wishlist
@@ -52,7 +52,7 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
+                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-gray-900' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
                             <i class="fa-solid fa-cart-shopping mr-2.5 text-sm {{ request()->is('cart') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             My Shopping Cart
@@ -62,7 +62,7 @@
                         @endif
                     </a>
                     
-                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
+                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-gray-900' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
                             <i class="fa-solid fa-user-gear mr-2.5 text-sm {{ request()->is('profile') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Account Settings
@@ -72,7 +72,7 @@
                         @endif
                     </a>
                     
-                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary' : 'text-gray-900 hover:bg-gray-50' }}">
+                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all duration-150 flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-gray-900' : 'text-gray-900 hover:bg-gray-50' }}">
                         <span class="flex items-center">
                             <i class="fa-solid fa-headset mr-2.5 text-sm {{ request()->is('contact') ? 'text-primary' : 'text-gray-900 group-hover:text-gray-700' }}"></i>
                             Support & Help
