@@ -5,91 +5,118 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2">
+        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
             <div>
-                <h1 class="text-lg font-bold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Cart</h1>
-                <p class="text-[10px] md:text-[11px] text-gray-500 mt-0.5">
-                    <a href="/" class="hover:text-primary text-black transition">Home</a> / 
+                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
+                <p class="text-[10px] text-slate-450 mt-1 flex items-center gap-1.5 font-bold uppercase tracking-wider">
+                    <a href="/" class="hover:text-primary transition-colors">Home</a> 
+                    <span class="text-slate-300">/</span> 
                     @auth
-                        <a href="/dashboard" class="hover:text-primary text-black transition">Dashboard</a> /
+                        <a href="/dashboard" class="hover:text-primary transition-colors">Dashboard</a> 
+                        <span class="text-slate-300">/</span> 
                     @endauth
-                    <span class="text-black font-medium">Cart</span>
+                    <span class="text-slate-800">Cart</span>
                 </p>
             </div>
-            <span class="text-[9px] text-primary font-bold bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wider">Shopping Cart</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest w-fit">
+                <span class="relative flex h-1.5 w-1.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                </span>
+                Customer Portal
+            </span>
         </div>
 
         @auth
         <div class="flex flex-col lg:flex-row gap-4">
             <!-- Sidebar Navigation (Desktop only) -->
             <div class="hidden lg:block w-full lg:w-1/4">
-                <div class="bg-white border border-slate-150 rounded-2xl p-4 shadow-xs space-y-1">
-                    <div class="flex items-center space-x-3 mb-3.5 pb-3 border-b border-slate-100">
-                        <div class="bg-primary/10 text-primary h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                <div class="bg-white border border-slate-150 rounded-2xl p-4 shadow-sm space-y-1">
+                    <div class="flex items-center space-x-3 mb-4 pb-4 border-b border-slate-100/85">
+                        <div class="relative">
+                            <div class="bg-gradient-to-tr from-primary to-[#14836b] text-white h-10 w-10 rounded-full flex items-center justify-center font-extrabold text-sm shadow-sm select-none">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                            <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-xs leading-tight">{{ Auth::user()->name }}</h4>
-                            <span class="text-[9px] text-slate-450 font-bold uppercase tracking-widest mt-0.5 block">Customer Portal</span>
+                            <h4 class="font-extrabold text-slate-900 text-xs tracking-tight">{{ Auth::user()->name }}</h4>
+                            <span class="text-[8px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5 block flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-primary text-[9px]"></i> Verified Account
+                            </span>
                         </div>
                     </div>
                     
-                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/dashboard') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-chart-line mr-2.5 text-sm" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('dashboard'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-chart-line mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Dashboard Overview
                         </span>
-                        @if(request()->is('dashboard'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/wishlist') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-heart mr-2.5 text-sm" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('wishlist'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-heart mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             My Wishlist
                         </span>
-                        @if(request()->is('wishlist'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/cart') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('cart'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             My Shopping Cart
                         </span>
-                        @if(request()->is('cart'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ route('profile.edit') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-user-gear mr-2.5 text-sm" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('profile'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-user-gear mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Account Settings
                         </span>
-                        @if(request()->is('profile'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-headset mr-2.5 text-sm" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('contact'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-headset mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Support & Help
                         </span>
-                        @if(request()->is('contact'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
                     <form method="POST" action="{{ route('logout') }}" class="pt-2.5 border-t border-slate-100 mt-2">
                         @csrf
-                        <button type="submit" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
+                        <button type="submit" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
                             <i class="fa-solid fa-arrow-right-from-bracket mr-2.5 text-sm text-red-400"></i> Log Out
                         </button>
                     </form>
+
+                    <!-- Premium Promo Banner inside Sidebar -->
+                    <div class="mt-5 p-3.5 bg-gradient-to-br from-slate-50 to-slate-100/60 border border-slate-200/50 rounded-xl relative overflow-hidden">
+                        <span class="text-[8px] font-extrabold text-primary uppercase tracking-widest block mb-1">Premium Member</span>
+                        <p class="text-[10px] text-slate-500 leading-normal font-semibold mb-2">Free shipping & priority support active.</p>
+                        <a href="{{ url('/contact') }}" class="inline-flex items-center justify-center bg-white hover:bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-extrabold text-slate-800 transition-all shadow-2xs">
+                            Get Help Fast
+                        </a>
+                    </div>
                 </div>
             </div>
 

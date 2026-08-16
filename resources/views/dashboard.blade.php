@@ -6,89 +6,114 @@
     <!-- Dashboard Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-2">
+        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
             <div>
-                <h1 class="text-lg font-bold text-gray-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
-                <p class="text-xs text-gray-500 mt-1 flex items-center gap-1.5">
-                    <a href="/" class="hover:text-primary transition font-medium">Home</a> 
-                    <span class="text-gray-300">/</span> 
-                    <span class="text-gray-900 font-semibold">Dashboard</span>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
+                <p class="text-[10px] text-slate-450 mt-1 flex items-center gap-1.5 font-bold uppercase tracking-wider">
+                    <a href="/" class="hover:text-primary transition-colors">Home</a> 
+                    <span class="text-slate-300">/</span> 
+                    <span class="text-slate-800">Dashboard</span>
                 </p>
             </div>
-            <span class="text-[10px] text-primary font-bold bg-primary/10 px-3 py-1 rounded-sm uppercase tracking-wider">Customer Portal</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest w-fit">
+                <span class="relative flex h-1.5 w-1.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                </span>
+                Customer Portal
+            </span>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-4">
             
             <!-- Sidebar Navigation (Desktop only) -->
             <div class="hidden lg:block w-full lg:w-1/4">
-                <div class="bg-white border border-slate-150 rounded-2xl p-4 shadow-xs space-y-1">
-                    <div class="flex items-center space-x-3 mb-3.5 pb-3 border-b border-slate-100">
-                        <div class="bg-primary/10 text-primary h-9 w-9 rounded-full flex items-center justify-center font-bold text-sm">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                <div class="bg-white border border-slate-150 rounded-2xl p-4 shadow-sm space-y-1">
+                    <div class="flex items-center space-x-3 mb-4 pb-4 border-b border-slate-100/85">
+                        <div class="relative">
+                            <div class="bg-gradient-to-tr from-primary to-[#14836b] text-white h-10 w-10 rounded-full flex items-center justify-center font-extrabold text-sm shadow-sm select-none">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                            <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-xs leading-tight">{{ Auth::user()->name }}</h4>
-                            <span class="text-[9px] text-slate-450 font-bold uppercase tracking-widest mt-0.5 block">Customer Portal</span>
+                            <h4 class="font-extrabold text-slate-900 text-xs tracking-tight">{{ Auth::user()->name }}</h4>
+                            <span class="text-[8px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5 block flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check text-primary text-[9px]"></i> Verified Account
+                            </span>
                         </div>
                     </div>
                     
-                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/dashboard') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-chart-line mr-2.5 text-sm" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('dashboard'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-chart-line mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Dashboard Overview
                         </span>
-                        @if(request()->is('dashboard'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/wishlist') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-heart mr-2.5 text-sm" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('wishlist'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-heart mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             My Wishlist
                         </span>
-                        @if(request()->is('wishlist'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/cart') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('cart'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             My Shopping Cart
                         </span>
-                        @if(request()->is('cart'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ route('profile.edit') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-user-gear mr-2.5 text-sm" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('profile'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-user-gear mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Account Settings
                         </span>
-                        @if(request()->is('profile'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
-                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+                    <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
                         <span class="flex items-center">
-                            <i class="fa-solid fa-headset mr-2.5 text-sm" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                            @if(request()->is('contact'))
+                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                            @endif
+                            <i class="fa-solid fa-headset mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
                             Support & Help
                         </span>
-                        @if(request()->is('contact'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
+                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </a>
                     
                     <form method="POST" action="{{ route('logout') }}" class="pt-2.5 border-t border-slate-100 mt-2">
                         @csrf
-                        <button type="submit" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
+                        <button type="submit" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
                             <i class="fa-solid fa-arrow-right-from-bracket mr-2.5 text-sm text-red-400"></i> Log Out
                         </button>
                     </form>
+
+                    <!-- Premium Promo Banner inside Sidebar -->
+                    <div class="mt-5 p-3.5 bg-gradient-to-br from-slate-50 to-slate-100/60 border border-slate-200/50 rounded-xl relative overflow-hidden">
+                        <span class="text-[8px] font-extrabold text-primary uppercase tracking-widest block mb-1">Premium Member</span>
+                        <p class="text-[10px] text-slate-500 leading-normal font-semibold mb-2">Free shipping & priority support active.</p>
+                        <a href="{{ url('/contact') }}" class="inline-flex items-center justify-center bg-white hover:bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-extrabold text-slate-800 transition-all shadow-2xs">
+                            Get Help Fast
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -201,65 +226,103 @@
 
             <!-- Content Area: Dashboard Overview -->
             <div class="w-full lg:w-3/4">
-                <div class="max-w-3xl mx-auto space-y-3.5">
+                <div class="max-w-3xl mx-auto space-y-4">
                     
                     <!-- Welcome Banner -->
-                    <div class="bg-white border border-slate-150 rounded-2xl p-4.5 shadow-sm flex flex-col justify-between items-start gap-1">
-                        <div>
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <span class="text-[9px] font-extrabold text-primary uppercase tracking-widest">Welcome Back</span>
-                                <span class="text-[8px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
+                    <div class="relative overflow-hidden bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 text-white shadow-xl">
+                        <!-- Background Glow Accent -->
+                        <div class="absolute -right-16 -top-16 w-36 h-36 bg-primary/20 rounded-full blur-3xl"></div>
+                        <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-primary/10 rounded-full blur-2xl"></div>
+                        
+                        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap mb-2">
+                                    <span class="text-[9px] font-extrabold text-primary uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-md">Welcome Back</span>
+                                    <span class="text-[8px] bg-white/10 text-white/70 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
+                                </div>
+                                <h2 class="text-base sm:text-xl font-bold tracking-tight text-white leading-tight" style="font-family: 'Outfit', sans-serif;">Namaste, {{ Auth::user()->name }}!</h2>
+                                <p class="text-xs text-white/60 mt-1 max-w-md leading-relaxed">Manage your orders, wishlist items, and profile settings — all in one place.</p>
                             </div>
-                            <h2 class="text-base sm:text-lg font-bold text-slate-800 mt-1" style="font-family: 'Outfit', sans-serif;">Namaste, {{ Auth::user()->name }}!</h2>
-                            <p class="text-xs text-slate-500 mt-1 leading-relaxed">Manage your orders, wishlist items, and profile settings — all in one place.</p>
+                            
+                            <!-- Inline stats to look like premium SaaS app -->
+                            <div class="hidden md:flex items-center gap-4 border-l border-white/10 pl-5">
+                                <div class="text-right">
+                                    <span class="text-[8px] text-white/40 font-bold uppercase tracking-wider block">Total Spent</span>
+                                    <span class="text-sm font-extrabold text-white">₹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[8px] text-white/40 font-bold uppercase tracking-wider block">Orders</span>
+                                    <span class="text-sm font-extrabold text-white">{{ count($orders) }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Stats Summary Grid -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
                         <!-- Total Orders -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-3 hover:border-primary/20 transition-colors">
-                            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-box text-base text-primary"></i>
+                        <div class="group bg-white border border-slate-150 rounded-2xl p-4 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between h-28">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[9px] font-extrabold text-slate-450 uppercase tracking-wider">Total Orders</span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+                                    <i class="fa-solid fa-box text-xs text-slate-500 group-hover:text-primary transition-colors"></i>
+                                </div>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-xl font-bold text-slate-800 leading-none">{{ count($orders) }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Total Orders</span>
+                            <div class="mt-2.5">
+                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">{{ count($orders) }}</span>
+                                <div class="flex items-center gap-1 text-[8px] text-emerald-600 font-extrabold mt-1.5 bg-emerald-50 w-fit px-1.5 py-0.5 rounded">
+                                    <i class="fa-solid fa-circle-arrow-up text-[7px]"></i> +{{ count($orders) > 0 ? '100%' : '0%' }} active
+                                </div>
                             </div>
                         </div>
 
                         <!-- Total Spent -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-3 hover:border-primary/20 transition-colors">
-                            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-wallet text-base text-primary"></i>
+                        <div class="group bg-white border border-slate-150 rounded-2xl p-4 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between h-28">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[9px] font-extrabold text-slate-450 uppercase tracking-wider">Total Spent</span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+                                    <i class="fa-solid fa-wallet text-xs text-slate-500 group-hover:text-primary transition-colors"></i>
+                                </div>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-xl font-bold text-slate-800 leading-none">₹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Total Spent</span>
+                            <div class="mt-2.5">
+                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">₹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 0) }}</span>
+                                <div class="flex items-center gap-1 text-[8px] text-blue-600 font-extrabold mt-1.5 bg-blue-50 w-fit px-1.5 py-0.5 rounded">
+                                    <i class="fa-solid fa-shield text-[7px]"></i> Secured Transactions
+                                </div>
                             </div>
                         </div>
 
                         <!-- Wishlist Items -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-3 hover:border-primary/20 transition-colors">
-                            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-heart text-base text-primary"></i>
+                        <div class="group bg-white border border-slate-150 rounded-2xl p-4 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between h-28">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[9px] font-extrabold text-slate-450 uppercase tracking-wider">Wishlist</span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+                                    <i class="fa-solid fa-heart text-xs text-slate-500 group-hover:text-primary transition-colors"></i>
+                                </div>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-xl font-bold text-slate-800 leading-none">{{ count(session()->get('wishlist', [])) }}</span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Wishlist Items</span>
+                            <div class="mt-2.5">
+                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">{{ count(session()->get('wishlist', [])) }}</span>
+                                <div class="flex items-center gap-1 text-[8px] text-rose-600 font-extrabold mt-1.5 bg-rose-50 w-fit px-1.5 py-0.5 rounded">
+                                    <i class="fa-solid fa-heart text-[7px]"></i> Favorites list
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Last Order -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-3 hover:border-primary/20 transition-colors">
-                            <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-clock-rotate-left text-base text-primary"></i>
+                        <!-- Last Order Date -->
+                        <div class="group bg-white border border-slate-150 rounded-2xl p-4 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between h-28">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[9px] font-extrabold text-slate-450 uppercase tracking-wider">Last Order</span>
+                                <div class="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary/5 transition-colors">
+                                    <i class="fa-solid fa-clock-rotate-left text-xs text-slate-500 group-hover:text-primary transition-colors"></i>
+                                </div>
                             </div>
-                            <div class="flex flex-col">
-                                <span class="text-xs font-bold text-slate-800 truncate max-w-[100px] leading-none mt-0.5">
+                            <div class="mt-2.5">
+                                <span class="text-xs font-extrabold text-slate-900 leading-none truncate max-w-[100px]" style="font-family: 'Outfit', sans-serif;">
                                     {{ $orders->first() ? $orders->first()->created_at->format('M d, Y') : 'None' }}
                                 </span>
-                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Last Order</span>
+                                <div class="flex items-center gap-1 text-[8px] text-slate-600 font-extrabold mt-2 bg-slate-100 w-fit px-1.5 py-0.5 rounded">
+                                    <i class="fa-solid fa-history text-[7px]"></i> Recent Activity
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -267,46 +330,54 @@
                     <!-- Action Cards Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Shopping Cart Card -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                            <div>
-                                <div class="flex items-center gap-2.5 mb-2.5">
-                                    <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                        <i class="fa-solid fa-cart-shopping text-primary"></i>
+                        <div class="group relative bg-white border border-slate-150 rounded-2xl p-5 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-slate-50 group-hover:bg-primary/5 rounded-full transition-colors duration-300"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                                            <i class="fa-solid fa-cart-shopping text-slate-655 text-xs"></i>
+                                        </div>
+                                        <h5 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">Shopping Cart</h5>
                                     </div>
-                                    <h5 class="text-sm font-bold text-slate-800">Shopping Cart</h5>
+                                    <span class="text-[8px] font-extrabold text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-100 uppercase tracking-wider">Checkout</span>
                                 </div>
-                                <p class="text-xs text-slate-500 leading-relaxed mb-4">Review items in your shopping cart, update quantities, and proceed to secure checkout to place your order.</p>
+                                <p class="text-[11px] text-slate-500 leading-normal mb-4 max-w-xs">Review items in your shopping cart, update quantities, and proceed to secure checkout to place your order.</p>
                             </div>
-                            <a href="{{ url('/cart') }}" class="inline-flex items-center gap-1.5 border border-primary/20 hover:border-primary text-primary hover:bg-primary/5 px-3 py-1.5 rounded-lg text-xs font-semibold w-fit transition-colors">
-                                View Cart <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            <a href="{{ url('/cart') }}" class="relative z-10 inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white shadow-xs px-3.5 py-2 rounded-xl text-xs font-bold w-fit transition-all duration-300 group-hover:-translate-y-0.5">
+                                View Cart <i class="fa-solid fa-arrow-right text-[8px] group-hover:translate-x-0.5 transition-transform"></i>
                             </a>
                         </div>
 
                         <!-- Wishlist Card -->
-                        <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
-                            <div>
-                                <div class="flex items-center gap-2.5 mb-2.5">
-                                    <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs">
-                                        <i class="fa-solid fa-heart text-primary"></i>
+                        <div class="group relative bg-white border border-slate-150 rounded-2xl p-5 shadow-[0_2px_8px_-3px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                            <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-slate-50 group-hover:bg-primary/5 rounded-full transition-colors duration-300"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                                            <i class="fa-solid fa-heart text-slate-655 text-xs"></i>
+                                        </div>
+                                        <h5 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">My Wishlist</h5>
                                     </div>
-                                    <h5 class="text-sm font-bold text-slate-800">My Wishlist</h5>
+                                    <span class="text-[8px] font-extrabold text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-100 uppercase tracking-wider">Favorites</span>
                                 </div>
-                                <p class="text-xs text-slate-500 leading-relaxed mb-4">View your saved favorites, check for stock updates or discounts, and quickly add them to your shopping cart.</p>
+                                <p class="text-[11px] text-slate-500 leading-normal mb-4 max-w-xs">View your saved favorites, check for stock updates or discounts, and quickly add them to your shopping cart.</p>
                             </div>
-                            <a href="{{ url('/wishlist') }}" class="inline-flex items-center gap-1.5 border border-primary/20 hover:border-primary text-primary hover:bg-primary/5 px-3 py-1.5 rounded-lg text-xs font-semibold w-fit transition-colors">
-                                View Wishlist <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            <a href="{{ url('/wishlist') }}" class="relative z-10 inline-flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white shadow-xs px-3.5 py-2 rounded-xl text-xs font-bold w-fit transition-all duration-300 group-hover:-translate-y-0.5">
+                                View Wishlist <i class="fa-solid fa-arrow-right text-[8px] group-hover:translate-x-0.5 transition-transform"></i>
                             </a>
                         </div>
                     </div>
 
                     <!-- Recent Orders Section -->
                     <div>
-                        <div class="flex items-center justify-between mb-3.5 border-b border-slate-100 pb-2">
+                        <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                             <div class="flex items-center gap-2">
-                                <i class="fa-solid fa-clock-rotate-left text-slate-400 text-xs"></i>
-                                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-800" style="font-family: 'Outfit', sans-serif;">Recent Orders</h2>
+                                <i class="fa-solid fa-clock-rotate-left text-slate-450 text-[10px]"></i>
+                                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900" style="font-family: 'Outfit', sans-serif;">Recent Orders</h2>
                             </div>
-                            <a href="{{ url('/shop') }}" class="text-xs text-primary font-bold hover:underline uppercase tracking-wider text-[10px]">Shop Now</a>
+                            <a href="{{ url('/shop') }}" class="text-[9px] text-primary font-extrabold hover:text-primary-dark transition-colors uppercase tracking-widest">Shop Now</a>
                         </div>
                         
                         @if($orders->isEmpty())
