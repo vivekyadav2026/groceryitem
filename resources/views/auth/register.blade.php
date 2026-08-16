@@ -10,6 +10,23 @@
                 <p class="text-sm text-gray-500 mt-1 font-sans">Register to track orders and save your details.</p>
             </div>
 
+            <!-- Validation Errors Banner -->
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded-xl shadow-xs">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-xmark mt-0.5 text-red-500 text-sm"></i>
+                        <div>
+                            <span class="block text-xs font-bold text-red-900 mb-1">Please correct the following errors:</span>
+                            <ul class="list-disc list-inside text-xs space-y-0.5 text-red-750">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('register') }}" class="space-y-3">
                 @csrf
 
@@ -71,60 +88,6 @@
                             </button>
                         </div>
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-xs text-red-600" />
-                    </div>
-                </div>
-
-                <!-- Shipping Header -->
-                <div class="pt-2">
-                    <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider pb-1.5 border-b border-gray-150 flex items-center justify-between">
-                        <span>Shipping Details</span>
-                        <i class="fa-solid fa-truck text-primary text-xs"></i>
-                    </h3>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- Phone -->
-                    <div>
-                        <label for="phone" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Phone Number</label>
-                        <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="+91">
-                        <x-input-error :messages="$errors->get('phone')" class="mt-2 text-xs text-red-600" />
-                    </div>
-
-                    <!-- Zip -->
-                    <div>
-                        <label for="zip" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">ZIP / Pin Code</label>
-                        <input id="zip" type="text" name="zip" value="{{ old('zip') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
-                        <x-input-error :messages="$errors->get('zip')" class="mt-2 text-xs text-red-600" />
-                    </div>
-                </div>
-
-                <!-- Address Line 1 -->
-                <div>
-                    <label for="address" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Flat / House No. / Building <span class="text-red-500">*</span></label>
-                    <input id="address" type="text" name="address" value="{{ old('address') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Flat 104, Building A, Shanti Vihar">
-                    <x-input-error :messages="$errors->get('address')" class="mt-2 text-xs text-red-600" />
-                </div>
-
-                <!-- Address Line 2 -->
-                <div>
-                    <label for="address2" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Area / Colony / Street / Sector <span class="text-red-500">*</span></label>
-                    <input id="address2" type="text" name="address2" value="{{ old('address2') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Sector 12, near Kali Temple, Dwarka">
-                    <x-input-error :messages="$errors->get('address2')" class="mt-2 text-xs text-red-600" />
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <!-- City -->
-                    <div>
-                        <label for="city" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">City</label>
-                        <input id="city" type="text" name="city" value="{{ old('city') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
-                        <x-input-error :messages="$errors->get('city')" class="mt-2 text-xs text-red-600" />
-                    </div>
-
-                    <!-- State -->
-                    <div>
-                        <label for="state" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">State</label>
-                        <input id="state" type="text" name="state" value="{{ old('state') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
-                        <x-input-error :messages="$errors->get('state')" class="mt-2 text-xs text-red-600" />
                     </div>
                 </div>
 

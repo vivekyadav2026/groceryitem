@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Auth\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 // Admin controllers
@@ -40,8 +41,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::post('/checkout/razorpay-callback', [CheckoutController::class, 'handleRazorpayCallback'])->name('checkout.razorpay.callback');
-    Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelRazorpayPayment'])->name('checkout.razorpay.cancel');
+    Route::get('/checkout/stripe-callback', [CheckoutController::class, 'handleStripeCallback'])->name('checkout.stripe.callback');
+    Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelStripePayment'])->name('checkout.stripe.cancel');
     Route::get('/order-success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
 });
 
@@ -65,7 +66,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-use App\Http\Controllers\Auth\GoogleController;
 
 // Custom Admin Panel routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -80,7 +80,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
-    Route::post('orders/{order}/shiprocket', [AdminOrderController::class, 'pushToShiprocket'])->name('orders.shiprocket');
+    Route::post('orders/{order}/ups-shipment', [AdminOrderController::class, 'createUpsShipment'])->name('orders.ups');
 
     // Settings
     Route::get('settings', [AdminController::class, 'settings'])->name('settings.edit');
@@ -89,8 +89,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 require __DIR__.'/auth.php';
 
-// Razorpay Webhook — excluded from CSRF and auth middleware
+// Stripe Webhook — excluded from CSRF and auth middleware
 Route::withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->post(
-    '/webhook/razorpay',
-    [CheckoutController::class, 'razorpayWebhook']
-)->name('webhook.razorpay');
+    '/webhook/stripe',
+    [CheckoutController::class, 'stripeWebhook']
+)->name('webhook.stripe');

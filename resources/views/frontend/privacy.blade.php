@@ -45,7 +45,7 @@
                 <li>Telephone/Mobile Number</li>
             </ul>
             <p>
-                When you make a payment on our website, the transaction details are handled by our secure payment gateway partner, <strong>Razorpay</strong>. We do not store or collect your payment card details or net banking credentials on our website servers.
+                When you make a payment on our website, the transaction details are handled by our secure payment gateway partner, <strong>Stripe</strong>. We do not store or collect your payment card details on our website servers. Stripe processes your payment data in compliance with PCI-DSS standards.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">3. How We Use Your Information</h2>
@@ -77,10 +77,10 @@
                 Pepperlemon LLC's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options. 
             </p>
             <p>
-                Our payment gateway partner, <strong>Razorpay</strong>, acts as an independent controller of your payment data. You can read their privacy policy on their official website (www.razorpay.com) to understand how they handle transaction data.
+                Our payment gateway partner, <strong>Stripe</strong>, acts as an independent controller of your payment data. You can read their privacy policy at stripe.com/privacy to understand how they handle transaction data.
             </p>
 
-            <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">7. Data Protection Rights (GDPR / Indian IT Act Compliance)</h2>
+            <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">7. Your Privacy Rights (CCPA / US Privacy Law)</h2>
             <p>
                 We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:
             </p>

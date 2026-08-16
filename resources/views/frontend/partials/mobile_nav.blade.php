@@ -1,4 +1,4 @@
-<!-- ===================== MOBILE BOTTOM NAV ===================== -->
+﻿<!-- ===================== MOBILE BOTTOM NAV ===================== -->
 <nav class="pl-bottom-nav d-lg-none">
   <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="bi bi-house-door-fill"></i>Home</a>
   <a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'active' : '' }}"><i class="bi bi-grid-3x3-gap-fill"></i>Shop</a>

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('header_title', 'Create Product')
 
@@ -47,14 +47,14 @@
 
             <!-- Price -->
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Regular Price (₹) *</label>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Regular Price ($) *</label>
                 <input type="number" name="price" step="0.01" min="0" value="{{ old('price') }}" required placeholder="e.g. 250.00"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5">
             </div>
 
             <!-- Sale Price -->
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Sale Price (₹) (Optional)</label>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Sale Price ($) (Optional)</label>
                 <input type="number" name="sale_price" step="0.01" min="0" value="{{ old('sale_price') }}" placeholder="e.g. 199.00"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5">
             </div>
@@ -137,9 +137,9 @@
         <div class="bg-amber-50 border border-amber-100 p-5 rounded-2xl space-y-4">
             <div class="flex items-center space-x-2 pb-1.5 border-b border-amber-100">
                 <i class="fa-solid fa-truck-fast text-amber-500 text-xs"></i>
-                <h4 class="font-bold text-slate-700 text-sm uppercase tracking-wider">Shipping Details (for Shiprocket)</h4>
+                <h4 class="font-bold text-slate-700 text-sm uppercase tracking-wider">Shipping Details (for UPS)</h4>
             </div>
-            <span class="text-xs text-slate-400 block -mt-1">These values are sent automatically to Shiprocket when you dispatch an order.</span>
+            <span class="text-xs text-slate-400 block -mt-1">These values are used by UPS to calculate shipping weight and dimensions.</span>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <!-- Weight -->

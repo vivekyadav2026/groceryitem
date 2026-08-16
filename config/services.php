@@ -35,10 +35,17 @@ return [
         ],
     ],
 
-    'razorpay' => [
-        'key'            => env('RAZORPAY_KEY', 'rzp_test_placeholder_key'),
-        'secret'         => env('RAZORPAY_SECRET', 'placeholder_secret'),
-        'webhook_secret' => env('RAZORPAY_WEBHOOK_SECRET', ''),
+    'stripe' => [
+        'key'            => env('STRIPE_KEY'),
+        'secret'         => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET', ''),
+    ],
+
+    'ups' => [
+        'client_id'      => env('UPS_CLIENT_ID'),
+        'client_secret'  => env('UPS_CLIENT_SECRET'),
+        'account_number' => env('UPS_ACCOUNT_NUMBER'),
+        'sandbox'        => env('UPS_SANDBOX', true),
     ],
 
     'google' => [

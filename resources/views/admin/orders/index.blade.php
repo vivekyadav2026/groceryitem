@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('header_title', 'Manage Orders')
 
@@ -79,8 +79,8 @@
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-50 text-orange-755">Pending</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 font-bold text-slate-900">₹{{ number_format($order->total_amount, 2) }}</td>
-                            <td class="px-6 py-4 text-xs text-slate-400">{{ $order->created_at->format('d M Y, h:i A') }}</td>
+                            <td class="px-6 py-4 font-bold text-slate-900">${{ number_format($order->total_amount, 2) }}</td>
+                            <td class="px-6 py-4 text-xs text-slate-400">{{ $order->created_at->format('M d, Y g:i A') }}</td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('admin.orders.show', $order->id) }}" class="text-xs font-bold bg-slate-100 hover:bg-[#C49A6C] hover:text-white px-3.5 py-2.5 rounded-lg transition duration-200">
                                     Manage

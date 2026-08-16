@@ -98,7 +98,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
                         <div>
                             <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Phone Number <span class="text-red-500">*</span></label>
-                            <input type="text" name="shipping_phone" value="{{ old('shipping_phone', auth()->check() ? auth()->user()->phone : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="+91">
+                            <input type="text" name="shipping_phone" value="{{ old('shipping_phone', auth()->check() ? auth()->user()->phone : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="+1 (555) 000-0000">
                         </div>
                         <div>
                             <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">ZIP / Postal Code <span class="text-red-500">*</span></label>
@@ -113,7 +113,7 @@
                                 <i class="fa-solid fa-location-crosshairs"></i> Auto-Detect
                             </button>
                         </div>
-                        <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Flat 104, Building A, Shanti Vihar">
+                        <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. 1234 Main St, Apt 5B">
                     </div>
 
                     <div class="mb-2.5">
@@ -154,13 +154,14 @@
                             </div>
                         </label>
                         <label class="flex items-center p-2.5 border border-gray-200 bg-white rounded-xl cursor-pointer hover:bg-primary/5 hover:border-primary/30 transition shadow-sm relative">
-                            <input type="radio" name="payment_method" value="razorpay" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
-                            <div class="ml-2.5">
-                                <span class="font-bold text-gray-900 text-xs block">Pay Online</span>
-                                <span class="text-[10px] text-gray-400">UPI, Cards, NetBanking</span>
+                            <input type="radio" name="payment_method" value="stripe" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                            <div class="ml-2.5 flex-1">
+                                <span class="font-bold text-gray-900 text-xs block">Pay with Card</span>
+                                <span class="text-[10px] text-gray-400">Visa, Mastercard, Amex &amp; more</span>
                             </div>
-                            <div class="ms-auto text-primary opacity-60">
-                                <i class="fa-solid fa-credit-card text-base"></i>
+                            <div class="ms-auto flex items-center gap-1">
+                                <svg viewBox="0 0 38 24" width="28" height="18" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#1a1f71"/><path d="M14.5 7l-2.5 10h-2l2.5-10h2zm7 0l-1 4.5c-.4-1-1.5-4.5-1.5-4.5h-2l2.5 10h1.5l3.5-10h-3zm-11 0H8l-3 10h2l.5-2h3l.5 2h2L10.5 7zm-2.5 6.5l1-4 1 4h-2zM28 9.5c0-.8-.6-2.5-3-2.5-2.5 0-3.5 1.5-3.5 3s1 2.5 3 3 2 1 2 1.5-.5 1-1.5 1c-1.5 0-2.5-1-2.5-1L21 16s1 1.5 3.5 1.5c2.3 0 3.5-1.5 3.5-3 0-1.6-1-2.5-3-3s-2-1-2-1.5.4-1 1.5-1c1 0 2 .5 2 .5L28 9.5z" fill="white"/></svg>
+                                <svg viewBox="0 0 38 24" width="28" height="18" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="4" fill="#f0f0f0"/><circle cx="15" cy="12" r="7" fill="#eb001b"/><circle cx="23" cy="12" r="7" fill="#f79e1b"/><path d="M19 7.4a7 7 0 0 1 0 9.2A7 7 0 0 1 19 7.4z" fill="#ff5f00"/></svg>
                             </div>
                         </label>
                     </div>
@@ -189,7 +190,7 @@
                                             <span class="text-[9px] text-gray-400">Qty: {{ $item['quantity'] }}</span>
                                         </div>
                                     </div>
-                                    <span class="font-bold text-gray-900 text-xs">₹{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
+                                    <span class="font-bold text-gray-900 text-xs">${{ number_format($itemPrice * $item['quantity'], 2) }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -197,7 +198,7 @@
                         <div class="space-y-2 mb-3 border-t border-gray-100 pt-2">
                             <div class="flex justify-between text-gray-500 text-xs">
                                 <span>Subtotal</span>
-                                <span class="font-semibold text-gray-900 font-sans">₹{{ number_format($subtotal, 2) }}</span>
+                                <span class="font-semibold text-gray-900 font-sans">${{ number_format($subtotal, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-gray-500 text-xs">
                                 <span>Shipping</span>
@@ -206,12 +207,12 @@
                             <hr class="border-gray-100">
                             <div class="flex justify-between text-xs font-bold text-gray-900">
                                 <span>Grand Total</span>
-                                <span>₹{{ number_format($subtotal, 2) }}</span>
+                                <span>${{ number_format($subtotal, 2) }}</span>
                             </div>
                         </div>
 
                         <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 rounded-lg tracking-wider text-[11px] transition-all duration-300 shadow-md cursor-pointer hover:shadow-lg transform hover:-translate-y-0.5">
-                            PLACE ORDER (₹{{ number_format($subtotal, 2) }})
+                            PLACE ORDER (${{ number_format($subtotal, 2) }})
                         </button>
                     </div>
                 </div>

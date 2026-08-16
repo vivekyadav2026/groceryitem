@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+﻿@extends('layouts.frontend')
 
 @section('title', 'Order Success')
 
@@ -50,7 +50,7 @@
                         </div>
                         <div>
                             <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Total Amount</span>
-                            <span class="font-extrabold text-primary text-sm sm:text-base">₹{{ number_format($order->total_amount, 2) }}</span>
+                            <span class="font-extrabold text-primary text-sm sm:text-base">${{ number_format($order->total_amount, 2) }}</span>
                         </div>
                     </div>
                 </div>
@@ -71,11 +71,11 @@
                                 <!-- Title/Qty -->
                                 <div class="flex-1 min-w-0">
                                     <h4 class="font-bold text-gray-900 text-xs sm:text-sm truncate leading-tight">{{ $item->product_name }}</h4>
-                                    <p class="text-[10px] text-gray-400 mt-1">₹{{ number_format($item->unit_price, 2) }} × {{ $item->quantity }}</p>
+                                    <p class="text-[10px] text-gray-400 mt-1">${{ number_format($item->unit_price, 2) }} × {{ $item->quantity }}</p>
                                 </div>
                                 <!-- Price Total -->
                                 <div class="text-right">
-                                    <span class="font-extrabold text-gray-900 text-xs sm:text-sm">₹{{ number_format($item->total_price, 2) }}</span>
+                                    <span class="font-extrabold text-gray-900 text-xs sm:text-sm">${{ number_format($item->total_price, 2) }}</span>
                                 </div>
                             </div>
                         @endforeach

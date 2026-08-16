@@ -1,4 +1,4 @@
-<!-- ===================== FOOTER ===================== -->
+﻿<!-- ===================== FOOTER ===================== -->
 <footer class="pl-footer d-none d-lg-block">
   <div class="container">
     <div class="row g-4">

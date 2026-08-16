@@ -63,7 +63,7 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">8. Governing Law and Jurisdiction</h2>
             <p>
-                These Terms of Service and any separate agreements whereby we provide you services or products shall be governed by and construed in accordance with the laws of India, and any disputes shall be subject to the exclusive jurisdiction of the courts in <strong>New Delhi, Delhi, India</strong>.
+                These Terms of Service and any separate agreements whereby we provide you services or products shall be governed by and construed in accordance with the laws of the State of Texas, United States, and any disputes shall be subject to the exclusive jurisdiction of the state and federal courts located in <strong>Houston, Texas, USA</strong>.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">9. Contact Information</h2>

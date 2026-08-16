@@ -5,7 +5,7 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
+        <div class="mb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
             <div>
                 <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
                 <p class="text-[10px] text-slate-450 mt-1 flex items-center gap-1.5 font-bold uppercase tracking-wider">
@@ -18,13 +18,6 @@
                     <span class="text-slate-800">Support & Help</span>
                 </p>
             </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest w-fit">
-                <span class="relative flex h-1.5 w-1.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                </span>
-                Customer Portal
-            </span>
         </div>
 
         @auth
@@ -261,7 +254,7 @@
                                 <div class="min-w-0">
                                     <h4 class="font-extrabold text-slate-800 text-[10px] uppercase tracking-wider">{{ __('Phone Number') }}</h4>
                                     <p class="text-xs text-slate-900 font-bold mt-0.5 leading-normal">
-                                        {{ \App\Models\Setting::get('site_phone', '+91 9915978757') }}
+                                        {{ \App\Models\Setting::get('site_phone', '+1 (713) 555-0199') }}
                                     </p>
                                 </div>
                             </div>

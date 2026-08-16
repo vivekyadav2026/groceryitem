@@ -25,7 +25,7 @@
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">1. Shipping Coverage & Locations</h2>
             <p>
-                We currently ship our products all across **India**, covering most pin codes. If your delivery address is in a remote location or area not serviced by our courier partners, our support team will contact you to arrange an alternative delivery solution.
+                We ship our products across the contiguous United States (lower 48 states). If your delivery address is in Alaska, Hawaii, or a U.S. territory not serviced by standard UPS ground routes, our support team will contact you to arrange an alternative delivery solution.
             </p>
 
             <h2 class="text-xl font-serif font-bold text-gray-900 mt-8 mb-4">2. Order Processing & Dispatch Time</h2>
@@ -38,9 +38,11 @@
                 Our standard delivery timeline once dispatched is:
             </p>
             <ul class="list-disc pl-6 space-y-2">
-                <li><strong>Metro Cities:</strong> 2 to 4 business days.</li>
-                <li><strong>Rest of India:</strong> 4 to 7 business days.</li>
-                <li><strong>Remote Locations:</strong> 7 to 10 business days.</li>
+                <li><strong>Standard (UPS Ground):</strong> 3 to 7 business days.</li>
+                <li><strong>Expedited (UPS 3 Day Select):</strong> 3 business days.</li>
+                <li><strong>Expedited (UPS 2nd Day Air):</strong> 2 business days.</li>
+                <li><strong>Overnight (UPS Next Day Air):</strong> 1 business day.</li>
+                <li><strong>Remote or Rural Areas:</strong> May take up to 10 business days.</li>
             </ul>
             <p>
                 *Note: Delivery times may be affected by bad weather, holidays, or administrative disruptions beyond our control.

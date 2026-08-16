@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -69,8 +69,8 @@
           <h6 class="fw-bold mb-3">Price Range</h6>
           <input type="range" class="form-range" name="max_price" id="desktop-price-range" min="20" max="2000" value="{{ request('max_price', 2000) }}">
           <div class="d-flex justify-content-between small text-muted mt-1">
-            <span>₹20</span>
-            <span id="desktop-price-max-label">₹{{ request('max_price', 2000) }}</span>
+            <span>$20</span>
+            <span id="desktop-price-max-label">${{ request('max_price', 2000) }}</span>
           </div>
         </div>
       </form>
@@ -101,22 +101,29 @@
                   <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
                 </div>
               @endif
+              @if($product->quantity <= 0)
+                <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                  <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
+                </div>
+              @endif
               <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
               <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
             </div>
             <div class="pl-product-body">
               <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-              <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
+              <div class="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}
                 @if($product->sale_price)
-                  <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                  <span class="pl-old">${{ number_format($product->price, 2) }}</span>
                 @endif
               </div>
               <div class="mt-auto d-flex gap-2">
+              @if($product->quantity > 0)
                 <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
-                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')">
-                  <i class="bi bi-cart-plus"></i>
-                </button>
-              </div>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
+            </div>
             </div>
           </div>
         </div>
@@ -181,8 +188,8 @@
           <h6 class="fw-bold mb-2">Price Range</h6>
           <input type="range" class="form-range" name="max_price" id="mobile-price-range" min="20" max="2000" value="{{ request('max_price', 2000) }}">
           <div class="d-flex justify-content-between small text-muted mt-1">
-            <span>₹20</span>
-            <span id="mobile-price-max-label">₹{{ request('max_price', 2000) }}</span>
+            <span>$20</span>
+            <span id="mobile-price-max-label">${{ request('max_price', 2000) }}</span>
           </div>
         </div>
         <button type="submit" class="btn btn-pl-primary w-100 py-2 rounded-3" id="mobileFilterApply">Apply Filters</button>

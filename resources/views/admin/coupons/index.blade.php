@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('header_title', 'Manage Coupons')
 
@@ -41,7 +41,7 @@
                             </td>
                             <td class="px-6 py-4 font-bold text-slate-900">
                                 @if($coupon->type === 'fixed')
-                                    ₹{{ number_format($coupon->value, 2) }}
+                                    ${{ number_format($coupon->value, 2) }}
                                 @else
                                     {{ number_format($coupon->value) }}%
                                 @endif
@@ -49,7 +49,7 @@
                             <td class="px-6 py-4 text-xs text-slate-500">
                                 @if($coupon->expiry_date)
                                     <span class="{{ \Carbon\Carbon::parse($coupon->expiry_date)->isPast() ? 'text-rose-500 font-bold' : '' }}">
-                                        {{ \Carbon\Carbon::parse($coupon->expiry_date)->format('d M Y') }}
+                                        {{ \Carbon\Carbon::parse($coupon->expiry_date)->format('M d, Y') }}
                                     </span>
                                 @else
                                     <span class="text-slate-400">Never Expires</span>

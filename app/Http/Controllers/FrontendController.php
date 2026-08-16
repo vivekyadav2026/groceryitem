@@ -10,7 +10,7 @@ use App\Models\Testimonial;
 
 class FrontendController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
         $banners = Banner::where('is_active', true)->get();
         $testimonials = Testimonial::where('is_active', true)->get();
@@ -27,7 +27,10 @@ class FrontendController extends Controller
             $featuredProducts = Product::where('is_active', true)->latest()->take(8)->get();
         }
 
-        return view('frontend.home', compact('banners', 'testimonials', 'bestSellers', 'featuredProducts', 'dealOfWeek', 'categories'));
+        // Paginated "All Products" grid for the infinite scroll section
+        $allProducts = Product::where('is_active', true)->latest()->paginate(12)->withQueryString();
+
+        return view('frontend.home', compact('banners', 'testimonials', 'bestSellers', 'featuredProducts', 'dealOfWeek', 'categories', 'allProducts'));
     }
 
     public function about()

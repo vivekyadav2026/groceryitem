@@ -1,11 +1,11 @@
-@extends('layouts.frontend')
+﻿@extends('layouts.frontend')
 
 @section('title', 'My Cart')
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
+        <div class="mb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
             <div>
                 <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
                 <p class="text-[10px] text-slate-450 mt-1 flex items-center gap-1.5 font-bold uppercase tracking-wider">
@@ -18,13 +18,6 @@
                     <span class="text-slate-800">Cart</span>
                 </p>
             </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest w-fit">
-                <span class="relative flex h-1.5 w-1.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                </span>
-                Customer Portal
-            </span>
         </div>
 
         @auth
@@ -264,10 +257,10 @@
                                         <!-- Title and Price Row -->
                                         <div class="flex items-start justify-between gap-2">
                                             <h4 class="font-bold text-slate-800 text-xs sm:text-sm truncate leading-tight">{{ $itemName }}</h4>
-                                            <span class="font-extrabold text-slate-900 text-xs sm:text-sm whitespace-nowrap">₹{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
+                                            <span class="font-extrabold text-slate-900 text-xs sm:text-sm whitespace-nowrap">${{ number_format($itemPrice * $item['quantity'], 2) }}</span>
                                         </div>
                                         
-                                        <p class="text-[10px] text-slate-400 font-semibold mt-0.5">₹{{ number_format($itemPrice, 2) }} each</p>
+                                        <p class="text-[10px] text-slate-400 font-semibold mt-0.5">${{ number_format($itemPrice, 2) }} each</p>
                                         
                                         <!-- Stepper and Actions Row -->
                                         <div class="flex flex-wrap items-center justify-between gap-3 mt-2.5">
@@ -308,7 +301,7 @@
                             <div class="space-y-2 mb-4">
                                 <div class="flex justify-between text-slate-500 text-xs">
                                     <span class="font-medium">Subtotal</span>
-                                    <span class="font-extrabold text-slate-800 font-sans">₹{{ number_format($subtotal, 2) }}</span>
+                                    <span class="font-extrabold text-slate-800 font-sans">${{ number_format($subtotal, 2) }}</span>
                                 </div>
                                 <div class="flex justify-between text-slate-500 text-xs">
                                     <span class="font-medium">Shipping</span>
@@ -317,7 +310,7 @@
                                 <hr class="border-slate-100">
                                 <div class="flex justify-between text-xs font-bold text-slate-900 pt-1">
                                     <span>Total Amount</span>
-                                    <span class="text-slate-900 font-extrabold">₹{{ number_format($total, 2) }}</span>
+                                    <span class="text-slate-900 font-extrabold">${{ number_format($total, 2) }}</span>
                                 </div>
                             </div>
 

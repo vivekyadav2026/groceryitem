@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+﻿@extends('layouts.frontend')
 
 @section('title', 'My Dashboard')
 
@@ -6,7 +6,7 @@
     <!-- Dashboard Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
+        <div class="mb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-slate-100">
             <div>
                 <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">My Account</h1>
                 <p class="text-[10px] text-slate-450 mt-1 flex items-center gap-1.5 font-bold uppercase tracking-wider">
@@ -15,13 +15,6 @@
                     <span class="text-slate-800">Dashboard</span>
                 </p>
             </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest w-fit">
-                <span class="relative flex h-1.5 w-1.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                </span>
-                Customer Portal
-            </span>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-4">
@@ -229,30 +222,36 @@
                 <div class="max-w-3xl mx-auto space-y-4">
                     
                     <!-- Welcome Banner -->
-                    <div class="relative overflow-hidden bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 text-white shadow-xl">
-                        <!-- Background Glow Accent -->
-                        <div class="absolute -right-16 -top-16 w-36 h-36 bg-primary/20 rounded-full blur-3xl"></div>
-                        <div class="absolute -right-8 -bottom-8 w-28 h-28 bg-primary/10 rounded-full blur-2xl"></div>
-                        
+                    <div class="relative overflow-hidden rounded-2xl p-5 sm:p-6 shadow-sm" style="background: linear-gradient(135deg, #f0faf7 0%, #e8f7f2 60%, #f5fffe 100%); border: 1px solid #c8e8df; border-left: 4px solid #0e6b57;">
+                        <!-- Soft background blob -->
+                        <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full" style="background: radial-gradient(circle, rgba(14,107,87,0.06) 0%, transparent 70%);"></div>
+                        <div class="absolute right-0 bottom-0 w-32 h-32 rounded-full" style="background: radial-gradient(circle, rgba(14,107,87,0.04) 0%, transparent 70%);"></div>
+
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div>
-                                <div class="flex items-center gap-2 flex-wrap mb-2">
-                                    <span class="text-[9px] font-extrabold text-primary uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-md">Welcome Back</span>
-                                    <span class="text-[8px] bg-white/10 text-white/70 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
+                            <div class="flex items-start gap-4">
+                                <!-- Avatar / Icon -->
+                                <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-extrabold text-sm text-white shadow-md" style="background: linear-gradient(135deg, #0e6b57, #094f40);">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                 </div>
-                                <h2 class="text-base sm:text-xl font-bold tracking-tight text-white leading-tight" style="font-family: 'Outfit', sans-serif;">Namaste, {{ Auth::user()->name }}!</h2>
-                                <p class="text-xs text-white/60 mt-1 max-w-md leading-relaxed">Manage your orders, wishlist items, and profile settings — all in one place.</p>
+                                <div>
+                                    <div class="flex items-center gap-2 flex-wrap mb-1.5">
+                                        <span class="text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full" style="background: #0e6b57; color: #fff; letter-spacing: 0.08em;">Welcome Back</span>
+                                        <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background: rgba(14,107,87,0.08); color: #0e6b57; border: 1px solid rgba(14,107,87,0.15);">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
+                                    </div>
+                                    <h2 class="text-base sm:text-lg font-bold tracking-tight leading-tight" style="font-family: 'Outfit', sans-serif; color: #0f1f1c;">Hello, {{ Auth::user()->name }}! 👋</h2>
+                                    <p class="text-[11px] mt-1 max-w-sm leading-relaxed font-medium" style="color: #4b7a6e;">Manage your orders, wishlist, and profile — all in one place.</p>
+                                </div>
                             </div>
-                            
-                            <!-- Inline stats to look like premium SaaS app -->
-                            <div class="hidden md:flex items-center gap-4 border-l border-white/10 pl-5">
-                                <div class="text-right">
-                                    <span class="text-[8px] text-white/40 font-bold uppercase tracking-wider block">Total Spent</span>
-                                    <span class="text-sm font-extrabold text-white">₹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
+
+                            <!-- Stats -->
+                            <div class="hidden md:flex items-center gap-5">
+                                <div class="text-center px-4 py-2.5 rounded-xl" style="background: rgba(255,255,255,0.75); border: 1px solid rgba(14,107,87,0.12); backdrop-filter: blur(4px);">
+                                    <span class="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style="color: #4b7a6e;">Total Spent</span>
+                                    <span class="text-sm font-extrabold" style="color: #0f1f1c; font-family: 'Outfit', sans-serif;">${{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
                                 </div>
-                                <div class="text-right">
-                                    <span class="text-[8px] text-white/40 font-bold uppercase tracking-wider block">Orders</span>
-                                    <span class="text-sm font-extrabold text-white">{{ count($orders) }}</span>
+                                <div class="text-center px-4 py-2.5 rounded-xl" style="background: rgba(255,255,255,0.75); border: 1px solid rgba(14,107,87,0.12); backdrop-filter: blur(4px);">
+                                    <span class="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style="color: #4b7a6e;">Orders</span>
+                                    <span class="text-sm font-extrabold" style="color: #0f1f1c; font-family: 'Outfit', sans-serif;">{{ count($orders) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -285,7 +284,7 @@
                                 </div>
                             </div>
                             <div class="mt-2.5">
-                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">₹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 0) }}</span>
+                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">${{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 0) }}</span>
                                 <div class="flex items-center gap-1 text-[8px] text-blue-600 font-extrabold mt-1.5 bg-blue-50 w-fit px-1.5 py-0.5 rounded">
                                     <i class="fa-solid fa-shield text-[7px]"></i> Secured Transactions
                                 </div>
@@ -455,7 +454,7 @@
                                                 <!-- Desktop only Status / Mobile & Desktop Total -->
                                                 <div class="flex items-center gap-3">
                                                     <div class="text-right">
-                                                         <span class="text-xs font-extrabold text-slate-900">₹{{ number_format($order->total_amount, 2) }}</span>
+                                                         <span class="text-xs font-extrabold text-slate-900">${{ number_format($order->total_amount, 2) }}</span>
                                                     </div>
                                                     <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold border {{ $config['bg'] }}">
                                                          <span class="relative flex h-1.5 w-1.5">
@@ -501,10 +500,10 @@
                                                                 @endif
                                                                 <div>
                                                                     <p class="text-xs font-bold text-slate-900">{{ $item->product_name }}</p>
-                                                                    <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} × <span class="font-medium text-slate-500">₹{{ number_format($item->unit_price, 2) }}</span></p>
+                                                                    <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} × <span class="font-medium text-slate-500">${{ number_format($item->unit_price, 2) }}</span></p>
                                                                 </div>
                                                             </div>
-                                                            <span class="text-xs font-extrabold text-slate-900">₹{{ number_format($item->total_price, 2) }}</span>
+                                                            <span class="text-xs font-extrabold text-slate-900">${{ number_format($item->total_price, 2) }}</span>
                                                         </div>
                                                     @endforeach
                                                 </div>

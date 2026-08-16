@@ -1,4 +1,4 @@
-<section class="space-y-4">
+﻿<section class="space-y-4">
     <header class="flex items-center gap-2.5 mb-3.5 border-b border-slate-100 pb-2">
         <div class="bg-red-50 text-red-650 p-2 rounded-lg border border-red-100">
             <i class="fa-solid fa-circle-radiation text-base"></i>

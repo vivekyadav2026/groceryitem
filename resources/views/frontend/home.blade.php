@@ -178,21 +178,28 @@
                 <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
               </div>
             @endif
-            <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
+              @if($product->quantity <= 0)
+                <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                  <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
+                </div>
+              @endif
+              <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
             <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-            <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
+            <div class="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}
               @if($product->sale_price)
-                <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                <span class="pl-old">${{ number_format($product->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
-              <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
-              <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')">
-                <i class="bi bi-cart-plus"></i>
-              </button>
+              @if($product->quantity > 0)
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
             </div>
           </div>
         </div>
@@ -224,21 +231,28 @@
                 <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
               </div>
             @endif
-            <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
+              @if($product->quantity <= 0)
+                <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                  <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
+                </div>
+              @endif
+              <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
             <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-            <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
+            <div class="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}
               @if($product->sale_price)
-                <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                <span class="pl-old">${{ number_format($product->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
-              <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
-              <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')">
-                <i class="bi bi-cart-plus"></i>
-              </button>
+              @if($product->quantity > 0)
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
             </div>
           </div>
         </div>
@@ -247,24 +261,27 @@
     </div>
   </section>
 
-  <!-- ===================== FEATURED PRODUCTS ===================== -->
+  <!-- ===================== ALL PRODUCTS (Infinite Scroll) ===================== -->
   <section class="pl-section">
     <div class="pl-section-head">
-      <h2>Featured Products</h2>
-      <a href="{{ url('/shop') }}" class="pl-view-all">View All</a>
+      <h2>All Products</h2>
+      <a href="{{ url('/shop') }}" class="pl-view-all">View in Shop</a>
     </div>
-    <div class="row g-3" id="featured-products-render">
-      @foreach($featuredProducts as $product)
+
+    <div class="row g-3" id="home-all-products-render">
+      @foreach($allProducts as $product)
       <div class="col-6 col-md-4 col-lg-3" data-product>
         <div class="pl-product-card">
           <div class="pl-product-img-wrap">
-            <!-- Tags Overlay -->
             @if($product->sale_price)
               <div class="pl-card-tags">
-                @php
-                  $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
-                @endphp
+                @php $discount = round((($product->price - $product->sale_price) / $product->price) * 100); @endphp
                 <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
+              </div>
+            @endif
+            @if($product->quantity <= 0)
+              <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
               </div>
             @endif
             <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
@@ -272,21 +289,35 @@
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-            <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
+            <div class="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}
               @if($product->sale_price)
-                <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                <span class="pl-old">${{ number_format($product->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
-              <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
-              <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')">
-                <i class="bi bi-cart-plus"></i>
-              </button>
+              @if($product->quantity > 0)
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
             </div>
           </div>
         </div>
       </div>
       @endforeach
+    </div>
+
+    <!-- Infinite Scroll Loader -->
+    <div id="home-infinite-loader" class="text-center py-4 col-12 d-none">
+      <div class="spinner-border" role="status" style="width:2.2rem;height:2.2rem;border-width:0.22em;color:#C49A6C !important;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Hidden pagination (used by JS to find next page URL) -->
+    <div id="home-pagination-container" class="mt-4">
+      {{ $allProducts->links('pagination::bootstrap-5') }}
     </div>
   </section>
 
@@ -301,7 +332,83 @@
   window.pl_csrf = '{{ csrf_token() }}';
 </script>
 <script src="{{ asset('js/script.js?v=3') }}"></script>
+
+<script>
+  // ===== HOME PAGE INFINITE SCROLL =====
+  document.addEventListener('DOMContentLoaded', () => {
+    let loading = false;
+    let nextPageUrl = '';
+    const loader = document.getElementById('home-infinite-loader');
+    const paginationContainer = document.getElementById('home-pagination-container');
+    const grid = document.getElementById('home-all-products-render');
+
+    const updateNextPageUrl = () => {
+      if (!paginationContainer) return;
+      const nextLink = paginationContainer.querySelector('a[rel="next"]');
+      nextPageUrl = nextLink ? nextLink.href : '';
+      paginationContainer.classList.add('d-none'); // hide visual pagination
+    };
+
+    updateNextPageUrl();
+
+    if (loader && nextPageUrl) {
+      loader.classList.remove('d-none');
+
+      const loadNextPage = async () => {
+        if (loading || !nextPageUrl) return;
+        loading = true;
+        loader.classList.remove('d-none');
+
+        try {
+          const res = await fetch(nextPageUrl, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+          });
+          if (!res.ok) throw new Error('Network error');
+
+          const html = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // Append new product cards
+          const newGrid = doc.getElementById('home-all-products-render');
+          if (newGrid && grid) {
+            newGrid.querySelectorAll('[data-product]').forEach(card => grid.appendChild(card));
+          }
+
+          // Update pagination for next iteration
+          const nextPagination = doc.getElementById('home-pagination-container');
+          if (nextPagination && paginationContainer) {
+            paginationContainer.innerHTML = nextPagination.innerHTML;
+          }
+
+          updateNextPageUrl();
+
+          if (!nextPageUrl) {
+            loader.classList.add('d-none'); // no more pages
+          }
+        } catch (err) {
+          console.error('Home infinite scroll error:', err);
+          loader.classList.add('d-none');
+        } finally {
+          loading = false;
+        }
+      };
+
+      // Trigger load when loader comes into viewport
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !loading && nextPageUrl) {
+            loadNextPage();
+          }
+        });
+      }, { rootMargin: '300px' });
+
+      observer.observe(loader);
+    } else if (loader) {
+      loader.classList.add('d-none'); // only 1 page, hide loader
+    }
+  });
+</script>
+
 </body>
 </html>
-
-

@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
-
-use App\Services\ShiprocketService;
+use App\Services\UpsService;
 
 class OrderController extends Controller
 {
@@ -38,25 +37,27 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,completed,cancelled,failed',
+            'status'         => 'required|string|in:pending,processing,shipped,completed,cancelled,failed',
             'payment_status' => 'required|string|in:pending,completed,failed',
         ]);
 
         $order->update([
-            'status' => $request->status,
+            'status'         => $request->status,
             'payment_status' => $request->payment_status,
         ]);
 
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 
-    public function pushToShiprocket(Order $order, ShiprocketService $shiprocketService)
+    public function createUpsShipment(Order $order, Request $request, UpsService $upsService)
     {
+        $serviceCode = $request->input('ups_service_code', '03'); // Default: UPS Ground
+
         try {
-            $result = $shiprocketService->createShipment($order);
-            return redirect()->back()->with('success', 'Order successfully pushed to Shiprocket! Shipment ID: ' . $result['shipment_id']);
+            $result = $upsService->createShipment($order, $serviceCode);
+            return redirect()->back()->with('success', 'UPS shipment created! Tracking #: ' . $result['tracking_number']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Shiprocket Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'UPS Error: ' . $e->getMessage());
         }
     }
 }

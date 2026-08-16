@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('header_title', 'Manage Products')
 
@@ -64,10 +64,10 @@
                             <td class="px-6 py-4 font-medium text-slate-600">{{ $product->category->name }}</td>
                             <td class="px-6 py-4">
                                 @if($product->sale_price)
-                                    <span class="block font-bold text-slate-900">₹{{ number_format($product->sale_price, 2) }}</span>
-                                    <span class="block text-xs text-slate-400 line-through">₹{{ number_format($product->price, 2) }}</span>
+                                    <span class="block font-bold text-slate-900">${{ number_format($product->sale_price, 2) }}</span>
+                                    <span class="block text-xs text-slate-400 line-through">${{ number_format($product->price, 2) }}</span>
                                 @else
-                                    <span class="font-bold text-slate-900">₹{{ number_format($product->price, 2) }}</span>
+                                    <span class="font-bold text-slate-900">${{ number_format($product->price, 2) }}</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">

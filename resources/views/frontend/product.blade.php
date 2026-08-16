@@ -84,9 +84,9 @@
       </div>
 
       <div class="fs-2 fw-bold mb-3" style="font-family:var(--pl-font-head);color:var(--pl-primary-dark);" id="pl-product-price-wrap">
-        <span id="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
+        <span id="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
         @if($product->sale_price)
-          <span class="pl-old" id="pl-product-old-price">₹{{ number_format($product->price, 2) }}</span>
+          <span class="pl-old" id="pl-product-old-price">${{ number_format($product->price, 2) }}</span>
         @endif
       </div>
 
@@ -236,16 +236,22 @@
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $relProduct->slug) }}" class="pl-product-title" title="{{ $relProduct->name }}">{{ $relProduct->name }}</a>
-            <div class="pl-product-price">₹{{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
+            <div class="pl-product-price">${{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
               @if($relProduct->sale_price)
-                <span class="pl-old">₹{{ number_format($relProduct->price, 2) }}</span>
+                <span class="pl-old">${{ number_format($relProduct->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
               <a href="{{ route('product.show', $relProduct->slug) }}" class="pl-btn-outline text-center flex-grow-1 py-2">Details</a>
-              <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $relProduct->id }}')">
-                <i class="bi bi-cart-plus"></i>
-              </button>
+              @if($relProduct->quantity > 0)
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $relProduct->id }}')">
+                  <i class="bi bi-cart-plus"></i>
+                </button>
+              @else
+                <button class="btn px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;cursor:not-allowed;" disabled title="Out of Stock">
+                  <i class="bi bi-x-circle"></i>
+                </button>
+              @endif
             </div>
           </div>
         </div>
@@ -264,25 +270,36 @@
   <div class="d-flex align-items-center justify-content-between mb-2">
     <div>
       <span class="small text-muted me-1">Price:</span>
-      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}</span>
+      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">${{ number_format($product->sale_price ?? $product->price, 2) }}</span>
     </div>
+    @if($product->quantity > 0)
     <div class="pl-qty-stepper" id="pl-sticky-qty-stepper" style="gap:8px;">
       <button type="button" class="pl-minus" style="width:28px;height:28px;font-size:0.9rem;">−</button>
       <span class="pl-qty-val" id="pl-sticky-qty" style="font-size:0.95rem;min-width:18px;">1</span>
       <button type="button" class="pl-plus" style="width:28px;height:28px;font-size:0.9rem;">+</button>
     </div>
+    @else
+    <span class="badge bg-danger-subtle text-danger fw-bold px-3 py-2 rounded-pill" style="font-size:0.7rem;">Out of Stock</span>
+    @endif
   </div>
   <div class="d-flex gap-2">
-    <button class="pl-btn-add-cart flex-grow-1" style="height:42px;font-size:0.85rem;" onclick="PL.addToCartById('{{ $product->id }}', parseInt(document.getElementById('pl-sticky-qty').textContent, 10))">
-      <span class="pl-btn-icon"><i class="bi bi-cart-plus"></i></span>
-      <span class="pl-btn-label">Add to Cart</span>
-    </button>
-    <button class="pl-btn-buy-now" style="height:42px;font-size:0.85rem;" onclick="PL.buyNow('{{ $product->id }}')">
-      <span class="pl-btn-icon"><i class="bi bi-lightning-fill"></i></span>
-      <span class="pl-btn-label">Buy Now</span>
-    </button>
+    @if($product->quantity > 0)
+      <button class="pl-btn-add-cart flex-grow-1" style="height:42px;font-size:0.85rem;" onclick="PL.addToCartById('{{ $product->id }}', parseInt(document.getElementById('pl-sticky-qty').textContent, 10))">
+        <span class="pl-btn-icon"><i class="bi bi-cart-plus"></i></span>
+        <span class="pl-btn-label">Add to Cart</span>
+      </button>
+      <button class="pl-btn-buy-now" style="height:42px;font-size:0.85rem;" onclick="PL.buyNow('{{ $product->id }}')">
+        <span class="pl-btn-icon"><i class="bi bi-lightning-fill"></i></span>
+        <span class="pl-btn-label">Buy Now</span>
+      </button>
+    @else
+      <button class="btn w-100" style="height:42px;font-size:0.85rem;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-weight:700;border-radius:10px;cursor:not-allowed;" disabled>
+        <i class="bi bi-x-circle me-1"></i> Out of Stock — Check back soon
+      </button>
+    @endif
   </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>

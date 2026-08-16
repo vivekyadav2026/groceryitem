@@ -45,60 +45,78 @@
             </div>
         </div>
 
-        <!-- Payment Settings -->
+        <!-- Stripe Payment Settings -->
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
-            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">Razorpay Integrations</h4>
+            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">Stripe Payment</h4>
 
-            <!-- Razorpay Key -->
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Razorpay API Key</label>
-                <input type="text" name="razorpay_key" value="{{ $settings['razorpay_key'] ?? config('services.razorpay.key') }}" placeholder="rzp_live_..."
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Stripe Publishable Key</label>
+                <input type="text" name="stripe_key" value="{{ $settings['stripe_key'] ?? config('services.stripe.key') }}" placeholder="pk_live_..."
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
-            <!-- Razorpay Secret -->
             <div class="space-y-1.5" x-data="{ showSecret: false }">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Razorpay API Secret</label>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Stripe Secret Key</label>
                 <div class="relative">
-                    <input :type="showSecret ? 'text' : 'password'" name="razorpay_secret" value="{{ $settings['razorpay_secret'] ?? config('services.razorpay.secret') }}" placeholder="••••••••••••••••"
+                    <input :type="showSecret ? 'text' : 'password'" name="stripe_secret" value="{{ $settings['stripe_secret'] ?? config('services.stripe.secret') }}" placeholder="sk_live_..."
                            class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm pl-4 pr-10 py-2.5 bg-white">
-                    <button type="button" @click="showSecret = !showSecret" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#C49A6C] focus:outline-none cursor-pointer" title="Toggle Secret Visibility">
+                    <button type="button" @click="showSecret = !showSecret" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#C49A6C] focus:outline-none cursor-pointer">
                         <i class="fa-solid text-sm" :class="showSecret ? 'fa-eye-slash' : 'fa-eye'"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Shiprocket Settings -->
+        <!-- UPS Shipping Settings -->
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
-            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">Shiprocket Logistics</h4>
+            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">UPS Shipping</h4>
 
-            <!-- Shiprocket Email -->
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Shiprocket API Email</label>
-                <input type="email" name="shiprocket_email" value="{{ $settings['shiprocket_email'] ?? '' }}" placeholder="email@shiprocket.in"
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">UPS Client ID</label>
+                <input type="text" name="ups_client_id" value="{{ $settings['ups_client_id'] ?? '' }}" placeholder="UPS OAuth Client ID"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
-            <!-- Shiprocket Password -->
-            <div class="space-y-1.5" x-data="{ showPassword: false }">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Shiprocket API Password</label>
+            <div class="space-y-1.5" x-data="{ showSecret: false }">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">UPS Client Secret</label>
                 <div class="relative">
-                    <input :type="showPassword ? 'text' : 'password'" name="shiprocket_password" value="{{ $settings['shiprocket_password'] ?? '' }}" placeholder="••••••••••••••••"
+                    <input :type="showSecret ? 'text' : 'password'" name="ups_client_secret" value="{{ $settings['ups_client_secret'] ?? '' }}" placeholder="••••••••••••••••"
                            class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm pl-4 pr-10 py-2.5 bg-white">
-                    <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#C49A6C] focus:outline-none cursor-pointer" title="Toggle Password Visibility">
-                        <i class="fa-solid text-sm" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <button type="button" @click="showSecret = !showSecret" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#C49A6C] focus:outline-none cursor-pointer">
+                        <i class="fa-solid text-sm" :class="showSecret ? 'fa-eye-slash' : 'fa-eye'"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Shiprocket Pickup Location -->
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pickup Location Name</label>
-                <input type="text" name="shiprocket_pickup_location" value="{{ $settings['shiprocket_pickup_location'] ?? 'Primary' }}" placeholder="Primary"
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">UPS Account Number</label>
+                <input type="text" name="ups_account_number" value="{{ $settings['ups_account_number'] ?? '' }}" placeholder="6-digit UPS shipper number"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
-                <span class="text-[10px] text-slate-400 block mt-1">Must exactly match the pickup location nickname registered in your Shiprocket panel.</span>
             </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Ship-From Street</label>
+                    <input type="text" name="ups_ship_from_address" value="{{ $settings['ups_ship_from_address'] ?? '12800 Northborough Dr' }}" placeholder="123 Main St"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Ship-From City</label>
+                    <input type="text" name="ups_ship_from_city" value="{{ $settings['ups_ship_from_city'] ?? 'Houston' }}" placeholder="Houston"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Ship-From State</label>
+                    <input type="text" name="ups_ship_from_state" value="{{ $settings['ups_ship_from_state'] ?? 'TX' }}" placeholder="TX" maxlength="2"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Ship-From ZIP</label>
+                    <input type="text" name="ups_ship_from_zip" value="{{ $settings['ups_ship_from_zip'] ?? '77067' }}" placeholder="77067"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+                </div>
+            </div>
+            <span class="text-[10px] text-slate-400 block">This is your warehouse/pickup address that UPS will pick shipments from.</span>
         </div>
 
         <!-- Submit Buttons -->

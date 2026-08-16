@@ -1,4 +1,4 @@
-<section>
+﻿<section>
     <header class="flex items-center gap-2.5 mb-3.5 border-b border-slate-100 pb-2">
         <div class="bg-primary/10 text-primary p-2 rounded-lg">
             <i class="fa-solid fa-address-card text-base"></i>

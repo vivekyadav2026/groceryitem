@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('header_title', 'Create Coupon')
 
@@ -38,7 +38,7 @@
             <div class="space-y-1.5">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Discount Type *</label>
                 <select name="type" required class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
-                    <option value="fixed" @selected(old('type') === 'fixed')>Fixed Amount (₹)</option>
+                    <option value="fixed" @selected(old('type') === 'fixed')>Fixed Amount ($)</option>
                     <option value="percent" @selected(old('type') === 'percent')>Percentage (%)</option>
                 </select>
             </div>

@@ -1,4 +1,4 @@
-<!-- ===================== DESKTOP NAVBAR ===================== -->
+﻿<!-- ===================== DESKTOP NAVBAR ===================== -->
 <header class="pl-navbar d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid var(--pl-border); padding: 0.4rem 0;">
   <div class="container d-flex align-items-center justify-content-between">
     
