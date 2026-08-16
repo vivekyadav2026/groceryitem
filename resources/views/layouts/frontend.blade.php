@@ -12,16 +12,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/style.css?v=3') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css?v=6') }}">
 
     <!-- Vite Tailwind Assets -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Inter', sans-serif; color: #1f2937; }
+        body { font-family: 'Inter', sans-serif; color: #000000; }
         a { text-decoration: none; }
     </style>
 </head>
-<body class="font-sans antialiased text-gray-900 bg-white" x-data="{ mobileMenuOpen: false }">
+<body class="font-sans antialiased text-black bg-white" x-data="{ mobileMenuOpen: false }">
     
     @include('frontend.partials.header')
 

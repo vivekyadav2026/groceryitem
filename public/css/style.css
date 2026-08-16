@@ -31,6 +31,48 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ============================================================
+   Framework Override Fixes (Tailwind vs Bootstrap vs reboot)
+   ============================================================ */
+a:not(.btn):not(.nav-link):not([class*="text-"]):not(.dropdown-item) {
+  color: var(--pl-ink);
+  transition: color 0.15s ease-in-out;
+}
+a:not(.btn):not(.nav-link):not([class*="text-"]):not(.dropdown-item):hover {
+  color: var(--pl-primary);
+}
+
+/* Ensure brand color utilities override Bootstrap's blue important rules */
+.bg-primary {
+  background-color: var(--pl-primary) !important;
+}
+.hover\:bg-primary-dark:hover {
+  background-color: var(--pl-primary-dark) !important;
+}
+.text-primary {
+  color: var(--pl-primary) !important;
+}
+.border-primary {
+  border-color: var(--pl-primary) !important;
+}
+.bg-primary\/5 {
+  background-color: rgba(14, 107, 87, 0.05) !important;
+}
+.bg-primary\/10 {
+  background-color: rgba(14, 107, 87, 0.1) !important;
+}
+
+/* Custom dark dropdown menu links */
+.pl-dropdown-link {
+  color: #fff !important;
+  font-size: 0.75rem !important;
+  transition: all 0.2s ease;
+}
+.pl-dropdown-link:hover {
+  background-color: #222 !important;
+  color: #c49a6c !important;
+}
+
 input, textarea, select {
   -webkit-user-select: text;
   user-select: text;
@@ -697,7 +739,7 @@ a{text-decoration:none;}
 
 @media (max-width: 576px) {
   .pl-hero-slide {
-    min-height: 380px;
+    min-height: 240px;
   }
 }
 

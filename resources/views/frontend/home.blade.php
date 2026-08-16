@@ -9,7 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/style.css?v=2') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css?v=6') }}">
 </head>
 <body>
 
@@ -40,102 +40,29 @@
             @if(isset($banners) && count($banners) > 0)
               @foreach($banners as $index => $banner)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }} h-100">
-                  <div class="pl-hero-slide">
-                    <img src="{{ asset($banner->image_path) }}" alt="{{ $banner->title }}" class="pl-hero-img">
-                    <div class="pl-hero-overlay"></div>
-                    <div class="pl-hero-ambient-glow"></div>
-                    <div class="pl-hero-content">
-                      <div class="pl-hero-eyebrow">
-                        <span class="pl-pulse-dot"></span> Special Offer • Hot Deal
-                      </div>
-                      <h1 class="pl-hero-title">{{ $banner->title ?: 'Fresh Ideas. Bold Flavors.' }}</h1>
-                      <div class="pl-hero-divider"></div>
-                      <p class="pl-hero-desc">{{ $banner->subtitle ?: 'Premium selection of fresh groceries, beverages & handcrafted essentials.' }}</p>
-                      <div class="d-flex align-items-center gap-3 flex-wrap">
-                        <a href="{{ $banner->link ?: url('/shop') }}" class="btn btn-pl-hero-primary">
-                          <span>Shop Collection</span>
-                          <i class="bi bi-arrow-right"></i>
-                        </a>
-                        <a href="{{ url('/shop') }}" class="btn btn-pl-hero-glass">
-                          <span>Explore Deals</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                  <a href="{{ $banner->link ?: url('/shop') }}" class="pl-hero-slide d-block h-100">
+                    <img src="{{ asset($banner->image_path) }}" alt="{{ $banner->title ?: 'Banner image' }}" class="pl-hero-img">
+                  </a>
                 </div>
               @endforeach
             @else
               <!-- Slide 1 -->
               <div class="carousel-item active h-100">
-                <div class="pl-hero-slide">
-                  <img src="{{ asset('images/hero_banner.jpg?v=2') }}" alt="Fresh Groceries & Beverages Banner" class="pl-hero-img">
-                  <div class="pl-hero-overlay"></div>
-                  <div class="pl-hero-ambient-glow"></div>
-                  <div class="pl-hero-content">
-                    <div class="pl-hero-eyebrow">
-                      <span class="pl-pulse-dot"></span> Weekly Special • Up to 30% Off
-                    </div>
-                    <h1 class="pl-hero-title">Fresh Ideas.<br><span class="pl-text-gradient">Bold Flavors</span></h1>
-                    <div class="pl-hero-divider"></div>
-                    <p class="pl-hero-desc">Discover curated premium beverages, artisanal chocolates & daily gourmet essentials.</p>
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <a href="{{ url('/shop') }}" class="btn btn-pl-hero-primary">
-                        <span>Shop Now</span>
-                        <i class="bi bi-arrow-right"></i>
-                      </a>
-                      <a href="{{ url('/shop') }}?highlight=sale" class="btn btn-pl-hero-glass">
-                        <i class="bi bi-tag-fill me-1"></i> View Offers
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <a href="{{ url('/shop') }}" class="pl-hero-slide d-block h-100">
+                  <img src="{{ asset('images/hero_banner_new.png') }}" alt="Fresh Organic Groceries Banner" class="pl-hero-img">
+                </a>
               </div>
               <!-- Slide 2 -->
               <div class="carousel-item h-100">
-                <div class="pl-hero-slide">
-                  <img src="{{ asset('images/banner2.jpg') }}" alt="Organic Groceries & Beverages" class="pl-hero-img">
-                  <div class="pl-hero-overlay"></div>
-                  <div class="pl-hero-ambient-glow"></div>
-                  <div class="pl-hero-content">
-                    <div class="pl-hero-eyebrow">
-                      <span class="pl-pulse-dot"></span> Pure & Organic • Verified Quality
-                    </div>
-                    <h1 class="pl-hero-title">Handcrafted<br><span class="pl-text-gradient">Pure Delights</span></h1>
-                    <div class="pl-hero-divider"></div>
-                    <p class="pl-hero-desc">Organic gourmet snacks, fresh produce & daily natural essentials.</p>
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <a href="{{ url('/shop') }}" class="btn btn-pl-hero-primary">
-                        <span>Explore Organic</span>
-                        <i class="bi bi-arrow-right"></i>
-                      </a>
-                      <a href="{{ url('/shop') }}" class="btn btn-pl-hero-glass">
-                        <span>Best Sellers</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <a href="{{ url('/shop') }}?cat=beverage" class="pl-hero-slide d-block h-100">
+                  <img src="{{ asset('images/banner2_new.png') }}" alt="Premium Beverages" class="pl-hero-img">
+                </a>
               </div>
               <!-- Slide 3 -->
               <div class="carousel-item h-100">
-                <div class="pl-hero-slide">
-                  <img src="{{ asset('images/banner3.jpg') }}" alt="Beverages & Refreshment" class="pl-hero-img">
-                  <div class="pl-hero-overlay"></div>
-                  <div class="pl-hero-ambient-glow"></div>
-                  <div class="pl-hero-content">
-                    <div class="pl-hero-eyebrow">
-                      <span class="pl-pulse-dot"></span> Express Delivery • 30 Min Express
-                    </div>
-                    <h1 class="pl-hero-title">Refreshing &<br><span class="pl-text-gradient">Instant Cool</span></h1>
-                    <div class="pl-hero-divider"></div>
-                    <p class="pl-hero-desc">Chilled drinks, sparkling waters & energy boosters delivered straight to your door.</p>
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                      <a href="{{ url('/shop') }}?cat=beverage" class="btn btn-pl-hero-primary">
-                        <span>Order Beverages</span>
-                        <i class="bi bi-arrow-right"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                <a href="{{ url('/shop') }}?cat=snacks" class="pl-hero-slide d-block h-100">
+                  <img src="{{ asset('images/banner3_new.png') }}" alt="Gourmet Snacks" class="pl-hero-img">
+                </a>
               </div>
             @endif
           </div>
@@ -368,6 +295,12 @@
 <!-- ===================== FOOTER (DESKTOP) ===================== -->
 @include('frontend.partials.footer')
 @include('frontend.partials.mobile_nav')
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  window.pl_csrf = '{{ csrf_token() }}';
+</script>
+<script src="{{ asset('js/script.js?v=3') }}"></script>
 </body>
 </html>
 
