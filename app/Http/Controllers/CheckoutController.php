@@ -68,6 +68,10 @@ class CheckoutController extends Controller
             'notes'            => 'nullable|string',
         ]);
 
+        $selectedAddressId = $request->input('selected_address_id');
+        $drivingLicensePath = null;
+        $salesTaxPermitPath = null;
+
         if ($validated['delivery_type'] === 'self_pickup') {
             $shippingAddress  = \App\Models\Setting::get('ups_ship_from_address', '12800 Northborough Dr');
             $shippingAddress2 = '';
@@ -75,23 +79,80 @@ class CheckoutController extends Controller
             $shippingState    = \App\Models\Setting::get('ups_ship_from_state', 'TX');
             $shippingZip      = \App\Models\Setting::get('ups_ship_from_zip', '77067');
         } else {
-            // Validate address details if online delivery
-            $addressValidated = $request->validate([
-                'shipping_address'  => 'required|string',
-                'shipping_address2' => 'required|string',
-                'shipping_city'     => 'required|string|max:100',
-                'shipping_state'    => 'required|string|max:100',
-                'shipping_zip'      => 'required|string|max:10',
-            ]);
+            // Check if user selected a saved address
+            if (auth()->check() && $selectedAddressId && $selectedAddressId !== 'new') {
+                $savedAddress = auth()->user()->addresses()->find($selectedAddressId);
+                if ($savedAddress) {
+                    $shippingAddress    = $savedAddress->address;
+                    $shippingAddress2   = $savedAddress->address2;
+                    $shippingCity       = $savedAddress->city;
+                    $shippingState      = $savedAddress->state;
+                    $shippingZip        = $savedAddress->zip;
+                    $drivingLicensePath = $savedAddress->driving_license;
+                    $salesTaxPermitPath = $savedAddress->sales_tax_permit;
+                } else {
+                    abort(400, 'Invalid address selection.');
+                }
+            } else {
+                // Validate address details if online delivery
+                $rules = [
+                    'shipping_address'  => 'required|string',
+                    'shipping_address2' => 'nullable|string',
+                    'shipping_city'     => 'required|string|max:100',
+                    'shipping_state'    => 'required|string|max:100',
+                    'shipping_zip'      => 'required|string|max:10',
+                ];
 
-            $shippingAddress  = $addressValidated['shipping_address'];
-            $shippingAddress2 = $addressValidated['shipping_address2'];
-            $shippingCity     = $addressValidated['shipping_city'];
-            $shippingState    = $addressValidated['shipping_state'];
-            $shippingZip      = $addressValidated['shipping_zip'];
+                if (auth()->check()) {
+                    $rules['driving_license'] = 'required|file|mimes:pdf,jpg,jpeg,png|max:5120';
+                    $rules['sales_tax_permit'] = 'required|file|mimes:pdf,jpg,jpeg,png|max:5120';
+                }
+
+                $addressValidated = $request->validate($rules);
+
+                $shippingAddress  = $addressValidated['shipping_address'];
+                $shippingAddress2 = $addressValidated['shipping_address2'] ?? '';
+                $shippingCity     = $addressValidated['shipping_city'];
+                $shippingState    = $addressValidated['shipping_state'];
+                $shippingZip      = $addressValidated['shipping_zip'];
+
+                if (auth()->check()) {
+                    if ($request->hasFile('driving_license')) {
+                        $file = $request->file('driving_license');
+                        $filename = time() . '_dl_' . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/documents'), $filename);
+                        $drivingLicensePath = 'uploads/documents/' . $filename;
+                    }
+
+                    if ($request->hasFile('sales_tax_permit')) {
+                        $file = $request->file('sales_tax_permit');
+                        $filename = time() . '_st_' . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/documents'), $filename);
+                        $salesTaxPermitPath = 'uploads/documents/' . $filename;
+                    }
+
+                    // Save as a new saved address for the user
+                    $isFirst = auth()->user()->addresses()->count() === 0;
+                    $newAddr = auth()->user()->addresses()->create([
+                        'phone' => $validated['shipping_phone'],
+                        'address' => $shippingAddress,
+                        'address2' => $shippingAddress2,
+                        'city' => $shippingCity,
+                        'state' => $shippingState,
+                        'zip' => $shippingZip,
+                        'driving_license' => $drivingLicensePath,
+                        'sales_tax_permit' => $salesTaxPermitPath,
+                        'is_default' => $isFirst || $request->has('is_default'),
+                    ]);
+
+                    if ($newAddr->is_default) {
+                        auth()->user()->addresses()->where('id', '!=', $newAddr->id)->update(['is_default' => false]);
+                    }
+                }
+            }
         }
 
-        // Merge address lines
+        // Merge address lines for legacy fields
         $fullAddress = trim($shippingAddress . ($shippingAddress2 ? ', ' . $shippingAddress2 : ''));
 
         // Auto-save user profile address if logged in and it's online delivery
@@ -129,6 +190,8 @@ class CheckoutController extends Controller
             'shipping_city'    => $shippingCity,
             'shipping_state'   => $shippingState,
             'shipping_zip'     => $shippingZip,
+            'driving_license'  => $drivingLicensePath,
+            'sales_tax_permit' => $salesTaxPermitPath,
         ]);
 
         // Create Order Items and decrement stock

@@ -65,6 +65,13 @@
                     </div>
                 </div>
 
+                <!-- Customer Phone Number -->
+                <div>
+                    <label for="phone" class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Customer Phone Number</label>
+                    <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" required placeholder="e.g. +1 (555) 019-9150" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2 text-xs text-red-600" />
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <!-- Password -->
                     <div x-data="{ showPassword: false }">

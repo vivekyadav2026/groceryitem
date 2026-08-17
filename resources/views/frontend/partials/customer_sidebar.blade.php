@@ -70,6 +70,17 @@
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
+
+        <a href="{{ url('/addresses') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+            <span class="flex items-center">
+                @if(request()->is('addresses*'))
+                    <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
+                @endif
+                <i class="fa-solid fa-map-location-dot mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                My Addresses
+            </span>
+            <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+        </a>
         
         <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
             <span class="flex items-center">
@@ -121,6 +132,8 @@
                         <i class="fa-solid fa-cart-shopping text-[10px] text-primary"></i> Cart
                     @elseif(request()->is('profile'))
                         <i class="fa-solid fa-user-gear text-[10px] text-primary"></i> Profile
+                    @elseif(request()->is('addresses*'))
+                        <i class="fa-solid fa-map-location-dot text-[10px] text-primary"></i> My Addresses
                     @elseif(request()->is('contact'))
                         <i class="fa-solid fa-headset text-[10px] text-primary"></i> Support
                     @else
@@ -196,6 +209,16 @@
                 Account Settings
             </span>
             @if(request()->is('profile'))
+                <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+            @endif
+        </a>
+
+        <a href="{{ url('/addresses') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
+            <span class="flex items-center">
+                <i class="fa-solid fa-map-location-dot mr-2 text-xs" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
+                My Addresses
+            </span>
+            @if(request()->is('addresses*'))
                 <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
             @endif
         </a>

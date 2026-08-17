@@ -80,6 +80,23 @@
                         </span>
                     </div>
                 </div>
+                @if($order->driving_license || $order->sales_tax_permit)
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">B2B Customer Documents</span>
+                        <div class="flex flex-wrap gap-3">
+                            @if($order->driving_license)
+                                <a href="{{ asset($order->driving_license) }}" target="_blank" class="inline-flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-3xs">
+                                    <i class="fa-solid fa-id-card text-slate-500"></i> View Driving License
+                                </a>
+                            @endif
+                            @if($order->sales_tax_permit)
+                                <a href="{{ asset($order->sales_tax_permit) }}" target="_blank" class="inline-flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-3xs">
+                                    <i class="fa-solid fa-file-invoice-dollar text-slate-500"></i> View Sales Tax Permit
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
                 @if($order->notes)
                     <div class="mt-6 p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs leading-relaxed text-slate-500">
                         <span class="font-bold text-slate-600 block mb-1">Customer Order Notes:</span>

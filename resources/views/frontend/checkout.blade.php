@@ -73,7 +73,11 @@
             </div>
         @endguest
 
-        <form action="{{ route('checkout.store') }}" method="POST" x-data="{ deliveryType: 'online_delivery' }">
+        @php
+            $defaultAddress = auth()->check() ? auth()->user()->addresses()->where('is_default', true)->first() : null;
+            $defaultAddressId = $defaultAddress ? $defaultAddress->id : 'new';
+        @endphp
+        <form action="{{ route('checkout.store') }}" method="POST" enctype="multipart/form-data" x-data="{ deliveryType: 'online_delivery', selectedAddressId: '{{ $defaultAddressId }}' }">
             @csrf
 
             <div class="flex flex-col lg:flex-row gap-5 lg:gap-8">
@@ -152,30 +156,112 @@
 
                     <!-- Shipping details if delivery is active -->
                     <div x-show="deliveryType === 'online_delivery'" class="space-y-2.5">
-                        <div class="mb-2.5">
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Flat / House No. / Building <span class="text-red-500">*</span></label>
-                                <button type="button" id="detect-location-btn" class="text-[9px] text-primary bg-primary/5 hover:bg-primary/10 border border-primary/10 rounded-full px-2 py-0.5 font-semibold flex items-center gap-1 cursor-pointer transition">
-                                    <i class="fa-solid fa-location-crosshairs"></i> Auto-Detect
-                                </button>
-                            </div>
-                            <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. 1234 Main St, Apt 5B">
-                        </div>
+                        @auth
+                            @php
+                                $userAddresses = auth()->user()->addresses;
+                            @endphp
+                            @if($userAddresses->isNotEmpty())
+                                <div class="mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-2">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider">Choose Saved Address</label>
+                                    <div class="space-y-2 max-h-48 overflow-y-auto">
+                                        @foreach($userAddresses as $addr)
+                                            <label class="flex items-start p-2.5 border {{ $addr->is_default ? 'border-primary bg-primary/2.5' : 'border-slate-200 bg-white' }} rounded-xl cursor-pointer hover:border-primary/45 transition">
+                                                <input type="radio" name="selected_address_id" value="{{ $addr->id }}" {{ $addr->is_default ? 'checked' : '' }}
+                                                       @click="selectedAddressId = '{{ $addr->id }}';"
+                                                       class="mt-0.5 h-3.5 w-3.5 text-primary border-gray-300">
+                                                <div class="ml-2">
+                                                    <p class="text-xs font-bold text-slate-800">{{ $addr->address }}@if($addr->address2), {{ $addr->address2 }}@endif</p>
+                                                    <p class="text-[10px] text-slate-500 font-semibold">{{ $addr->city }}, {{ $addr->state }} - {{ $addr->zip }} | Phone: {{ $addr->phone }}</p>
+                                                </div>
+                                            </label>
+                                        @endforeach
+                                        
+                                        <label class="flex items-start p-2.5 border border-slate-200 bg-white rounded-xl cursor-pointer hover:border-primary/45 transition">
+                                            <input type="radio" name="selected_address_id" value="new" {{ !$defaultAddress ? 'checked' : '' }}
+                                                   @click="selectedAddressId = 'new';"
+                                                   class="mt-0.5 h-3.5 w-3.5 text-primary border-gray-300">
+                                            <div class="ml-2">
+                                                <p class="text-xs font-bold text-slate-800">Add New Address</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+                        @endauth
 
-                        <div class="mb-2.5">
-                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Area / Colony / Street / Landmark <span class="text-red-500">*</span></label>
-                            <input type="text" name="shipping_address2" value="{{ old('shipping_address2', $address2) }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Sector 12, near Kali Temple, Dwarka">
-                        </div>
+                        <div x-show="selectedAddressId === 'new'" class="space-y-2.5">
+                            <div class="mb-2.5">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Flat / House No. / Building <span class="text-red-500">*</span></label>
+                                    <button type="button" id="detect-location-btn" class="text-[9px] text-primary bg-primary/5 hover:bg-primary/10 border border-primary/10 rounded-full px-2 py-0.5 font-semibold flex items-center gap-1 cursor-pointer transition">
+                                        <i class="fa-solid fa-location-crosshairs"></i> Auto-Detect
+                                    </button>
+                                </div>
+                                <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. 1234 Main St, Apt 5B">
+                            </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
-                            <div>
-                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">City <span class="text-red-500">*</span></label>
-                                <input type="text" name="shipping_city" value="{{ old('shipping_city', auth()->check() ? auth()->user()->city : '') }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                            <div class="mb-2.5">
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Area / Colony / Street / Landmark</label>
+                                <input type="text" name="shipping_address2" value="{{ old('shipping_address2', $address2) }}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Sector 12, near Kali Temple, Dwarka">
                             </div>
-                            <div>
-                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">State <span class="text-red-500">*</span></label>
-                                <input type="text" name="shipping_state" value="{{ old('shipping_state', auth()->check() ? auth()->user()->state : '') }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">City <span class="text-red-500">*</span></label>
+                                    <input type="text" name="shipping_city" value="{{ old('shipping_city', auth()->check() ? auth()->user()->city : '') }}" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">State / Zip <span class="text-red-500">*</span></label>
+                                    <div class="grid grid-cols-2 gap-1.5">
+                                        <input type="text" name="shipping_state" value="{{ old('shipping_state', auth()->check() ? auth()->user()->state : '') }}" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200 uppercase" placeholder="TX">
+                                        <input type="text" name="shipping_zip" value="{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="77067">
+                                    </div>
+                                </div>
                             </div>
+
+                            @auth
+                                <!-- Document Uploads at add address time -->
+                                <div class="bg-slate-50 p-3.5 border border-slate-100 rounded-xl space-y-2.5 mt-2">
+                                    <h4 class="font-extrabold text-slate-800 text-[9px] uppercase tracking-wider pb-1.5 border-b border-slate-200/75 flex items-center gap-1">
+                                        <i class="fa-solid fa-shield-halved text-primary"></i> Verification Documents
+                                    </h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div class="space-y-1">
+                                            <label class="block text-[9px] font-bold text-gray-500 uppercase tracking-wider">Driving License *</label>
+                                            <div class="relative flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-xl bg-white p-3 hover:bg-gray-50/50 transition cursor-pointer">
+                                                <input type="file" name="driving_license" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" accept=".pdf,.jpg,.jpeg,.png"
+                                                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                                       onchange="document.getElementById('checkout-dl-file-name').innerText = this.files[0] ? this.files[0].name : 'Upload File'; document.getElementById('checkout-dl-icon').className = this.files[0] ? 'fa-solid fa-circle-check text-emerald-500 text-base mb-1' : 'fa-solid fa-cloud-arrow-up text-primary text-base mb-1';">
+                                                <div class="text-center pointer-events-none">
+                                                    <i class="fa-solid fa-cloud-arrow-up text-primary text-base mb-1" id="checkout-dl-icon"></i>
+                                                    <p class="text-[10px] font-bold text-gray-700 uppercase" id="checkout-dl-file-name">Upload File</p>
+                                                    <span class="text-[8px] text-gray-400 block mt-0.5">PDF, JPG, PNG up to 5MB</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-y-1">
+                                            <label class="block text-[9px] font-bold text-gray-500 uppercase tracking-wider">Sales Tax Permit *</label>
+                                            <div class="relative flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-xl bg-white p-3 hover:bg-gray-50/50 transition cursor-pointer">
+                                                <input type="file" name="sales_tax_permit" :required="deliveryType === 'online_delivery' && selectedAddressId === 'new'" accept=".pdf,.jpg,.jpeg,.png"
+                                                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                                                       onchange="document.getElementById('checkout-st-file-name').innerText = this.files[0] ? this.files[0].name : 'Upload File'; document.getElementById('checkout-st-icon').className = this.files[0] ? 'fa-solid fa-circle-check text-emerald-500 text-base mb-1' : 'fa-solid fa-cloud-arrow-up text-primary text-base mb-1';">
+                                                <div class="text-center pointer-events-none">
+                                                    <i class="fa-solid fa-cloud-arrow-up text-primary text-base mb-1" id="checkout-st-icon"></i>
+                                                    <p class="text-[10px] font-bold text-gray-700 uppercase" id="checkout-st-file-name">Upload File</p>
+                                                    <span class="text-[8px] text-gray-400 block mt-0.5">PDF, JPG, PNG up to 5MB</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Set default checkbox -->
+                                <div class="flex items-center gap-2 pt-1">
+                                    <input type="checkbox" name="is_default" id="is_default" value="1" class="rounded border-gray-300 text-primary focus:ring-primary/25 h-3.5 w-3.5 cursor-pointer">
+                                    <label for="is_default" class="text-xs font-bold text-gray-600 select-none cursor-pointer">Save as default address</label>
+                                </div>
+                            @endauth
                         </div>
                     </div>
 
