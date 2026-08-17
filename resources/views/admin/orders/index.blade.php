@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('header_title', 'Manage Orders')
 
@@ -19,6 +19,9 @@
                 <option value="completed" @selected(request('status') === 'completed')>Completed</option>
                 <option value="cancelled" @selected(request('status') === 'cancelled')>Cancelled</option>
                 <option value="failed" @selected(request('status') === 'failed')>Failed</option>
+                <option value="return_requested" @selected(request('status') === 'return_requested')>Return Requested</option>
+                <option value="returned" @selected(request('status') === 'returned')>Returned</option>
+                <option value="return_rejected" @selected(request('status') === 'return_rejected')>Return Rejected</option>
             </select>
 
             <button type="submit" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition cursor-pointer">
@@ -67,7 +70,13 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                @if($order->status === 'completed')
+                                @if($order->return_status === 'pending')
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 animate-pulse border border-rose-350">Return Requested</span>
+                                @elseif($order->status === 'returned' || $order->return_status === 'approved')
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-750">Returned</span>
+                                @elseif($order->status === 'return_rejected' || $order->return_status === 'rejected')
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">Return Rejected</span>
+                                @elseif($order->status === 'completed')
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-750">Completed</span>
                                 @elseif($order->status === 'processing')
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-750">Processing</span>

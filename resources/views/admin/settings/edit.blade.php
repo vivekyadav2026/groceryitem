@@ -67,6 +67,46 @@
             </div>
         </div>
 
+        <!-- Social Media Settings -->
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
+            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">Social Media Links</h4>
+
+            <!-- Facebook -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Facebook URL</label>
+                <input type="url" name="social_facebook" value="{{ $settings['social_facebook'] ?? '' }}" placeholder="https://facebook.com/yourpage"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+            </div>
+
+            <!-- Twitter / X -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Twitter / X URL</label>
+                <input type="url" name="social_twitter" value="{{ $settings['social_twitter'] ?? '' }}" placeholder="https://x.com/yourhandle"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+            </div>
+
+            <!-- Instagram -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Instagram URL</label>
+                <input type="url" name="social_instagram" value="{{ $settings['social_instagram'] ?? '' }}" placeholder="https://instagram.com/yourhandle"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">LinkedIn URL</label>
+                <input type="url" name="social_linkedin" value="{{ $settings['social_linkedin'] ?? '' }}" placeholder="https://linkedin.com/company/yourcompany"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+            </div>
+
+            <!-- YouTube -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">YouTube URL</label>
+                <input type="url" name="social_youtube" value="{{ $settings['social_youtube'] ?? '' }}" placeholder="https://youtube.com/c/yourchannel"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+            </div>
+        </div>
+
         <!-- UPS Shipping Settings -->
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
             <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">UPS Shipping</h4>

@@ -683,6 +683,27 @@ a{text-decoration:none;}
 .pl-footer hr{border-color:rgba(255,255,255,.15);}
 .pl-footer .pl-footer-logo{height:34px;border-radius:6px;}
 
+.pl-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #dff2ea !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none !important;
+  margin-right: 4px;
+}
+.pl-social-icon:hover {
+  background: var(--pl-primary, #0e6b57) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(14, 107, 87, 0.25);
+  opacity: 1 !important;
+}
+
 /* Empty state */
 .pl-empty{
   text-align:center;padding:60px 20px;color:var(--pl-muted);

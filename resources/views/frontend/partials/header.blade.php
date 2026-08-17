@@ -1,4 +1,4 @@
-﻿<!-- ===================== DESKTOP NAVBAR ===================== -->
+<!-- ===================== DESKTOP NAVBAR ===================== -->
 <header class="pl-navbar d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid var(--pl-border); padding: 0.4rem 0;">
   <div class="container d-flex align-items-center justify-content-between">
     
@@ -35,6 +35,7 @@
             <li><span class="dropdown-item-text text-muted small" style="padding: 4px 16px; display: block;">Signed in as <strong>{{ Auth::user()->name }}</strong></span></li>
             <li><hr class="dropdown-divider" style="background-color: var(--pl-border); border-color: var(--pl-border); margin: 6px 0;"></li>
             <li><a class="dropdown-item pl-dropdown-link-light" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-2" style="color: var(--pl-primary);"></i>Dashboard</a></li>
+            <li><a class="dropdown-item pl-dropdown-link-light" href="{{ route('orders.index') }}"><i class="bi bi-box me-2" style="color: var(--pl-primary);"></i>My Orders</a></li>
             <li><a class="dropdown-item pl-dropdown-link-light" href="{{ route('profile.edit') }}"><i class="bi bi-person me-2" style="color: var(--pl-primary);"></i>My Profile</a></li>
             <li><hr class="dropdown-divider" style="background-color: var(--pl-border); border-color: var(--pl-border); margin: 6px 0;"></li>
             <li>

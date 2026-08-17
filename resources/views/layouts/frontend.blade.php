@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -113,5 +113,6 @@
         <span id="toast-message" class="text-xs font-medium"></span>
     </div>
 
+    @stack('scripts')
 </body>
 </html>

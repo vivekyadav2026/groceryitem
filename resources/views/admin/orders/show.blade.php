@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 
 @section('header_title', 'Order Details')
 
@@ -51,22 +51,29 @@
 
             <!-- Shipping Information Card -->
             <div class="bg-white rounded-2xl border border-slate-100 shadow-xs p-6">
-                <h4 class="font-serif font-bold text-slate-800 text-base mb-4 pb-2 border-b border-slate-50">Shipping Details</h4>
+                <h4 class="font-serif font-bold text-slate-800 text-base mb-4 pb-2 border-b border-slate-50 flex items-center justify-between">
+                    <span>{{ $order->delivery_type === 'self_pickup' ? 'Pickup Details' : 'Shipping Details' }}</span>
+                    <span class="text-xs uppercase font-bold px-2 py-0.5 rounded-full {{ $order->delivery_type === 'self_pickup' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-blue-50 text-blue-700 border border-blue-200' }}">
+                        {{ $order->delivery_type === 'self_pickup' ? 'Self Pickup' : 'Online Delivery' }}
+                    </span>
+                </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm text-slate-650">
-                    <div>
-                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Recipient Name</span>
-                        <span class="block font-semibold text-slate-800 mt-1">{{ $order->shipping_name }}</span>
-                    </div>
-                    <div>
-                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Contact Number</span>
-                        <span class="block font-semibold text-slate-800 mt-1">{{ $order->shipping_phone }}</span>
-                    </div>
+                    @if($order->delivery_type !== 'self_pickup')
+                        <div>
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Recipient Name</span>
+                            <span class="block font-semibold text-slate-800 mt-1">{{ $order->shipping_name }}</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Contact Number</span>
+                            <span class="block font-semibold text-slate-800 mt-1">{{ $order->shipping_phone }}</span>
+                        </div>
+                    @endif
                     <div>
                         <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Email Address</span>
                         <span class="block font-semibold text-slate-800 mt-1">{{ $order->shipping_email }}</span>
                     </div>
                     <div>
-                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Delivery Address</span>
+                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">{{ $order->delivery_type === 'self_pickup' ? 'Warehouse Pickup Address' : 'Delivery Address' }}</span>
                         <span class="block font-semibold text-slate-800 mt-1 leading-relaxed">
                             {{ $order->shipping_address }},<br>
                             {{ $order->shipping_city }}, {{ $order->shipping_state }} - {{ $order->shipping_zip }}
@@ -93,16 +100,18 @@
                 <form method="POST" action="{{ route('admin.orders.updateStatus', $order->id) }}" class="space-y-4">
                     @csrf
                     @method('PATCH')
-
                     <!-- Order Status -->
                     <div class="space-y-1.5">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Order Status</label>
                         <select name="status" class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
                             <option value="pending" @selected($order->status === 'pending')>Pending</option>
                             <option value="processing" @selected($order->status === 'processing')>Processing</option>
+                            <option value="shipped" @selected($order->status === 'shipped')>Shipped</option>
                             <option value="completed" @selected($order->status === 'completed')>Completed</option>
                             <option value="cancelled" @selected($order->status === 'cancelled')>Cancelled</option>
                             <option value="failed" @selected($order->status === 'failed')>Failed</option>
+                            <option value="returned" @selected($order->status === 'returned')>Returned (B2B)</option>
+                            <option value="return_rejected" @selected($order->status === 'return_rejected')>Return Rejected (B2B)</option>
                         </select>
                     </div>
 
@@ -116,75 +125,72 @@
                         </select>
                     </div>
 
+                    <!-- UPS Tracking ID (only visible for online delivery) -->
+                    @if($order->delivery_type === 'online_delivery')
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">UPS Tracking Number</label>
+                            <input type="text" name="ups_tracking_number" value="{{ old('ups_tracking_number', $order->ups_tracking_number) }}" 
+                                   placeholder="e.g. 1Z999AA10123456784"
+                                   class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white font-mono">
+                        </div>
+                    @endif
+
+                    <!-- Return Request Processing (Only shown if return has been requested) -->
+                    @if($order->return_status !== null)
+                        <div class="space-y-1.5 pt-3 border-t border-slate-150">
+                            <label class="text-xs font-bold text-red-600 uppercase tracking-wider block">B2B Return Request Status</label>
+                            <select name="return_status" class="w-full border border-red-200 focus:ring-1 focus:ring-red-500 focus:border-red-500 rounded-xl text-sm px-4 py-2.5 bg-white font-bold text-red-700">
+                                <option value="pending" @selected($order->return_status === 'pending')>Pending Review</option>
+                                <option value="approved" @selected($order->return_status === 'approved')>Approve Return</option>
+                                <option value="rejected" @selected($order->return_status === 'rejected')>Reject Return</option>
+                            </select>
+                            
+                            <div class="bg-red-50/30 border border-red-150 rounded-xl p-3.5 mt-2 space-y-2 text-xs">
+                                <div>
+                                    <span class="block text-[9px] uppercase font-bold text-red-500">Return Reason</span>
+                                    <span class="block font-semibold text-slate-800 mt-0.5">{{ $order->return_reason }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[9px] uppercase font-bold text-red-500">Customer Comments</span>
+                                    <p class="text-slate-650 font-medium leading-normal mt-0.5">{{ $order->return_comments }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <button type="submit" class="w-full bg-[#C49A6C] hover:bg-[#b0875b] text-white font-bold text-sm py-3 rounded-xl transition cursor-pointer shadow-md shadow-[#C49A6C]/25">
                         Update Details
-                    </button>
-                </form>
+                    </button>                </form>
             </div>
 
-            <!-- UPS Shipping Card -->
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-xs p-6 text-sm text-slate-650 space-y-4">
-                <h4 class="font-serif font-bold text-slate-800 text-base pb-2 border-b border-slate-50 flex items-center justify-between">
-                    <span>UPS Delivery</span>
-                    <i class="fa-solid fa-truck-fast text-[#351C15]"></i>
-                </h4>
+            <!-- UPS Shipping Information Display Card -->
+            @if($order->delivery_type === 'online_delivery')
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-xs p-6 text-sm text-slate-650 space-y-4">
+                    <h4 class="font-serif font-bold text-slate-800 text-base pb-2 border-b border-slate-50 flex items-center justify-between">
+                        <span>UPS Tracking Info</span>
+                        <i class="fa-solid fa-truck-fast text-[#351C15]"></i>
+                    </h4>
 
-                @if($order->ups_tracking_number)
-                    <div class="space-y-3">
-                        <div>
-                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tracking Number</span>
-                            <span class="block font-semibold text-slate-800 mt-0.5 font-mono text-xs select-all">{{ $order->ups_tracking_number }}</span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Shipment ID</span>
-                            <span class="block font-semibold text-slate-800 mt-0.5 font-mono text-xs select-all">{{ $order->ups_shipment_id }}</span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Service</span>
-                            <span class="block font-semibold text-slate-800 mt-0.5 text-xs">
-                                @php
-                                    $services = \App\Services\UpsService::serviceCodes();
-                                    echo array_search($order->ups_service_code, $services) ?: 'UPS Ground';
-                                @endphp
-                            </span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Status</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 mt-1">{{ $order->ups_status }}</span>
-                        </div>
-
-                        <div class="pt-2">
-                            <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
-                               class="w-full text-center block text-white font-bold text-xs py-2.5 rounded-xl transition"
-                               style="background: #351C15;">
-                                <i class="fa-solid fa-magnifying-glass mr-1"></i> Track on UPS.com
-                            </a>
-                        </div>
-                    </div>
-                @else
-                    <div class="space-y-3">
-                        <p class="text-xs text-slate-450 leading-relaxed">This order has not been shipped via UPS yet. Select a service level and create the shipment.</p>
-
-                        <form method="POST" action="{{ route('admin.orders.ups', $order->id) }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">UPS Service Level</label>
-                                <select name="ups_service_code" class="w-full border border-slate-200 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 rounded-xl text-xs px-3 py-2 bg-white">
-                                    @foreach(\App\Services\UpsService::serviceCodes() as $name => $code)
-                                        <option value="{{ $code }}" {{ $code === '03' ? 'selected' : '' }}>{{ $name }}</option>
-                                    @endforeach
-                                </select>
+                    @if($order->ups_tracking_number)
+                        <div class="space-y-3">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tracking Number</span>
+                                <span class="block font-semibold text-slate-800 mt-0.5 font-mono text-xs select-all">{{ $order->ups_tracking_number }}</span>
                             </div>
-                            <button type="submit" class="w-full text-white font-bold text-sm py-3 rounded-xl transition cursor-pointer shadow-md flex items-center justify-center space-x-2"
-                                    style="background: #351C15;"
-                                    onclick="return confirm('Create UPS shipment for this order?')">
-                                <i class="fa-solid fa-paper-plane text-xs"></i>
-                                <span>Create UPS Shipment</span>
-                            </button>
-                        </form>
-                    </div>
-                @endif
-            </div>
+
+                            <div class="pt-2">
+                                <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
+                                   class="w-full text-center block text-white font-bold text-xs py-2.5 rounded-xl transition"
+                                   style="background: #351C15;">
+                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Track on UPS.com
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <p class="text-xs text-slate-400 italic">No tracking number has been added to this order yet. Use the status update form above to add a tracking ID.</p>
+                    @endif
+                </div>
+            @endif
 
 
             <!-- Transaction Information Card -->

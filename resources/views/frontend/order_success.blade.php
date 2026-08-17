@@ -1,4 +1,4 @@
-﻿@extends('layouts.frontend')
+@extends('layouts.frontend')
 
 @section('title', 'Order Success')
 
@@ -83,26 +83,57 @@
                 </div>
             </div>
 
-            <!-- Shipping Information Side Card -->
+            <!-- Delivery & Shipping Information Side Card -->
             <div class="space-y-6">
                 <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm h-full">
                     <h3 class="text-base font-serif font-bold text-gray-900 mb-4 pb-3 border-b border-gray-50 flex items-center gap-2">
-                        <i class="fa-solid fa-truck-ramp-box text-gray-400"></i>
-                        <span>Shipping Address</span>
+                        @if($order->delivery_type === 'self_pickup')
+                            <i class="fa-solid fa-house-chimney text-gray-400"></i>
+                            <span>Pickup Location</span>
+                        @else
+                            <i class="fa-solid fa-truck-ramp-box text-gray-400"></i>
+                            <span>Shipping Address</span>
+                        @endif
                     </h3>
                     <div class="space-y-3">
                         <div class="bg-[#f5faf7]/40 border border-gray-55/60 rounded-xl p-4">
-                            <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm leading-tight mb-2">{{ $order->shipping_name }}</h4>
+                            @if($order->delivery_type === 'self_pickup')
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-700 mb-2 uppercase tracking-wide">Self Pickup</span>
+                                <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm leading-tight mb-2">Warehouse Pickup</h4>
+                            @else
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-700 mb-2 uppercase tracking-wide">Online Delivery</span>
+                                <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm leading-tight mb-2">{{ $order->shipping_name }}</h4>
+                            @endif
                             <p class="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-medium">
                                 {{ $order->shipping_address }}<br>
                                 {{ $order->shipping_city }}, {{ $order->shipping_state }}<br>
                                 Postal Code: {{ $order->shipping_zip }}
                             </p>
                         </div>
-                        <div class="flex items-center gap-2.5 px-1 py-0.5">
-                            <i class="fa-solid fa-phone text-xs text-gray-400"></i>
-                            <span class="text-[11px] sm:text-xs font-bold text-gray-700">{{ $order->shipping_phone }}</span>
-                        </div>
+
+                        @if($order->delivery_type === 'self_pickup')
+                            <div class="flex items-center gap-2.5 px-1 py-0.5">
+                                <i class="fa-solid fa-envelope text-xs text-gray-400"></i>
+                                <span class="text-[11px] sm:text-xs font-bold text-gray-700">{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</span>
+                            </div>
+                        @else
+                            <div class="flex items-center gap-2.5 px-1 py-0.5">
+                                <i class="fa-solid fa-phone text-xs text-gray-400"></i>
+                                <span class="text-[11px] sm:text-xs font-bold text-gray-700">{{ $order->shipping_phone }}</span>
+                            </div>
+                        @endif
+
+                        @if($order->delivery_type === 'online_delivery' && $order->ups_tracking_number)
+                            <div class="pt-3 border-t border-gray-100 space-y-2">
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">UPS Tracking Number</span>
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 flex items-center justify-between">
+                                    <span class="font-mono text-xs font-bold text-gray-800 select-all">{{ $order->ups_tracking_number }}</span>
+                                    <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank" class="text-[10px] bg-primary text-white font-extrabold px-2.5 py-1.5 rounded-lg hover:bg-primary-dark transition cursor-pointer">
+                                        Track
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

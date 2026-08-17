@@ -58,31 +58,50 @@ class CheckoutController extends Controller
             }
         }
 
-        // Validate shipping details
+        // Validate basic info
         $validated = $request->validate([
             'shipping_name'    => 'required|string|max:255',
             'shipping_email'   => 'required|email|max:255',
             'shipping_phone'   => 'required|string|max:20',
-            'shipping_address' => 'required|string',
-            'shipping_address2'=> 'required|string',
-            'shipping_city'    => 'required|string|max:100',
-            'shipping_state'   => 'required|string|max:100',
-            'shipping_zip'     => 'required|string|max:10',
+            'delivery_type'    => 'required|string|in:online_delivery,self_pickup',
             'payment_method'   => 'required|string|in:cod,stripe',
             'notes'            => 'nullable|string',
         ]);
 
-        // Merge address lines
-        $fullAddress = $validated['shipping_address'] . ', ' . $validated['shipping_address2'];
+        if ($validated['delivery_type'] === 'self_pickup') {
+            $shippingAddress  = \App\Models\Setting::get('ups_ship_from_address', '12800 Northborough Dr');
+            $shippingAddress2 = '';
+            $shippingCity     = \App\Models\Setting::get('ups_ship_from_city', 'Houston');
+            $shippingState    = \App\Models\Setting::get('ups_ship_from_state', 'TX');
+            $shippingZip      = \App\Models\Setting::get('ups_ship_from_zip', '77067');
+        } else {
+            // Validate address details if online delivery
+            $addressValidated = $request->validate([
+                'shipping_address'  => 'required|string',
+                'shipping_address2' => 'required|string',
+                'shipping_city'     => 'required|string|max:100',
+                'shipping_state'    => 'required|string|max:100',
+                'shipping_zip'      => 'required|string|max:10',
+            ]);
 
-        // Auto-save user profile address if logged in
-        if (auth()->check()) {
+            $shippingAddress  = $addressValidated['shipping_address'];
+            $shippingAddress2 = $addressValidated['shipping_address2'];
+            $shippingCity     = $addressValidated['shipping_city'];
+            $shippingState    = $addressValidated['shipping_state'];
+            $shippingZip      = $addressValidated['shipping_zip'];
+        }
+
+        // Merge address lines
+        $fullAddress = trim($shippingAddress . ($shippingAddress2 ? ', ' . $shippingAddress2 : ''));
+
+        // Auto-save user profile address if logged in and it's online delivery
+        if (auth()->check() && $validated['delivery_type'] === 'online_delivery') {
             auth()->user()->update([
                 'phone'   => $validated['shipping_phone'],
                 'address' => $fullAddress,
-                'city'    => $validated['shipping_city'],
-                'state'   => $validated['shipping_state'],
-                'zip'     => $validated['shipping_zip'],
+                'city'    => $shippingCity,
+                'state'   => $shippingState,
+                'zip'     => $shippingZip,
             ]);
         }
 
@@ -101,14 +120,15 @@ class CheckoutController extends Controller
             'status'           => 'pending',
             'payment_status'   => 'pending',
             'payment_method'   => $validated['payment_method'],
+            'delivery_type'    => $validated['delivery_type'],
             'notes'            => $validated['notes'] ?? null,
             'shipping_name'    => $validated['shipping_name'],
             'shipping_email'   => $validated['shipping_email'],
             'shipping_phone'   => $validated['shipping_phone'],
             'shipping_address' => $fullAddress,
-            'shipping_city'    => $validated['shipping_city'],
-            'shipping_state'   => $validated['shipping_state'],
-            'shipping_zip'     => $validated['shipping_zip'],
+            'shipping_city'    => $shippingCity,
+            'shipping_state'   => $shippingState,
+            'shipping_zip'     => $shippingZip,
         ]);
 
         // Create Order Items and decrement stock

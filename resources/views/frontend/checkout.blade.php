@@ -73,7 +73,7 @@
             </div>
         @endguest
 
-        <form action="{{ route('checkout.store') }}" method="POST">
+        <form action="{{ route('checkout.store') }}" method="POST" x-data="{ deliveryType: 'online_delivery' }">
             @csrf
 
             <div class="flex flex-col lg:flex-row gap-5 lg:gap-8">
@@ -81,7 +81,38 @@
                 <div class="w-full lg:w-2/3">
                     <h2 class="text-base font-bold text-gray-900 mb-3 pb-1.5 border-b border-gray-100 flex items-center gap-2" style="font-family: 'Outfit', sans-serif;">
                         <span class="inline-block w-1 h-4 bg-primary rounded-full"></span>
-                        Shipping Details
+                        Delivery Options
+                    </h2>
+
+                    <!-- Delivery Type Options -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-primary/5 transition shadow-sm relative"
+                               :class="deliveryType === 'online_delivery' ? 'border-primary bg-primary/5' : 'border-gray-200 bg-white'">
+                            <input type="radio" name="delivery_type" value="online_delivery" x-model="deliveryType" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                            <div class="ml-2.5">
+                                <span class="font-bold text-gray-900 text-xs block">Online Delivery</span>
+                                <span class="text-[10px] text-gray-400">Shipped directly to your address</span>
+                            </div>
+                            <div class="ms-auto text-primary opacity-60">
+                                <i class="fa-solid fa-truck-fast text-base"></i>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-primary/5 transition shadow-sm relative"
+                               :class="deliveryType === 'self_pickup' ? 'border-primary bg-primary/5' : 'border-gray-200 bg-white'">
+                            <input type="radio" name="delivery_type" value="self_pickup" x-model="deliveryType" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                            <div class="ml-2.5">
+                                <span class="font-bold text-gray-900 text-xs block">Self Pickup</span>
+                                <span class="text-[10px] text-gray-400">Pick up from our warehouse</span>
+                            </div>
+                            <div class="ms-auto text-primary opacity-60">
+                                <i class="fa-solid fa-house-chimney text-base"></i>
+                            </div>
+                        </label>
+                    </div>
+
+                    <h2 class="text-base font-bold text-gray-900 mb-3 pb-1.5 border-b border-gray-100 flex items-center gap-2" style="font-family: 'Outfit', sans-serif;">
+                        <span class="inline-block w-1 h-4 bg-primary rounded-full"></span>
+                        Customer & Contact Info
                     </h2>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
@@ -96,39 +127,55 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
-                        <div>
+                        <div class="mb-2.5">
                             <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Phone Number <span class="text-red-500">*</span></label>
                             <input type="text" name="shipping_phone" value="{{ old('shipping_phone', auth()->check() ? auth()->user()->phone : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="+1 (555) 000-0000">
                         </div>
-                        <div>
+                        <div x-show="deliveryType === 'online_delivery'">
                             <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">ZIP / Postal Code <span class="text-red-500">*</span></label>
-                            <input type="text" name="shipping_zip" value="{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                            <input type="text" name="shipping_zip" value="{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
                         </div>
                     </div>
 
-                    <div class="mb-2.5">
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Flat / House No. / Building <span class="text-red-500">*</span></label>
-                            <button type="button" id="detect-location-btn" class="text-[9px] text-primary bg-primary/5 hover:bg-primary/10 border border-primary/10 rounded-full px-2 py-0.5 font-semibold flex items-center gap-1 cursor-pointer transition">
-                                <i class="fa-solid fa-location-crosshairs"></i> Auto-Detect
-                            </button>
+                    <!-- Warehouse Address details if self pickup is active -->
+                    <div x-show="deliveryType === 'self_pickup'" class="mb-4 p-4 bg-amber-50/60 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-900">
+                        <div class="font-bold flex items-center gap-1.5 text-amber-950">
+                            <i class="fa-solid fa-location-dot text-amber-700"></i> Pickup Warehouse Address
                         </div>
-                        <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. 1234 Main St, Apt 5B">
+                        <p class="font-medium text-slate-700 leading-relaxed">
+                            <strong>Pickup Address:</strong> {{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}<br>
+                            <strong>Phone Support:</strong> {{ \App\Models\Setting::get('site_phone', '+1 (713) 555-0199') }}<br>
+                            <strong>Email:</strong> {{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}
+                        </p>
+                        <p class="text-[10px] text-slate-500 italic mt-1">Please bring your order ID and invoice when picking up your products.</p>
                     </div>
 
-                    <div class="mb-2.5">
-                        <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Area / Colony / Street / Landmark <span class="text-red-500">*</span></label>
-                        <input type="text" name="shipping_address2" value="{{ old('shipping_address2', $address2) }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Sector 12, near Kali Temple, Dwarka">
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
-                        <div>
-                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">City <span class="text-red-500">*</span></label>
-                            <input type="text" name="shipping_city" value="{{ old('shipping_city', auth()->check() ? auth()->user()->city : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                    <!-- Shipping details if delivery is active -->
+                    <div x-show="deliveryType === 'online_delivery'" class="space-y-2.5">
+                        <div class="mb-2.5">
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Flat / House No. / Building <span class="text-red-500">*</span></label>
+                                <button type="button" id="detect-location-btn" class="text-[9px] text-primary bg-primary/5 hover:bg-primary/10 border border-primary/10 rounded-full px-2 py-0.5 font-semibold flex items-center gap-1 cursor-pointer transition">
+                                    <i class="fa-solid fa-location-crosshairs"></i> Auto-Detect
+                                </button>
+                            </div>
+                            <input type="text" name="shipping_address" value="{{ old('shipping_address', $address1) }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. 1234 Main St, Apt 5B">
                         </div>
-                        <div>
-                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">State <span class="text-red-500">*</span></label>
-                            <input type="text" name="shipping_state" value="{{ old('shipping_state', auth()->check() ? auth()->user()->state : '') }}" required class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+
+                        <div class="mb-2.5">
+                            <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Area / Colony / Street / Landmark <span class="text-red-500">*</span></label>
+                            <input type="text" name="shipping_address2" value="{{ old('shipping_address2', $address2) }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200" placeholder="e.g. Sector 12, near Kali Temple, Dwarka">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2.5">
+                            <div>
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">City <span class="text-red-500">*</span></label>
+                                <input type="text" name="shipping_city" value="{{ old('shipping_city', auth()->check() ? auth()->user()->city : '') }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">State <span class="text-red-500">*</span></label>
+                                <input type="text" name="shipping_state" value="{{ old('shipping_state', auth()->check() ? auth()->user()->state : '') }}" :required="deliveryType === 'online_delivery'" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
+                            </div>
                         </div>
                     </div>
 
@@ -227,19 +274,43 @@
         const btn = this;
         const originalText = btn.innerHTML;
         
-        if (!navigator.geolocation) {
-            alert('Geolocation is not supported by your browser.');
-            return;
-        }
-        
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Detecting...';
-        
+
+        // Function to run IP-based fallback geolocator
+        function runIpFallback() {
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    if (data && data.city) {
+                        document.querySelector('input[name="shipping_city"]').value = data.city || '';
+                        document.querySelector('input[name="shipping_state"]').value = data.region || data.region_code || '';
+                        document.querySelector('input[name="shipping_zip"]').value = data.postal || '';
+                        
+                        alert('Location resolved via IP address successfully. Please enter your street address details manually.');
+                    } else {
+                        alert('Could not resolve your location automatically. Please enter your address details manually.');
+                    }
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    alert('Could not detect location. Please fill your address details manually.');
+                });
+        }
+
+        // Try standard browser Geolocation
+        if (!navigator.geolocation) {
+            runIpFallback();
+            return;
+        }
+
         navigator.geolocation.getCurrentPosition(function(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             
-            // Call OpenStreetMap Nominatim reverse geocoding API
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`)
                 .then(response => response.json())
                 .then(data => {
@@ -248,8 +319,6 @@
                     
                     if (data && data.address) {
                         const addr = data.address;
-                        
-                        // Line 1: building/house number
                         const line1Parts = [
                             addr.house_number,
                             addr.building,
@@ -257,7 +326,6 @@
                         ].filter(Boolean);
                         const line1 = line1Parts.join(', ') || addr.road || '';
                         
-                        // Line 2: area, colony, landmark
                         const line2Parts = [
                             addr.suburb,
                             addr.neighbourhood,
@@ -272,33 +340,18 @@
                         document.querySelector('input[name="shipping_state"]').value = addr.state || '';
                         document.querySelector('input[name="shipping_zip"]').value = addr.postcode || '';
                     } else {
-                        alert('Could not resolve your address.');
+                        runIpFallback();
                     }
                 })
                 .catch(error => {
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                    alert('Error retrieving address from location.');
+                    runIpFallback();
                 });
         }, function(error) {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    alert('User denied the request for Geolocation.');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert('Location information is unavailable.');
-                    break;
-                case error.TIMEOUT:
-                    alert('The request to get user location timed out.');
-                    break;
-                default:
-                    alert('An unknown error occurred.');
-                    break;
-            }
+            // Geolocation failed or user denied permission — run the IP fallback instantly
+            runIpFallback();
+        }, {
+            timeout: 6000 // 6 seconds timeout for browser geolocation
         });
     });
 </script>
 @endpush
-

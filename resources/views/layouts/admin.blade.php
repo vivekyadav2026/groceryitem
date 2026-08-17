@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -69,16 +69,16 @@
                     <span>Orders</span>
                     @php
                         $pendingOrdersCount = \App\Models\Order::where('status', 'pending')->count();
+                        $pendingReturnsCount = \App\Models\Order::where('return_status', 'pending')->count();
                     @endphp
-                    @if($pendingOrdersCount > 0)
-                        <span class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $pendingOrdersCount }}</span>
-                    @endif
-                </a>
-
-                <a href="{{ route('admin.banners.index') }}" 
-                   class="flex items-center space-x-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all {{ request()->routeIs('admin.banners.*') ? 'bg-[#C49A6C] text-white shadow-lg shadow-[#C49A6C]/25' : 'hover:bg-slate-800 hover:text-white' }}">
-                    <i class="fa-solid fa-image w-5 text-center"></i>
-                    <span>Banners</span>
+                    <div class="ml-auto flex items-center gap-1.5">
+                        @if($pendingOrdersCount > 0)
+                            <span class="bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full" title="Pending Orders">{{ $pendingOrdersCount }}</span>
+                        @endif
+                        @if($pendingReturnsCount > 0)
+                            <span class="bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full animate-pulse" title="Return Requests">{{ $pendingReturnsCount }}</span>
+                        @endif
+                    </div>
                 </a>
 
                 <a href="{{ route('admin.testimonials.index') }}" 

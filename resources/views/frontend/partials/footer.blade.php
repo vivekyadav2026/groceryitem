@@ -1,4 +1,4 @@
-﻿<!-- ===================== FOOTER ===================== -->
+<!-- ===================== FOOTER ===================== -->
 <footer class="pl-footer d-none d-lg-block">
   <div class="container">
     <div class="row g-4">
@@ -10,6 +10,34 @@
         <p class="mb-1"><i class="bi bi-geo-alt me-2" style="color:var(--pl-primary);"></i>{{ \App\Models\Setting::get('site_address', '12800 Northborough Dr, Houston, TX 77067') }}</p>
         <p class="mb-1"><i class="bi bi-envelope me-2" style="color:var(--pl-primary);"></i>{{ \App\Models\Setting::get('site_email', 'Papperlemon1@gmail.com') }}</p>
         <p class="mb-1"><i class="bi bi-telephone me-2" style="color:var(--pl-primary);"></i>{{ \App\Models\Setting::get('site_phone', '+91 9915978757') }}</p>
+
+        @php
+            $facebook = \App\Models\Setting::get('social_facebook');
+            $twitter = \App\Models\Setting::get('social_twitter');
+            $instagram = \App\Models\Setting::get('social_instagram');
+            $linkedin = \App\Models\Setting::get('social_linkedin');
+            $youtube = \App\Models\Setting::get('social_youtube');
+            $hasSocial = $facebook || $twitter || $instagram || $linkedin || $youtube;
+        @endphp
+        @if($hasSocial)
+          <div class="d-flex align-items-center gap-2 mt-3 pl-social-links">
+            @if($facebook)
+              <a href="{{ $facebook }}" target="_blank" class="pl-social-icon" title="Facebook"><i class="bi bi-facebook"></i></a>
+            @endif
+            @if($twitter)
+              <a href="{{ $twitter }}" target="_blank" class="pl-social-icon" title="Twitter / X"><i class="bi bi-twitter-x"></i></a>
+            @endif
+            @if($instagram)
+              <a href="{{ $instagram }}" target="_blank" class="pl-social-icon" title="Instagram"><i class="bi bi-instagram"></i></a>
+            @endif
+            @if($linkedin)
+              <a href="{{ $linkedin }}" target="_blank" class="pl-social-icon" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            @endif
+            @if($youtube)
+              <a href="{{ $youtube }}" target="_blank" class="pl-social-icon" title="YouTube"><i class="bi bi-youtube"></i></a>
+            @endif
+          </div>
+        @endif
       </div>
       <div class="col-6 col-lg-2">
         <h6 class="text-white mb-3">Shop</h6>

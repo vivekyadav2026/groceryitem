@@ -1,4 +1,4 @@
-﻿@extends('layouts.frontend')
+@extends('layouts.frontend')
 
 @section('title', 'My Dashboard')
 
@@ -19,203 +19,7 @@
 
         <div class="flex flex-col lg:flex-row gap-4">
             
-            <!-- Sidebar Navigation (Desktop only) -->
-            <div class="hidden lg:block w-full lg:w-1/4">
-                <div class="bg-white border border-slate-150 rounded-2xl p-4 shadow-sm space-y-1">
-                    <div class="flex items-center space-x-3 mb-4 pb-4 border-b border-slate-100/85">
-                        <div class="relative">
-                            <div class="bg-gradient-to-tr from-primary to-[#14836b] text-white h-10 w-10 rounded-full flex items-center justify-center font-extrabold text-sm shadow-sm select-none">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                            </div>
-                            <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-slate-900 text-xs tracking-tight">{{ Auth::user()->name }}</h4>
-                            <span class="text-[8px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5 block flex items-center gap-1.5">
-                                <i class="fa-solid fa-circle-check text-primary text-[9px]"></i> Verified Account
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <a href="{{ url('/dashboard') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            @if(request()->is('dashboard'))
-                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
-                            @endif
-                            <i class="fa-solid fa-chart-line mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Dashboard Overview
-                        </span>
-                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </a>
-                    
-                    <a href="{{ url('/wishlist') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            @if(request()->is('wishlist'))
-                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
-                            @endif
-                            <i class="fa-solid fa-heart mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            My Wishlist
-                        </span>
-                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </a>
-                    
-                    <a href="{{ url('/cart') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            @if(request()->is('cart'))
-                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
-                            @endif
-                            <i class="fa-solid fa-cart-shopping mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            My Shopping Cart
-                        </span>
-                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </a>
-                    
-                    <a href="{{ route('profile.edit') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            @if(request()->is('profile'))
-                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
-                            @endif
-                            <i class="fa-solid fa-user-gear mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Account Settings
-                        </span>
-                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </a>
-                    
-                    <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            @if(request()->is('contact'))
-                                <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
-                            @endif
-                            <i class="fa-solid fa-headset mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Support & Help
-                        </span>
-                        <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </a>
-                    
-                    <form method="POST" action="{{ route('logout') }}" class="pt-2.5 border-t border-slate-100 mt-2">
-                        @csrf
-                        <button type="submit" class="w-full text-left px-3.5 py-2 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
-                            <i class="fa-solid fa-arrow-right-from-bracket mr-2.5 text-sm text-red-400"></i> Log Out
-                        </button>
-                    </form>
-
-                    <!-- Premium Promo Banner inside Sidebar -->
-                    <div class="mt-5 p-3.5 bg-gradient-to-br from-slate-50 to-slate-100/60 border border-slate-200/50 rounded-xl relative overflow-hidden">
-                        <span class="text-[8px] font-extrabold text-primary uppercase tracking-widest block mb-1">Premium Member</span>
-                        <p class="text-[10px] text-slate-500 leading-normal font-semibold mb-2">Free shipping & priority support active.</p>
-                        <a href="{{ url('/contact') }}" class="inline-flex items-center justify-center bg-white hover:bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-[9px] font-extrabold text-slate-800 transition-all shadow-2xs">
-                            Get Help Fast
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Collapsible Navigation (Mobile only) -->
-            <div class="block lg:hidden w-full mb-3.5" x-data="{ expanded: false }">
-                <!-- Header trigger bar -->
-                <div class="flex items-center justify-between bg-white border border-slate-150 rounded-xl p-2 shadow-xs">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-primary/10 text-primary h-7 w-7 rounded-full flex items-center justify-center font-bold text-xs">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                        </div>
-                        <div>
-                            <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Active Page</span>
-                            <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                                @if(request()->is('dashboard'))
-                                    <i class="fa-solid fa-chart-line text-[10px] text-primary"></i> Overview
-                                @elseif(request()->is('wishlist'))
-                                    <i class="fa-solid fa-heart text-[10px] text-primary"></i> Wishlist
-                                @elseif(request()->is('cart'))
-                                    <i class="fa-solid fa-cart-shopping text-[10px] text-primary"></i> Cart
-                                @elseif(request()->is('profile'))
-                                    <i class="fa-solid fa-user-gear text-[10px] text-primary"></i> Profile
-                                @elseif(request()->is('contact'))
-                                    <i class="fa-solid fa-headset text-[10px] text-primary"></i> Support
-                                @else
-                                    <i class="fa-solid fa-circle text-[10px] text-primary"></i> Menu
-                                @endif
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <!-- Toggle Button -->
-                    <button type="button" @click="expanded = !expanded" class="flex items-center gap-1 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-lg px-2.5 py-1 text-[10px] font-bold text-slate-700 transition cursor-pointer">
-                        <i class="fa-solid fa-bars text-[9px]" x-show="!expanded"></i>
-                        <i class="fa-solid fa-xmark text-[9px]" x-show="expanded"></i>
-                        <span>Menu</span>
-                        <i class="fa-solid fa-chevron-down text-[8px] transition-transform duration-200" :class="expanded ? 'rotate-180' : ''"></i>
-                    </button>
-                </div>
-
-                <!-- Collapsible Vertical Links Menu -->
-                <div x-show="expanded" 
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="opacity-0 transform -translate-y-2"
-                     x-transition:enter-end="opacity-100 transform translate-y-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="opacity-100 transform translate-y-0"
-                     x-transition:leave-end="opacity-0 transform -translate-y-2"
-                     class="mt-2 bg-white border border-slate-150 rounded-xl p-2 shadow-xs space-y-1"
-                     style="display: none;">
-                    
-                    <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            <i class="fa-solid fa-chart-line mr-2 text-xs" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Dashboard Overview
-                        </span>
-                        @if(request()->is('dashboard'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
-                    </a>
-                    
-                    <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            <i class="fa-solid fa-heart mr-2 text-xs" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            My Wishlist
-                        </span>
-                        @if(request()->is('wishlist'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
-                    </a>
-                    
-                    <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            <i class="fa-solid fa-cart-shopping mr-2 text-xs" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            My Shopping Cart
-                        </span>
-                        @if(request()->is('cart'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
-                    </a>
-                    
-                    <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            <i class="fa-solid fa-user-gear mr-2 text-xs" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Account Settings
-                        </span>
-                        @if(request()->is('profile'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
-                    </a>
-                    
-                    <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : 'black' }} !important;">
-                        <span class="flex items-center">
-                            <i class="fa-solid fa-headset mr-2 text-xs" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #0e6b57)' : '#94a3b8' }} !important;"></i>
-                            Support & Help
-                        </span>
-                        @if(request()->is('contact'))
-                            <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
-                        @endif
-                    </a>
-                    
-                    <form method="POST" action="{{ route('logout') }}" class="pt-2 border-t border-slate-100 mt-2">
-                        @csrf
-                        <button type="submit" class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-red-500 hover:bg-red-50 transition-all flex items-center cursor-pointer">
-                            <i class="fa-solid fa-arrow-right-from-bracket mr-2 text-xs text-red-400"></i> Log Out
-                        </button>
-                    </form>
-                </div>
-            </div>
+            @include('frontend.partials.customer_sidebar')
 
             <!-- Content Area: Dashboard Overview -->
             <div class="w-full lg:w-3/4">
@@ -540,35 +344,122 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- Shipping Details Card -->
-                                                <div>
-                                                    <h6 class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                                        <i class="fa-solid fa-truck-fast text-[10px] text-primary"></i> Shipping Details
-                                                    </h6>
-                                                    <div class="text-[10px] text-slate-700 space-y-1.5">
-                                                        <div class="flex justify-between">
-                                                            <span class="text-slate-500 font-medium text-[10px]">Recipient</span>
-                                                            <span class="font-extrabold text-slate-900 text-right">{{ $order->shipping_name }}</span>
+                                                <!-- Shipping / Delivery Details Card -->
+                                                 <div>
+                                                     <h6 class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                         @if($order->delivery_type === 'self_pickup')
+                                                             <i class="fa-solid fa-house-chimney text-[10px] text-amber-600"></i> Pickup Details
+                                                         @else
+                                                             <i class="fa-solid fa-truck-fast text-[10px] text-primary"></i> Shipping Details
+                                                         @endif
+                                                     </h6>
+                                                     <div class="text-[10px] text-slate-700 space-y-1.5">
+                                                         <div class="flex justify-between">
+                                                             <span class="text-slate-500 font-medium text-[10px]">Method</span>
+                                                             <span class="font-extrabold text-right uppercase text-[9px] px-2 py-0.5 rounded-full {{ $order->delivery_type === 'self_pickup' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-blue-50 text-blue-700 border border-blue-200' }}">
+                                                                 {{ $order->delivery_type === 'self_pickup' ? 'Self Pickup' : 'Online Delivery' }}
+                                                             </span>
+                                                         </div>
+                                                         @if($order->delivery_type !== 'self_pickup')
+                                                             <div class="flex justify-between">
+                                                                 <span class="text-slate-500 font-medium text-[10px]">Recipient</span>
+                                                                 <span class="font-extrabold text-slate-900 text-right">{{ $order->shipping_name }}</span>
+                                                             </div>
+                                                         @endif
+                                                         <div class="flex justify-between gap-2 items-start">
+                                                             <span class="text-slate-500 font-medium text-[10px] flex-shrink-0">Address</span>
+                                                             <span class="font-bold text-slate-850 text-right leading-normal break-words max-w-[200px]">
+                                                                 @if($order->shipping_address)
+                                                                     {{ $order->shipping_address }}, {{ $order->shipping_city }}, {{ $order->shipping_state }} - {{ $order->shipping_zip }}
+                                                                 @else
+                                                                     {{ $order->shipping_city }} {{ $order->shipping_state ? ', ' . $order->shipping_state : '' }}
+                                                                 @endif
+                                                             </span>
+                                                         </div>
+                                                         @if($order->delivery_type !== 'self_pickup' && $order->shipping_phone)
+                                                             <div class="flex justify-between">
+                                                                 <span class="text-slate-500 font-medium text-[10px]">Phone</span>
+                                                                 <span class="font-extrabold text-slate-900 text-right">{{ $order->shipping_phone }}</span>
+                                                             </div>
+                                                         @endif
+
+                                                         <!-- Tracking Info if Online Delivery and available -->
+                                                         @if($order->delivery_type === 'online_delivery' && $order->ups_tracking_number)
+                                                             <div class="pt-2 border-t border-slate-100 space-y-1">
+                                                                 <div class="flex justify-between items-center">
+                                                                     <span class="text-slate-500 font-medium text-[10px]">UPS Tracking</span>
+                                                                     <span class="font-mono font-bold text-slate-800">{{ $order->ups_tracking_number }}</span>
+                                                                 </div>
+                                                                 <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
+                                                                    class="w-full text-center block text-white font-extrabold text-[9px] py-1.5 rounded-lg transition"
+                                                                    style="background: #351C15;">
+                                                                     <i class="fa-solid fa-magnifying-glass text-[8px] mr-1"></i> Track on UPS.com
+                                                                 </a>
+                                                             </div>
+                                                         @endif
+                                                     </div>
+                                                 </div>
+                                            </div>
+                                            <!-- Return Order B2B Request Section -->
+                                        @if($order->status === 'completed' && $order->return_status === null)
+                                            <div class="mt-4 pt-3.5 border-t border-slate-150">
+                                                <div x-data="{ showReturnForm: false }">
+                                                    <button type="button" @click.stop="showReturnForm = !showReturnForm" 
+                                                            class="inline-flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+                                                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                                                        <span>Request Return </span>
+                                                    </button>
+
+                                                    <form x-show="showReturnForm" @click.stop="" action="{{ route('orders.return', $order->id) }}" method="POST" class="mt-3 bg-red-50/20 border border-red-150 rounded-xl p-3.5 space-y-3">
+                                                        @csrf
+                                                        <div>
+                                                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Reason for Return <span class="text-red-500">*</span></label>
+                                                            <select name="return_reason" required class="w-full border border-slate-200 focus:ring-1 focus:ring-red-500 focus:border-red-500 rounded-lg text-xs px-3 py-2 bg-white">
+                                                                <option value="">Select a reason</option>
+                                                                <option value="Damaged Goods">Damaged / Defective Goods</option>
+                                                                <option value="Incorrect Item">Incorrect Item Shipped</option>
+                                                                <option value="Short Shipment">Short Shipment (Missing Units)</option>
+                                                                <option value="Quality Issues">Quality Not Satisfactory</option>
+                                                                <option value="Other">Other (Specify in comments)</option>
+                                                            </select>
                                                         </div>
-                                                        <div class="flex justify-between gap-2 items-start">
-                                                            <span class="text-slate-500 font-medium text-[10px] flex-shrink-0">Address</span>
-                                                            <span class="font-bold text-slate-850 text-right leading-normal break-words max-w-[200px]">
-                                                                @if($order->shipping_address)
-                                                                    {{ $order->shipping_address }}, {{ $order->shipping_city }}, {{ $order->shipping_state }} - {{ $order->shipping_zip }}
-                                                                @else
-                                                                    {{ $order->shipping_city }} {{ $order->shipping_state ? ', ' . $order->shipping_state : '' }}
-                                                                @endif
-                                                            </span>
+                                                        <div>
+                                                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Comments / Details <span class="text-red-500">*</span></label>
+                                                            <textarea name="return_comments" rows="2" required placeholder="Describe the issue, include damaged quantities or product names..." class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-gray-900 shadow-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500/20 transition"></textarea>
                                                         </div>
-                                                        @if($order->shipping_phone)
-                                                            <div class="flex justify-between">
-                                                                <span class="text-slate-500 font-medium text-[10px]">Phone</span>
-                                                                <span class="font-extrabold text-slate-900 text-right">{{ $order->shipping_phone }}</span>
-                                                            </div>
-                                                        @endif
+                                                        <div class="flex gap-2">
+                                                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition">Submit Return Request</button>
+                                                            <button type="button" @click="showReturnForm = false" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold px-4 py-2 rounded-lg text-xs transition">Cancel</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <!-- Return Status Display -->
+                                        @if($order->return_status !== null)
+                                            <div class="mt-4 pt-3.5 border-t border-slate-150 bg-slate-50/50 p-3 rounded-xl border border-slate-150">
+                                                <h6 class="text-[10px] font-extrabold text-slate-655 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                    <i class="fa-solid fa-arrow-rotate-left text-red-500"></i> Return Request Details
+                                                </h6>
+                                                <div class="text-[10px] text-slate-700 space-y-1.5">
+                                                    <div class="flex justify-between">
+                                                        <span class="text-slate-550 font-medium">Return Status</span>
+                                                        <span class="font-extrabold text-[9px] uppercase px-2 py-0.5 rounded-full {{ $order->return_status === 'approved' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : ($order->return_status === 'rejected' ? 'bg-rose-50 text-rose-800 border border-rose-200' : 'bg-amber-50 text-amber-800 border border-amber-200') }}">
+                                                            Return {{ ucfirst($order->return_status) }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex justify-between">
+                                                        <span class="text-slate-555 font-medium">Reason</span>
+                                                        <span class="font-bold text-slate-850">{{ $order->return_reason }}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="text-slate-555 font-medium block mb-0.5">Comments</span>
+                                                        <p class="bg-white p-2 border border-slate-150 rounded-lg text-slate-600 leading-normal font-medium">{{ $order->return_comments }}</p>
                                                     </div>
                                                 </div>
                                             </div>
+                                        @endif
                                         </div>
                                     </div>
                                 @endforeach
